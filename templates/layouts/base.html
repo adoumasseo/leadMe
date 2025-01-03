@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" data-layout="twocolumn" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+
+
+<!-- Mirrored from themesbrand.com/velzon/html/creative/auth-signup-cover.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 29 Apr 2024 19:53:50 GMT -->
+<head>
+
+    <meta charset="utf-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename = 'images/favicon.ico') }}">
+
+    <!-- Layout config Js -->
+    <script src="{{ url_for('static', filename = 'js/layout.js') }}"></script>
+    <!-- Bootstrap Css -->
+    <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{{ url_for('static', filename = 'css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{{ url_for('static', filename = 'css/app.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- custom Css-->
+    <link href="{{ url_for('static', filename = 'css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+
+
+</head>
+
+<body>
+
+    
+    {% block enregistrement %}{% endblock %}
+    {% block login %}{% endblock %}
+    {% block result %}{% endblock %}
+
+    <!-- JAVASCRIPT -->
+    <script src="{{ url_for('static', filename = 'libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'libs/node-waves/waves.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'libs/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'js/plugins.js') }}"></script>
+
+    <!-- validation init -->
+    <!-- <script src="assets/js/pages/form-validation.init.js"></script> -->
+    <!-- password create init -->
+    <!-- <script src="assets/js/pages/passowrd-create.init.js"></script> -->
+</body>
+
+
+<!-- Mirrored from themesbrand.com/velzon/html/creative/auth-signup-cover.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 29 Apr 2024 19:53:50 GMT -->
+</html>

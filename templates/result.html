@@ -1,0 +1,188 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Résultats{% endblock %}
+
+{% block enregistrement %}
+<!-- auth-page wrapper -->
+<div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
+    <div class="bg-overlay"></div>
+    <!-- auth-page content -->
+    <div class="auth-page-content overflow-hidden pt-lg-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card overflow-hidden m-0">
+                        <div class="row justify-content-center g-0">
+
+
+                            <div class="col-lg-8">
+                                <div class="p-lg-5 p-4">
+                                    <div>
+                                        <h5 class="text-primary">Résultats</h5>
+                                        <p class="text-muted">L'algorithme fournit les filières auquelles vous avez le
+                                            plus de chance d'être accepté.</p>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <div class="row">
+                                            {% for i in range(nbr) %}
+                                            <div class="card mb-3">
+                                                <div class="card-header">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="card-title mb-0 fs-4">{{ i + 1 }}e Choix</h6>
+                                                        </div>
+                                                        <div class="flex-shrink-0">
+                                                            <ul
+                                                                class="list-inline card-toolbar-menu d-flex align-items-center mb-0">
+                                                                <li class="list-inline-item">
+                                                                    <a class="align-middle minimize-card"
+                                                                        data-bs-toggle="collapse"
+                                                                        href="#collapseexample1" role="button"
+                                                                        aria-expanded="false"
+                                                                        aria-controls="collapseExample2">
+                                                                        <i class="mdi mdi-plus align-middle plus"></i>
+                                                                        <i class="mdi mdi-minus align-middle minus"></i>
+                                                                    </a>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body p-4 text-start collapse show"
+                                                    id="collapseexample1">
+                                                    <p class="fs-2">
+                                                        {{ filieres[i].nom }}
+                                                    </p>
+                                                    <h5 class="card-title mb-2"><span>Bourses :</span> {{
+                                                        filieres[i].bourses }}</h5>
+                                                    <h5 class="card-title mb-2"><span>Semi-bourses :</span> {{
+                                                        filieres[i].semi_bourses }}</h5>
+                                                    <h5 class="card-title mb-2">
+                                                        <span>Débouchés: </span> {{ filieres[i].debouches }}
+                                                    </h5>
+                                                    <!-- <h5 class="card-title mb-2">{{ filieres[i].universite}}</h5>
+                                                    <h5 class="card-title mb-2">{{ filieres[i].id_ecole }}</h5> -->
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            <!-- <div class="card mb-3">
+                                                <div class="card-header">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="card-title mb-0 fs-4">2e Choix</h6>
+                                                        </div>
+                                                        <div class="flex-shrink-0">
+                                                            <ul class="list-inline card-toolbar-menu d-flex align-items-center mb-0">
+                                                                <li class="list-inline-item">
+                                                                    <a class="align-middle minimize-card" data-bs-toggle="collapse" href="#collapseexample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
+                                                                        <i class="mdi mdi-plus align-middle plus"></i>
+                                                                        <i class="mdi mdi-minus align-middle minus"></i>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body p-4 text-start collapse show" id="collapseexample2">
+                                                    <p class="fs-2">
+                                                        Analyse Informatique et Programmation
+                                                    </p>
+                                                    <h5 class="card-title mb-2"><span>Bourses :</span> 115</h5>
+                                                    <h5 class="card-title mb-2"><span>Semi-bourses :</span> 15</h5>
+                                                    <h5 class="card-title mb-2">
+                                                        <span>Débouchés: </span> Developpeur d'applications
+                                                    </h5>
+                                                    <h5 class="card-title mb-2">Université d'Abomey-Calavi</h5>
+                                                    <h5 class="card-title mb-2">ENEAM</h5>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="card mb-3">
+                                                <div class="card-header">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="card-title mb-0 fs-4">3e Choix</h6>
+                                                        </div>
+                                                        <div class="flex-shrink-0">
+                                                            <ul class="list-inline card-toolbar-menu d-flex align-items-center mb-0">
+                                                                <li class="list-inline-item">
+                                                                    <a class="align-middle minimize-card" data-bs-toggle="collapse" href="#collapseexample3" role="button" aria-expanded="false" aria-controls="collapseExample2">
+                                                                        <i class="mdi mdi-plus align-middle plus"></i>
+                                                                        <i class="mdi mdi-minus align-middle minus"></i>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body p-4 text-start collapse show" id="collapseexample3">
+                                                    <p class="fs-2">
+                                                        Analyse Informatique et Programmation
+                                                    </p>
+                                                    <h5 class="card-title mb-2"><span>Bourses :</span> 115</h5>
+                                                    <h5 class="card-title mb-2"><span>Semi-bourses :</span> 15</h5>
+                                                    <h5 class="card-title mb-2">
+                                                        <span>Débouchés: </span> Developpeur d'applications
+                                                    </h5>
+                                                    <h5 class="card-title mb-2">Université d'Abomey-Calavi</h5>
+                                                    <h5 class="card-title mb-2">ENEAM</h5>
+                                                </div>
+                                                
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end card -->
+                </div>
+                <!-- end col -->
+
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end auth page content -->
+
+    <!-- footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center">
+                        <p class="mb-0">&copy;
+                            <script>document.write(new Date().getFullYear())</script> Velzon. Crafted with <i
+                                class="mdi mdi-heart text-danger"></i> by Themesbrand
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- end Footer -->
+</div>
+<!-- end auth-page-wrapper -->
+
+<!-- JAVASCRIPT -->
+
+<!-- prismjs plugin -->
+<script src="{{ url_for('static', filename = 'libs/prismjs/prism.js') }}"></script>
+
+<!-- Masonry plugin -->
+<script src="{{ url_for('static', filename = 'libs/masonry-layout/masonry.pkgd.min.js') }}"></script>
+
+<script src="{{ url_for('static', filename = 'js/pages/card.init.js') }}"></script>
+
+<!-- App js -->
+<script src="{{ url_for('static', filename = '/js/app.js') }}"></script>
+<!-- validation init -->
+<!-- <script src="assets/js/pages/form-validation.init.js"></script> -->
+<!-- password create init -->
+<!-- <script src="assets/js/pages/passowrd-create.init.js"></script> -->
+{% endblock %}
