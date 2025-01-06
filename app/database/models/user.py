@@ -16,10 +16,12 @@ class User(db.Model):
     email = mapped_column(db.String(100), nullable=False)
     password = mapped_column(db.String(200), nullable=True)
     role = mapped_column(db.String(45), nullable=False, default="user")
-    created_at = mapped_column(db.DateTime, default=datetime.now())
-    updated_at = mapped_column(db.DateTime, default=datetime.now())
+    created_at = mapped_column(db.DateTime, default=datetime.utcnow())
+    updated_at = mapped_column(db.DateTime, default=datetime.utcnow())
     deleted_at = mapped_column(db.DateTime, nullable=True)
-    filieres = relationship("Filiere", back_populates="users")
+    
+    moyennes = relationship("Moyenne", back_populates="user")
+    filieres = relationship("Filiere", secondary="moyennes", back_populates="users")
     posts = relationship("Post", back_populates="user")
 
     def __init__(self, prenom, nom, matricule, email, serie, password="Admin@admin", role="user"):
@@ -33,7 +35,7 @@ class User(db.Model):
         self.password = generate_password_hash(password)
         self.role = role
         self.serie = serie
-        self.created_at = datetime.now()
+        self.created_at = datetime.utcnow()
 
     def __str__(self):
         """Return a string representation of a user

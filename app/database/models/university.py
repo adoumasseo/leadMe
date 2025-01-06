@@ -10,8 +10,8 @@ class Universite(db.Model):
     id_universite = mapped_column(db.String(128), primary_key=True, nullable=False)
     nom = mapped_column(db.String(10), nullable=False)
     code = mapped_column(db.String(10), nullable=False)
-    created_at = mapped_column(db.DateTime, default=datetime.now())
-    updated_at = mapped_column(db.DateTime, default=datetime.now())
+    created_at = mapped_column(db.DateTime, default=datetime.utcnow())
+    updated_at = mapped_column(db.DateTime, default=datetime.utcnow())
     deleted_at = mapped_column(db.DateTime, default=None)
     ecoles = relationship("Ecole", back_populates="university")
 
@@ -21,7 +21,7 @@ class Universite(db.Model):
         self.id_universite = str(uuid4())
         self.nom = nom
         self.code = code
-        self.created_at = datetime.now()
+        self.created_at = datetime.utcnow()
 
     def __str__(self):
         """Return a string representation of a serie

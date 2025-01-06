@@ -16,10 +16,13 @@ class Filiere(db.Model):
     code = mapped_column(db.String(128), nullable=True)
     id_ecole = mapped_column(db.String(128), db.ForeignKey(Ecole.id_ecole), nullable=False)
     ecole = relationship("Ecole", back_populates="filieres")
-    users = relationship("User", back_populates="filieres")
-    created_at = mapped_column(db.DateTime, default=datetime.now())
-    updated_at = mapped_column(db.DateTime, default=datetime.now())
+    created_at = mapped_column(db.DateTime, default=datetime.utcnow())
+    updated_at = mapped_column(db.DateTime, default=datetime.utcnow())
     deleted_at = mapped_column(db.DateTime, nullable=True)
+
+    moyennes = relationship("Moyenne", back_populates="filiere")
+    users = relationship("User", secondary="moyennes", back_populates="filieres")
+
 
     def __init__(self, nom, debouches, bourses, semi_bourses):
         """Initiate the model object with column values
@@ -29,7 +32,7 @@ class Filiere(db.Model):
         self.debouches = debouches
         self.bourses = bourses
         self.semi_bourses = semi_bourses
-        self.created_at = datetime.now()
+        self.created_at = datetime.utcnow()
 
     def __str__(self):
         """Return a string representation of a serie
