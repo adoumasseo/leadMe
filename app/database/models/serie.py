@@ -17,7 +17,7 @@ class Serie(db.Model):
     
     users = relationship("User", back_populates="serie")
     
-    coefficient = relationship("Coefficient", back_populates="matiere")
+    coefficient = relationship("Coefficient", back_populates="serie")
     matieres = association_proxy("coefficient", "matiere")
     
     def __init__(self, nom):
