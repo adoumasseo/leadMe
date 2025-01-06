@@ -1,4 +1,5 @@
-from sqlalchemy.orm import  mapped_column
+from sqlalchemy import String, DateTime
+from sqlalchemy.orm import  mapped_column, relationship
 from app.extensions import db
 from uuid import uuid4
 from datetime import datetime
@@ -8,19 +9,19 @@ class Matiere(db.Model):
     """Serie model to map the matiere table
     """
     __tablename__ = 'matieres'
-    id_matiere = mapped_column(db.String(128), primary_key=True, nullable=False)
-    nom = mapped_column(db.String(10), nullable=False)
-    created_at = mapped_column(db.DateTime, default=datetime.utcnow())
-    updated_at = mapped_column(db.DateTime, default=datetime.utcnow())
-    deleted_at = mapped_column(db.DateTime, default=None)
+    id_matiere = mapped_column(String(128), primary_key=True, nullable=False)
+    nom = mapped_column(String(10), nullable=False)
+    created_at = mapped_column(DateTime, default=datetime.utcnow())
+    updated_at = mapped_column(DateTime, default=datetime.utcnow())
+    deleted_at = mapped_column(DateTime, default=None)
     
-    matierefiliere = db.relationship("MatiereFiliere", back_populates="matiere")
+    matierefiliere = relationship("MatiereFiliere", back_populates="matiere")
     filieres = association_proxy("matierefiliere", "filiere")
 
-    coefficiant = db.relationship("Coefficient", back_populates="matiere")
+    coefficient = relationship("Coefficient", back_populates="matiere")
     series = association_proxy("coefficient", "serie")
     
-    notes = db.relationship("Note", back_populates="matiere")
+    notes = relationship("Note", back_populates="matiere")
     users = association_proxy("note", "user")
 
     def __init__(self, nom, coefficient):

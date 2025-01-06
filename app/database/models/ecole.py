@@ -1,3 +1,4 @@
+from sqlalchemy import String, ForeignKey, DateTime
 from sqlalchemy.orm import mapped_column, relationship
 from app.extensions import db
 from app.database.models.university import Universite
@@ -8,13 +9,13 @@ class Ecole(db.Model):
     """ Model of table ecole
     """
     __tablename__ = 'ecoles'
-    id_ecole = mapped_column(db.String(128), primary_key=True, nullable=False)
-    nom = mapped_column(db.String(10), nullable=False)
-    id_universite = mapped_column(db.String(128), db.ForeignKey(Universite.id_universite), nullable=False, ondelete="CASCADE")
-    code = mapped_column(db.String(128), nullable=True)
-    created_at = mapped_column(db.DateTime, default=datetime.utcnow())
-    updated_at = mapped_column(db.DateTime, default=datetime.utcnow(), onupdate=datetime.now)
-    deleted_at = mapped_column(db.DateTime, default=None)
+    id_ecole = mapped_column(String(128), primary_key=True, nullable=False)
+    nom = mapped_column(String(10), nullable=False)
+    id_universite = mapped_column(String(128), ForeignKey(Universite.id_universite), nullable=False, ondelete="CASCADE")
+    code = mapped_column(String(128), nullable=True)
+    created_at = mapped_column(DateTime, default=datetime.utcnow())
+    updated_at = mapped_column(DateTime, default=datetime.utcnow(), onupdate=datetime.now)
+    deleted_at = mapped_column(DateTime, default=None)
     
     university = relationship("Universite", back_populates="ecoles")
     filieres = relationship("Filiere", back_populates="ecole")

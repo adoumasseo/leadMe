@@ -1,3 +1,4 @@
+from sqlalchemy import String, ForeignKey, Text, Integer, DateTime
 from sqlalchemy.orm import mapped_column, relationship
 from app.extensions import db
 from app.database.models.ecole import Ecole
@@ -9,16 +10,16 @@ class Filiere(db.Model):
     """ filiere model
     """
     __tablename__ = 'filieres'
-    id_filiere = mapped_column(db.String(128), primary_key=True, nullable=False)
-    nom = mapped_column(db.String(10), nullable=False)
-    debouches = mapped_column(db.Text(), nullable=True)
-    bourses = mapped_column(db.Integer(), nullable=True)
-    semi_bourses = mapped_column(db.Integer(), nullable=True)
-    code = mapped_column(db.String(128), nullable=True)
-    id_ecole = mapped_column(db.String(128), db.ForeignKey(Ecole.id_ecole), nullable=False)
-    created_at = mapped_column(db.DateTime, default=datetime.utcnow())
-    updated_at = mapped_column(db.DateTime, default=datetime.utcnow(),onupdate=datetime.now)
-    deleted_at = mapped_column(db.DateTime, nullable=True)
+    id_filiere = mapped_column(String(128), primary_key=True, nullable=False)
+    nom = mapped_column(String(10), nullable=False)
+    debouches = mapped_column(Text(), nullable=True)
+    bourses = mapped_column(Integer(), nullable=True)
+    semi_bourses = mapped_column(Integer(), nullable=True)
+    code = mapped_column(String(128), nullable=True)
+    id_ecole = mapped_column(String(128), ForeignKey(Ecole.id_ecole), nullable=False)
+    created_at = mapped_column(DateTime, default=datetime.utcnow())
+    updated_at = mapped_column(DateTime, default=datetime.utcnow(),onupdate=datetime.now)
+    deleted_at = mapped_column(DateTime, nullable=True)
 
     ecole = relationship("Ecole", back_populates="filieres")
     
