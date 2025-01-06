@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash
 from app.extensions import db
 from uuid import uuid4
 from datetime import datetime
-
+from sqlalchemy.ext.associationproxy import association_proxy
 
 class User(db.Model):
     """User model to map the users table
@@ -21,7 +21,8 @@ class User(db.Model):
     deleted_at = mapped_column(db.DateTime, nullable=True)
     
     moyennes = relationship("Moyenne", back_populates="user")
-    filieres = relationship("Filiere", secondary="moyennes", back_populates="users")
+    filieres = association_proxy("moyennes", "filiere")
+    
     posts = relationship("Post", back_populates="user")
 
     def __init__(self, prenom, nom, matricule, email, serie, password="Admin@admin", role="user"):

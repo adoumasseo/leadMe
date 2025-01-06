@@ -3,6 +3,7 @@ from app.extensions import db
 from app.database.models.ecole import Ecole
 from uuid import uuid4
 from datetime import datetime
+from sqlalchemy.ext.associationproxy import association_proxy
 
 class Filiere(db.Model):
     """ filiere model
@@ -21,10 +22,10 @@ class Filiere(db.Model):
     deleted_at = mapped_column(db.DateTime, nullable=True)
 
     moyennes = relationship("Moyenne", back_populates="filiere")
-    users = relationship("User", secondary="moyennes", back_populates="filieres")
+    users = association_proxy("moyennes", "user")
     
     matierefiliere = relationship("MatiereFiliere", back_populates="filiere")
-    matieres = relationship("Matiere", secondary="matiere_filiere", back_populates="filieres")
+    matieres = association_proxy("matierefiliere", "matiere")
 
 
     def __init__(self, nom, debouches, bourses, semi_bourses):
