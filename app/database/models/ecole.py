@@ -14,7 +14,7 @@ class Ecole(db.Model):
     id_universite = mapped_column(db.String(128), db.ForeignKey(Universite.id_universite), nullable=False, ondelete="CASCADE")
     code = mapped_column(db.String(128), nullable=True)
     created_at = mapped_column(db.DateTime, default=datetime.utcnow())
-    updated_at = mapped_column(db.DateTime, default=datetime.utcnow())
+    updated_at = mapped_column(db.DateTime, default=datetime.utcnow(), onupdate=datetime.now)
     deleted_at = mapped_column(db.DateTime, default=None)
     universite = relationship("Universite", back_populates="ecoles")
     filieres = relationship("Filiere", back_populates="ecole")

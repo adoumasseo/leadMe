@@ -17,7 +17,7 @@ class Filiere(db.Model):
     id_ecole = mapped_column(db.String(128), db.ForeignKey(Ecole.id_ecole), nullable=False)
     ecole = relationship("Ecole", back_populates="filieres")
     created_at = mapped_column(db.DateTime, default=datetime.utcnow())
-    updated_at = mapped_column(db.DateTime, default=datetime.utcnow())
+    updated_at = mapped_column(db.DateTime, default=datetime.utcnow(),onupdate=datetime.now)
     deleted_at = mapped_column(db.DateTime, nullable=True)
 
     moyennes = relationship("Moyenne", back_populates="filiere")
