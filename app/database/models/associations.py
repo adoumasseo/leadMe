@@ -2,6 +2,7 @@ from sqlalchemy.orm import mapped_column, relationship
 from sqlalchemy import PrimaryKeyConstraint
 from app.database.models.filiere import Filiere
 from app.database.models.matiere import Matiere
+from app.database.models.serie import Serie
 from app.database.models.user import User
 from app.extensions import db
 
@@ -26,8 +27,20 @@ class MatiereFiliere(db.Model):
     id_matiere = mapped_column(db.String(128), db.ForeignKey(Matiere.id_matiere), nullable=False)
     
     __table_args__ = (
-            PrimaryKeyConstraint('id_filiere', 'id_user'),
+            PrimaryKeyConstraint('id_filiere', 'id_matiere'),
     )
     
     filiere = relationship("Filiere", back_populates="matierefiliere")
     matiere = relationship("Matiere", back_populates="matierefiliere")
+
+class Coefficiant(db.Model):
+    __tablename__ = "coefficiant"
+    id_serie = mapped_column(db.String(128), db.ForeignKey(Serie.id_serie), nullable=False)
+    id_matiere = mapped_column(db.String(128), db.ForeignKey(Matiere.id_matiere), nullable=False)
+    
+    __table_args__ = (
+            PrimaryKeyConstraint('id_filiere', 'id_matiere'),
+    )
+    
+    serie = relationship("Serie", back_populates="coefficiant")
+    matiere = relationship("Matiere", back_populates="coefficiant")

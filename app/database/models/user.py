@@ -20,11 +20,14 @@ class User(db.Model):
     updated_at = mapped_column(db.DateTime, default=datetime.utcnow(), onupdate=datetime.now)
     deleted_at = mapped_column(db.DateTime, nullable=True)
     
+    # filiere users
     moyennes = relationship("Moyenne", back_populates="user")
     filieres = association_proxy("moyennes", "filiere")
     
+    # posts and series
     posts = relationship("Post", back_populates="user")
     serie = relationship("Serie", back_populates="users")
+
 
     def __init__(self, prenom, nom, matricule, email, serie, password="Admin@admin", role="user"):
         """Initiate the model object with column values

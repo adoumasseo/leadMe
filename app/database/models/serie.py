@@ -2,6 +2,7 @@ from sqlalchemy.orm import  mapped_column
 from app.extensions import db
 from uuid import uuid4
 from datetime import datetime
+from sqlalchemy.ext.associationproxy import association_proxy
 
 class Serie(db.Model):
     """Serie model to map the serie table
@@ -14,6 +15,9 @@ class Serie(db.Model):
     deleted_at = mapped_column(db.DateTime, default=None)
     
     users = db.relationship("User", back_populates="serie")
+    
+    coefficiant = db.relationship("Coefficiant", back_populates="matiere")
+    matieres = association_proxy("coefficiant", "matiere")
     
     def __init__(self, nom):
         """Initiate the model object with column values

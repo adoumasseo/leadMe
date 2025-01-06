@@ -17,6 +17,8 @@ class Matiere(db.Model):
     matierefiliere = db.relationship("MatiereFiliere", back_populates="matiere")
     filieres = association_proxy("matierefiliere", "filiere")
 
+    coefficiant = db.relationship("Coefficiant", back_populates="matiere")
+    series = association_proxy("coefficiant", "serie")
 
     def __init__(self, nom, coefficient):
         """Initiate the model object with column values
