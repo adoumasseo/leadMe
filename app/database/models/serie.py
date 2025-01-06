@@ -7,7 +7,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 class Serie(db.Model):
     """Serie model to map the serie table
     """
-    __tablename__ = 'serie'
+    __tablename__ = 'series'
     id_serie = mapped_column(db.String(128), primary_key=True, nullable=False)
     nom = mapped_column(db.String(10), nullable=False)
     created_at = mapped_column(db.DateTime, default=datetime.utcnow())
@@ -16,8 +16,8 @@ class Serie(db.Model):
     
     users = db.relationship("User", back_populates="serie")
     
-    coefficiant = db.relationship("Coefficiant", back_populates="matiere")
-    matieres = association_proxy("coefficiant", "matiere")
+    coefficiant = db.relationship("Coefficient", back_populates="matiere")
+    matieres = association_proxy("coefficient", "matiere")
     
     def __init__(self, nom):
         """Initiate the model object with column values

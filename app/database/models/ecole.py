@@ -10,7 +10,6 @@ class Ecole(db.Model):
     __tablename__ = 'ecoles'
     id_ecole = mapped_column(db.String(128), primary_key=True, nullable=False)
     nom = mapped_column(db.String(10), nullable=False)
-    code= mapped_column(db.String(10), nullable=False)
     id_universite = mapped_column(db.String(128), db.ForeignKey(Universite.id_universite), nullable=False, ondelete="CASCADE")
     code = mapped_column(db.String(128), nullable=True)
     created_at = mapped_column(db.DateTime, default=datetime.utcnow())

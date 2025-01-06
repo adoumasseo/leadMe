@@ -33,23 +33,23 @@ class MatiereFiliere(db.Model):
     filiere = relationship("Filiere", back_populates="matierefiliere")
     matiere = relationship("Matiere", back_populates="matierefiliere")
 
-class Coefficiant(db.Model):
-    __tablename__ = "coefficiants"
+class Coefficient(db.Model):
+    __tablename__ = "coefficients"
     id_serie = mapped_column(db.String(128), db.ForeignKey(Serie.id_serie), nullable=False)
     id_matiere = mapped_column(db.String(128), db.ForeignKey(Matiere.id_matiere), nullable=False)
-    
+    coe = mapped_column(db.Float, nullable=False)
     __table_args__ = (
             PrimaryKeyConstraint('id_serie', 'id_matiere'),
     )
     
-    serie = relationship("Serie", back_populates="coefficiant")
-    matiere = relationship("Matiere", back_populates="coefficiant")
+    serie = relationship("Serie", back_populates="coefficient")
+    matiere = relationship("Matiere", back_populates="coefficient")
     
 class Note(db.Model):
     __tablename__ = "notes"
     id_user = mapped_column(db.String(128), db.ForeignKey(User.id_user), nullable=False)
     id_matiere = mapped_column(db.String(128), db.ForeignKey(Matiere.id_matiere), nullable=False)
-    
+    mark = mapped_column(db.Float, nullable=False)
     __table_args__ = (
             PrimaryKeyConstraint('id_user', 'id_matiere'),
     )

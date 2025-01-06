@@ -40,11 +40,11 @@ class Filiere(db.Model):
         self.created_at = datetime.utcnow()
 
     def __str__(self):
-        """Return a string representation of a serie
+        """Return a string representation of a filiere
         """
         return "Filiere: {}".format(self.nom)
 
     def __repr__(self):
-        """Return a string representation of a serie
+        """Return a string representation of a filiere
         """
         return "Ecole: {}".format(self.nom)
