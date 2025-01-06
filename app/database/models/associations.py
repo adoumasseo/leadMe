@@ -1,6 +1,7 @@
 from sqlalchemy.orm import mapped_column, relationship
 from sqlalchemy import PrimaryKeyConstraint
 from app.database.models.filiere import Filiere
+from app.database.models.matiere import Matiere
 from app.database.models.user import User
 from app.extensions import db
 
@@ -17,3 +18,16 @@ class Moyenne(db.Model):
     
     filiere = relationship("Filiere", back_populates="moyennes")
     user = relationship("User", back_populates="moyennes")
+
+  
+class MatiereFiliere(db.Model):
+    __tablename__ = "matiere_filiere"
+    id_filiere = mapped_column(db.String(128), db.ForeignKey(Filiere.id_filiere), nullable=False)
+    id_matiere = mapped_column(db.String(128), db.ForeignKey(Matiere.id_matiere), nullable=False)
+    
+    __table_args__ = (
+            PrimaryKeyConstraint('id_filiere', 'id_user'),
+    )
+    
+    filiere = relationship("Filiere", back_populates="matierefiliere")
+    matiere = relationship("Matiere", back_populates="matierefiliere")

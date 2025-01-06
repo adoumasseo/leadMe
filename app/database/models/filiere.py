@@ -22,6 +22,9 @@ class Filiere(db.Model):
 
     moyennes = relationship("Moyenne", back_populates="filiere")
     users = relationship("User", secondary="moyennes", back_populates="filieres")
+    
+    matierefiliere = relationship("MatiereFiliere", back_populates="filiere")
+    matieres = relationship("Matiere", secondary="matiere_filiere", back_populates="filieres")
 
 
     def __init__(self, nom, debouches, bourses, semi_bourses):
