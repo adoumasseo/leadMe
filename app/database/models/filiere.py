@@ -16,11 +16,12 @@ class Filiere(db.Model):
     semi_bourses = mapped_column(db.Integer(), nullable=True)
     code = mapped_column(db.String(128), nullable=True)
     id_ecole = mapped_column(db.String(128), db.ForeignKey(Ecole.id_ecole), nullable=False)
-    ecole = relationship("Ecole", back_populates="filieres")
     created_at = mapped_column(db.DateTime, default=datetime.utcnow())
     updated_at = mapped_column(db.DateTime, default=datetime.utcnow(),onupdate=datetime.now)
     deleted_at = mapped_column(db.DateTime, nullable=True)
 
+    ecole = relationship("Ecole", back_populates="filieres")
+    
     moyennes = relationship("Moyenne", back_populates="filiere")
     users = association_proxy("moyennes", "user")
     

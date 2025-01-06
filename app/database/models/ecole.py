@@ -16,7 +16,8 @@ class Ecole(db.Model):
     created_at = mapped_column(db.DateTime, default=datetime.utcnow())
     updated_at = mapped_column(db.DateTime, default=datetime.utcnow(), onupdate=datetime.now)
     deleted_at = mapped_column(db.DateTime, default=None)
-    universite = relationship("Universite", back_populates="ecoles")
+    
+    university = relationship("Universite", back_populates="ecoles")
     filieres = relationship("Filiere", back_populates="ecole")
 
     def __init__(self, nom, code):

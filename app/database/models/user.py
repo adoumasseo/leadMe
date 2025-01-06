@@ -27,7 +27,10 @@ class User(db.Model):
     # posts and series
     posts = relationship("Post", back_populates="user")
     serie = relationship("Serie", back_populates="users")
-
+    
+    # user matiere 
+    notes = relationship("Note", back_populates="user")
+    matieres = association_proxy("note", "matiere")
 
     def __init__(self, prenom, nom, matricule, email, serie, password="Admin@admin", role="user"):
         """Initiate the model object with column values
