@@ -9,8 +9,8 @@ class Universite(db.Model):
     """
     __tablename__ = 'universities'
     id_universite = mapped_column(String(128), primary_key=True, nullable=False)
-    nom = mapped_column(String(10), nullable=False)
-    code = mapped_column(String(10), nullable=False)
+    nom = mapped_column(String(10), nullable=False, unique=True)
+    code = mapped_column(String(10), nullable=False, unique=True)
     created_at = mapped_column(DateTime, default=datetime.utcnow())
     updated_at = mapped_column(DateTime, default=datetime.utcnow(), onupdate=datetime.now)
     deleted_at = mapped_column(DateTime, default=None)

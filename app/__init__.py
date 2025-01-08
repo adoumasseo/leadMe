@@ -1,3 +1,4 @@
+from this import d
 from flask import Flask
 from config import Config
 from flask_migrate import Migrate
@@ -24,9 +25,19 @@ def create_app(config_class=Config):
     def seed():
         """Seed the database with sample data."""
         from app.database.seeds import seed_users
+        from app.database.seeds import seed_university
         seed_users.seed_users()
+        seed_university.seed_universite()
         click.echo("Database seeded successfully!")
     
+    @app.cli.command("seed_universities")
+    @with_appcontext
+    def seed_university_only():
+        """Seed university Only"""
+        from app.database.seeds import seed_university
+        seed_university.seed_universite()
+        click.echo("Database seeded successfully!")
+
     @app.route('/test/')
     def test_page():
         return '<h1>Testing the Flask Application Factory Pattern</h1>'
