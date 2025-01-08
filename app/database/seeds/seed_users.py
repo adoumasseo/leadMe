@@ -13,6 +13,7 @@ def seed_users():
             matricule=None,
             email=fake.email(),
             password=fake.password(),
+            serie=None,
             role="admin"
         )
     ]

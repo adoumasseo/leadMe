@@ -19,12 +19,12 @@ class Post(db.Model):
 
     user = relationship('User', back_populates='posts')
 
-    def __init__(self, titre, contenu, adresse, imagePath, user_id):
+    def __init__(self, titre, contenu, adresse, imagePath, user):
         self.titre = titre
         self.adresse = adresse
         self.contenu = contenu
         self.imagePath = imagePath
-        self.user_id = user_id
+        self.user_id = user.id_user
 
     def __repr__(self):
         return f"<Post {self.titre}>"
