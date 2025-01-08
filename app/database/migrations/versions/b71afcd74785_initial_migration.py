@@ -107,7 +107,7 @@ def upgrade():
     sa.Column('created_at', postgresql.TIMESTAMP(), autoincrement=False, nullable=True),
     sa.Column('updated_at', postgresql.TIMESTAMP(), autoincrement=False, nullable=True),
     sa.Column('deleted_at', postgresql.TIMESTAMP(), autoincrement=False, nullable=True),
-    sa.Column('id_serie', sa.VARCHAR(length=128), autoincrement=False, nullable=False),
+    sa.Column('id_serie', sa.VARCHAR(length=128), autoincrement=False, nullable=True),
     sa.ForeignKeyConstraint(['id_serie'], ['series.id_serie'], name='users_id_serie_fkey'),
     sa.PrimaryKeyConstraint('id_user', name='users_pkey'),
     postgresql_ignore_search_path=False
