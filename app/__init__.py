@@ -44,6 +44,14 @@ def create_app(config_class=Config):
         from app.database.seeds import seed_ecole
         seed_ecole.seed_ecoles()
         click.echo("Database seeded successfully!")
+        
+    @app.cli.command("seed_filiere")
+    @with_appcontext
+    def seed_filiere_only():
+        """Seed ecole Only"""
+        from app.database.seeds import seed_filiere
+        seed_filiere.seed_filieres()
+        click.echo("Database seeded successfully!")
 
     @app.route('/test/')
     def test_page():
