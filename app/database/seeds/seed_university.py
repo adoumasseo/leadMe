@@ -22,7 +22,4 @@ def seed_universite():
     db.session.bulk_save_objects(universities)
     db.session.commit()
     print("University seed successfully")
-
-def seed_ecoles():
-    """A fct to seed ecole entity"""
     

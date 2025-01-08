@@ -1,4 +1,3 @@
-from this import d
 from flask import Flask
 from config import Config
 from flask_migrate import Migrate
@@ -36,6 +35,14 @@ def create_app(config_class=Config):
         """Seed university Only"""
         from app.database.seeds import seed_university
         seed_university.seed_universite()
+        click.echo("Database seeded successfully!")
+    
+    @app.cli.command("seed_ecole")
+    @with_appcontext
+    def seed_ecole_only():
+        """Seed ecole Only"""
+        from app.database.seeds import seed_ecole
+        seed_ecole.seed_ecoles()
         click.echo("Database seeded successfully!")
 
     @app.route('/test/')

@@ -10,7 +10,7 @@ class Ecole(db.Model):
     """
     __tablename__ = 'ecoles'
     id_ecole = mapped_column(String(128), primary_key=True, nullable=False)
-    nom = mapped_column(String(10), nullable=False, unique=True)
+    nom = mapped_column(String(255), nullable=False, unique=True)
     id_universite = mapped_column(String(128), ForeignKey(Universite.id_universite), nullable=False)
     code = mapped_column(String(128), nullable=True, unique=True)
     created_at = mapped_column(DateTime, default=datetime.utcnow())

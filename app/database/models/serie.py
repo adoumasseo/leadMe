@@ -10,7 +10,7 @@ class Serie(db.Model):
     """
     __tablename__ = 'series'
     id_serie = mapped_column(String(128), primary_key=True, nullable=False)
-    nom = mapped_column(String(10), nullable=False)
+    nom = mapped_column(String(255), nullable=False)
     created_at = mapped_column(DateTime, default=datetime.utcnow())
     updated_at = mapped_column(DateTime, default=datetime.utcnow())
     deleted_at = mapped_column(DateTime, default=None)

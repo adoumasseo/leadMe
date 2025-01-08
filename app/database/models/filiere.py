@@ -11,7 +11,7 @@ class Filiere(db.Model):
     """
     __tablename__ = 'filieres'
     id_filiere = mapped_column(String(128), primary_key=True, nullable=False)
-    nom = mapped_column(String(10), nullable=False)
+    nom = mapped_column(String(255), nullable=False)
     debouches = mapped_column(Text(), nullable=True)
     bourses = mapped_column(Integer(), nullable=True)
     semi_bourses = mapped_column(Integer(), nullable=True)
