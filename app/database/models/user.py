@@ -6,8 +6,9 @@ from uuid import uuid4
 from datetime import datetime
 from sqlalchemy.ext.associationproxy import association_proxy
 from app.database.models.serie import Serie
+from flask_login import UserMixin
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     """User model to map the users table
     """
     __tablename__ = 'users'
