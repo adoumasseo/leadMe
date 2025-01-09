@@ -1,5 +1,6 @@
 from app.main import bp
+from flask import render_template
 
 @bp.route('/')
 def index():
-    return '<h1>We got the index</h1>'
+    return render_template("landing_page.html")

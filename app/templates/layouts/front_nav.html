@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  data-layout="twocolumn"
+  data-sidebar="light"
+  data-sidebar-size="lg"
+  data-sidebar-image="none"
+  data-preloader="disable"
+>
+  <!-- Mirrored from themesbrand.com/velzon/html/creative/auth-signup-cover.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 29 Apr 2024 19:53:50 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      content="Premium Multipurpose Admin & Dashboard Template"
+      name="description"
+    />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename = 'images/favicon.ico') }}"
+    />
+
+    <!-- Layout config Js -->
+    <script src="{{ url_for('static', filename = 'js/layout.js') }}"></script>
+    <!-- Bootstrap Css -->
+    <link
+      href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- Icons Css -->
+    <link
+      href="{{ url_for('static', filename = 'css/icons.min.css') }}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- App Css-->
+    <link
+      href="{{ url_for('static', filename = 'css/app.min.css') }}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- custom Css-->
+    <link
+      href="{{ url_for('static', filename = 'css/custom.min.css') }}"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+
+  <body>
+    <div class="layout-wrapper landing" >
+      <nav
+        class="navbar navbar-expand-lg navbar-landing fixed-top job-navbar is-sticky"
+        id="navbar"
+      >
+        <div class="container-fluid custom-container">
+          <a
+            class="navbar-brand display-6 fw-bold text-capitalize lh-base fs-36"
+            href="index.html"
+          >
+            Lead<span style="color: #339fcc">Me</span>
+          </a>
+          <button
+            class="navbar-toggler py-0 fs-20 text-body"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <i class="mdi mdi-menu"></i>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
+              <li class="nav-item">
+                <a class="nav-link fs-16" href="{{ url_for('resultat')}}">Acceuil</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-16" href="{{ url_for('return_post')}}">Blog</a>
+              </li>
+            </ul>
+
+            <div class="">
+              <a
+                href=""
+                class="btn"
+                style="background-color: #339fcc; color: white"
+                onclick="window.history.back()"
+                ><i class="ri-arrow-left-line align-bottom ms-1"></i> Retour
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+      {% block enregistrement %}{% endblock %} {% block login %}{% endblock %}
+      {% block result %}{% endblock %} {% block contenu %} {% endblock %}
+
+      <!-- Start footer -->
+      <footer class="custom-footer bg-dark py-4 position-relative">
+        <div class="container">
+          <div class="row text-center text-sm-start align-items-center">
+            <div class="col-sm-6">
+              <div>
+                <p class="copy-rights mb-0">
+                  <script>
+                    document.write(new Date().getFullYear());
+                  </script>
+                  2024 © Velzon - Themesbrand
+                </p>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="text-sm-end mt-sm-0">
+                Ortniel ADOUMASSE et Arix AZOKLY
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <!-- end footer -->
+
+      <!--start back-to-top-->
+      <button
+        onclick="topFunction()"
+        class="btn btn-info btn-icon landing-back-top"
+        id="back-to-top"
+        style="display: block"
+      >
+        <i class="ri-arrow-up-line"></i>
+      </button>
+      <!--end back-to-top-->
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script src="{{ url_for('static', filename = 'libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'libs/node-waves/waves.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'libs/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'js/plugins.js') }}"></script>
+
+    <!-- validation init -->
+    <!-- <script src="assets/js/pages/form-validation.init.js"></script> -->
+    <!-- password create init -->
+    <!-- <script src="assets/js/pages/passowrd-create.init.js"></script> -->
+  </body>
+
+  <!-- Mirrored from themesbrand.com/velzon/html/creative/auth-signup-cover.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 29 Apr 2024 19:53:50 GMT -->
+</html>
