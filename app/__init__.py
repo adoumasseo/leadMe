@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from app.extensions import db
 from flask.cli import with_appcontext
 import click
-from flask_login import LoginManager
+# from flask_login import LoginManager
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -14,8 +14,8 @@ def create_app(config_class=Config):
     # Initialize Flask extensions here
     db.init_app(app)
     migrate = Migrate(app, db, directory="app/database/migrations")
-    login_manager = LoginManager()
-    login_manager.init_app(app)
+    # login_manager = LoginManager()
+    # login_manager.init_app(app)
 
     
     # Register blueprints here

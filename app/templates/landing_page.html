@@ -6,9 +6,9 @@
 <div class="layout-wrapper landing">
     <nav class="navbar navbar-expand-lg navbar-landing fixed-top job-navbar is-sticky" id="navbar">
         <div class="container-fluid custom-container">
-            <a class="navbar-brand" href="index.html">
-                <img src="/static/images/logo-dark.png" class="card-logo card-logo-dark" alt="logo dark" height="17">
-                <img src="/static/images/logo-light.png" class="card-logo card-logo-light" alt="logo light" height="17">
+            <a class="navbar-brand display-6 fw-bold text-capitalize lh-base fs-36" href="index.html">
+                
+                Lead<span style="color: #339FCC;">ME</span>
             </a>
             <button class="navbar-toggler py-0 fs-20 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="mdi mdi-menu"></i>
@@ -29,7 +29,7 @@
                 </ul>
 
                 <div class="">
-                    <a href="/auth/register" class="btn" style="background-color: #339FCC;"><i class="ri-user-3-line align-bottom me-1"></i> Login &amp; Register</a>
+                    <a href="" class="btn" style="background-color: #339FCC; color: white;"><i class="ri-user-3-line align-bottom me-1"></i> Connexion &amp; Insciption</a>
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
                 </div>
                 <!--end col-->
                 <div class="col-lg-5">
-                        <img src="/static/images/landing_page_top.png" alt="" class="" style="width: 600px; height: 600px; margin-top: -150px;">
+                        <img src="{{ url_for('static', filename ='images/landing_page_top.png') }} " alt="" class="" style="width: 600px; height: 600px; margin-top: -150px;">
                 </div>
             </div>
             <!-- end row -->
@@ -80,7 +80,7 @@
                                 <span>1</span>
                             </h1>
                             <h6 class="fs-17 mb-2">Inscrivez-vous</h6>
-                            <p class="text-muted mb-0 fs-15">Créer un compte pour la plateforme.</p>
+                            <p class="text-muted mb-0 fs-15">Inscrivez-vous ou passer directement à l'étape suivante.</p>
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                                 <span>2</span>
                             </h1>
                             <h6 class="fs-17 mb-2">Enregistrez vos notes</h6>
-                            <p class="text-muted mb-0 fs-15">Ajouter ensuite les notes obtenus au baccalauréat</p>
+                            <p class="text-muted mb-0 fs-15">Ajouter ensuite vos notes obtenus au baccalauréat</p>
                         </div>
                     </div>
                 </div>
@@ -127,13 +127,14 @@
                 <div class="col-sm">
                     <div>
                         <h4 class="text-white fw-bold mb-2">Prêt à commencer ?</h4>
-                        <p class="text-white-50 mb-0">Créer un compte et enregister vos informations</p>
+                        <p class="text-white-50 mb-0">Créer un compte et enrégister vos informations.</p>
+                        <p class="text-white-50 mb-0">Ou enrégistrer vos notes.</p>
                     </div>
                 </div>
                 <!-- end col -->
                 <div class="col-sm-auto">
                     <div>
-                        <a href="#!" class="btn bg-gradient btn-danger">Créer votre compte</a>
+                        <a href="" class="btn bg-gradient btn-danger">Enregistrer vos notes</a>
                     </div>
                 </div>
                 <!-- end col -->
@@ -170,7 +171,7 @@
                         <div class="card-body">
                             <ul class="list-inline fs-14 text-muted">
                                 <li class="list-inline-item">
-                                    <i class="ri-calendar-line align-bottom me-1"></i> 
+                                    <i class="ri-calendar-line align-bottom me-1"></i>
                                     
                                 </li>
                                 <!-- <li class="list-inline-item">
@@ -191,6 +192,14 @@
                     </div>
                 </div>
                 {% endfor %}
+                <div class="w-100 text-end">
+                    <a href="" class="link-primary ">
+                       
+                        Consulter toutes les bourses
+                        <i class="ri-arrow-right-line align-bottom ms-1"></i>
+                    </a>
+                    
+                </div>
             </div>
         </div>
         <!-- end container -->
@@ -213,7 +222,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end mt-sm-0">
-                    Ortniel ADOUMASSE & Arix AZOKLY
+                    Ortniel ADOUMASSE et Arix AZOKLY 
                     </div>
                 </div>
             </div>
@@ -229,6 +238,12 @@
     <!--end back-to-top-->
 
 </div>
+
+ <!--Swiper slider js-->
+ <script src="{{ url_for('static', filename = 'libs/swiper/swiper-bundle.min.js') }}"></script>
+
+ <!--job landing init -->
+ <script src="{{ url_for('static', filename = 'js/pages/job-lading.init.js') }}"></script>
 
 {% endblock %}
 
