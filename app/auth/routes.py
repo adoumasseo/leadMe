@@ -38,7 +38,13 @@ def login():
                 return redirect(url_for('auth.change_password'))
             flash("Login successful!", "success")
             return "You're login"
-        flash("Invalid email or password.", "danger")
+        else:
+            flash("Invalid email or password.", "danger")
+            for field, errors in form.errors.items():
+                for error in errors:
+                    print(f"Error in {field}: {error}")
+            return render_template('auth/form/login.html', form=form)
+            
     else:
         print("Form validation failed.")
         for field, errors in form.errors.items():
@@ -60,4 +66,9 @@ def change_password():
         db.session.commit()
         flash("Password changed successfully!", "success")
         return redirect(url_for('auth.login'))
-    return render_template('auth/form/change_password.html', form=form)
+    else:
+        print("Form validation failed.")
+        for field, errors in form.errors.items():
+            for error in errors:
+                print(f"Error in {field}: {error}")
+        return render_template('auth/form/change_password.html', form=form)

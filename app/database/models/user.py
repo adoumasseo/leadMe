@@ -62,3 +62,6 @@ class User(UserMixin, db.Model):
         """Return a string representation of a user
         """
         return "User: {} {}".format(self.prenom, self.nom)
+        
+    def get_id(self):
+         return str(self.id_user)
