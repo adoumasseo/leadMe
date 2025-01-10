@@ -1,10 +1,11 @@
 from flask import Flask
 from config import Config
+from redis_config import redis_client
 from flask_migrate import Migrate
 from app.extensions import db
 from flask.cli import with_appcontext
 import click
-from flask_login import LoginManager 
+from flask_login import LoginManager
 
 def create_app(config_class=Config):
     app = Flask(__name__)

@@ -1,4 +1,4 @@
-from sqlalchemy import String, ForeignKey, DateTime
+from sqlalchemy import String, ForeignKey, DateTime, Boolean
 from sqlalchemy.orm import mapped_column, relationship
 from werkzeug.security import generate_password_hash
 from app.extensions import db
@@ -19,6 +19,7 @@ class User(UserMixin, db.Model):
     email = mapped_column(String(255), nullable=False)
     password = mapped_column(String(255), nullable=True)
     role = mapped_column(String(45), nullable=False, default="user")
+    first_login = mapped_column(Boolean, default=True)
     created_at = mapped_column(DateTime, default=datetime.utcnow())
     updated_at = mapped_column(DateTime, default=datetime.utcnow(), onupdate=datetime.now)
     deleted_at = mapped_column(DateTime, nullable=True)
