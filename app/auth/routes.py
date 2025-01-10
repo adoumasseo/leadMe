@@ -12,3 +12,7 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired("Password is require")])
     submit = SubmitField('Login')
 
+
+@bp.route('/login')
+def index():
+    return "This is the login route"

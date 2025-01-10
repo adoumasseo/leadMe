@@ -1,6 +1,7 @@
 from flask import Flask
 from config import Config
-from app.extensions import db, mail, migrate
+from app.extensions import db, mail, migrate, login_manager
+from app.database.models.user import User
 from flask.cli import with_appcontext
 import click
 
@@ -12,11 +13,20 @@ def create_app(config_class=Config):
     db.init_app(app)
     mail.init_app(app)
     migrate.init_app(app, db)
+    login_manager.init_app(app)
     
     # Register blueprints here
     from app.main import bp as main_bp
+    from app.auth import bp as auth_bp
     app.register_blueprint(main_bp)
+    app.register_blueprint(auth_bp, prefix='/auth')
     
+    
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+
+
     # CLI for the app
     @app.cli.command("seed")
     @with_appcontext
