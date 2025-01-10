@@ -43,9 +43,17 @@
                                 <form method="POST" action="{{ url_for('auth.login') }}">
                                     {{ form.hidden_tag() }}
                                     <div class="mb-3">
-                                        <label for="username" class="form-label">Email</label>
-                                        {{ form.email(class="form-control", id="username", placeholder="Ex: john@doe.com") }}
-                                            
+                                        <div class="position-relative auth-pass-inputgroup mb-3">
+                                            <label for="username" class="form-label">Email</label>
+                                            {{ form.email(class="form-control", id="username", placeholder="Ex: john@doe.com") }}
+                                        </div>
+                                            {% if form.email.errors %}
+                                                <div class="alert alert-danger">
+                                                    {% for error in form.email.errors %}
+                                                        <span>{{ error }}</span>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
                                     </div>
 
                                     <div class="mb-3">
@@ -54,22 +62,22 @@
                                         </div>
                                         <label class="form-label" for="password-input">Password</label>
                                         <div class="position-relative auth-pass-inputgroup mb-3">
-                                            {{ form.password(class="form-control pe-5 password-input", placeholder="Enter password" ,id="password-input") }}
+                                            {{ form.password(class="form-control pe-5 password-input", placeholder="Enter password", id="password-input") }}
                                         
-                                            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon" onclick="togglePasswordVisibility()">
+                                                <i class="ri-eye-fill align-middle"></i>
+                                            </button>
                                         </div>
+                                        {% if form.password.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {% for error in form.password.errors %}
+                                                        <span>{{ error }}</span>
+                                                        {% endfor %}
+                                                    </div>
+                                        {% endif %}
                                     </div>
-                                    {% for error in form.email.errors %}
-                                        <div class="alert alert-danger">{{ error }}</div>
-                                    {% endfor %}
-            
-                                    {% for error in form.password.errors %}
-                                        <div class="alert alert-danger">{{ error }}</div>
-                                    {% endfor %}
-
                                     <div class="mt-4">
                                         {{ form.submit(class="btn btn-success w-100") }}
-                                        
                                     </div>
 
                                    
@@ -108,4 +116,19 @@
     </footer>
     <!-- end Footer -->
 </div>
+<script>
+function togglePasswordVisibility() {
+    const passwordField = document.getElementById('password-input');
+    const passwordButton = document.querySelector('.password-addon');
+
+    // Toggle the type between 'password' and 'text'
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        passwordButton.innerHTML = '<i class="ri-eye-off-fill align-middle"></i>'; // Change button icon to indicate the password is visible
+    } else {
+        passwordField.type = 'password';
+        passwordButton.innerHTML = '<i class="ri-eye-fill align-middle"></i>'; // Change button icon to indicate the password is hidden
+    }
+}
+</script>
 {% endblock %}
