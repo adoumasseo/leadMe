@@ -104,6 +104,7 @@ def upgrade():
     sa.Column('email', sa.VARCHAR(length=255), autoincrement=False, nullable=False),
     sa.Column('password', sa.VARCHAR(length=255), autoincrement=False, nullable=True),
     sa.Column('role', sa.VARCHAR(length=255), autoincrement=False, nullable=False),
+    sa.Column('first_login', sa.BOOLEAN(), autoincrement=False, nullable=False, default=True),
     sa.Column('created_at', postgresql.TIMESTAMP(), autoincrement=False, nullable=True),
     sa.Column('updated_at', postgresql.TIMESTAMP(), autoincrement=False, nullable=True),
     sa.Column('deleted_at', postgresql.TIMESTAMP(), autoincrement=False, nullable=True),
