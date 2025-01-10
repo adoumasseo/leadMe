@@ -7,6 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask import flash, redirect, url_for, render_template
 from flask_login import login_required, current_user, login_user, logout_user
 from app.extensions import db
+import re
 
 class CSRFProtectForm(FlaskForm):
     """For CSRF protection"""
@@ -35,6 +36,19 @@ class ChangePasswordForm(FlaskForm):
     newPassword = PasswordField('New Password', validators=[DataRequired(message="New Password is require"), EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Confirm New Password', validators=[DataRequired()])
     submit = SubmitField('Reset Password')
+    
+    # Custom validation for oldPassword
+    def validate_oldPassword(self, field):
+        if current_user and not check_password_hash(current_user.password, field.data):
+            raise ValidationError('Invalid password')
+      
+    # Custom validation for newPassword
+    def validate_newPassword(self, field):
+        password = field.data
+        # Define the regular expression pattern for the password
+        pattern = r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$'
+        if not re.match(pattern, password):
+            raise ValidationError('Password must be at least 8 characters long and contain at least one number, one lowercase letter, and one uppercase letter.')
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
