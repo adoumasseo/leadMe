@@ -8,6 +8,7 @@ from flask import flash, redirect, url_for, render_template
 from flask_login import login_required, current_user, login_user, logout_user
 from app.extensions import db
 import re
+from app.utils.mail import send_reset_email
 
 class CSRFProtectForm(FlaskForm):
     """For CSRF protection"""
@@ -49,6 +50,18 @@ class ChangePasswordForm(FlaskForm):
         pattern = r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$'
         if not re.match(pattern, password):
             raise ValidationError('Password must be at least 8 characters long and contain at least one number, one lowercase letter, and one uppercase letter.')
+
+class ForgetPasswordRequest(FlaskForm):
+    """A class to generate the form for forget password request"""
+    email = StringField('Email', validators=[DataRequired(message="The Email is require"), Email()])
+    submit = SubmitField('Submit')
+    
+    # Custom email validation
+    def validate_email(self, field):
+        user = User.query.filter_by(email=field.data).first()
+        if not user:
+            raise ValidationError('No account found with that email address.')
+
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -96,7 +109,24 @@ def change_password():
                 print(f"Error in {field}: {error}")
         return render_template('auth/form/change_password.html', form=form)
 
-@bp.route('logout')
+@bp.route('/forget-password', methods=['GET', 'POST'])
+def forget_password():
+    form = ForgetPasswordRequest()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_reset_email(user)
+            flash("A reset code has been sent to your email.", "success")
+            return redirect(url_for('auth.verify_code'))
+        flash("Email not found.", "danger")
+    return render_template('auth/form/reset_password_request.html', form=form)       
+
+@bp.route('/verify_code', methods=['GET', 'POST'])
+def verify_code():
+    return 'Code being verify'
+
+
+@bp.route('/logout')
 @login_required
 def logout():
     logout_user()

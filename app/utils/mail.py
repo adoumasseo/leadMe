@@ -15,6 +15,6 @@ def send_reset_email(user):
     msg.body = f"Your password reset code is: {reset_code}. It will expire in 5 minutes."
     msg.html = render_template('email/reset_code.html', username=user.prenom, code=reset_code)
     try:
-        mail.send(msg)
+            mail.send(msg)
     except Exception as e:
-        current_app.logger.error(f"Failed to send email: {str(e)}")
+        current_app.logger.error(f"Failed to send email: {e.__class__.__name__}: {str(e)}")
