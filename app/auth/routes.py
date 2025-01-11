@@ -4,11 +4,12 @@ from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from wtforms import StringField, PasswordField, SubmitField
 from app.database.models.user import User
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask import flash, redirect, url_for, render_template
+from flask import flash, redirect, url_for, render_template, request
 from flask_login import login_required, current_user, login_user, logout_user
 from app.extensions import db
 import re
 from app.utils.mail import send_reset_email
+from redis_config import redis_client
 
 class CSRFProtectForm(FlaskForm):
     """For CSRF protection"""
@@ -62,6 +63,22 @@ class ForgetPasswordRequest(FlaskForm):
         if not user:
             raise ValidationError('No account found with that email address.')
 
+class VerifyCodeRequest(FlaskForm):
+    """A Form to verify the reset password code"""
+    code = StringField('Code', validators=[DataRequired()])
+    submit = SubmitField('Verify')
+
+class ResetPasswordForm(FlaskForm):
+    new_password = PasswordField(
+        'New Password',
+        validators=[
+            DataRequired(),
+            EqualTo('confirm_password', message='Passwords must match.')
+        ]
+    )
+    confirm_password = PasswordField('Confirm New Password', validators=[DataRequired()])
+    submit = SubmitField('Reset Password')
+   
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -117,13 +134,67 @@ def forget_password():
         if user:
             send_reset_email(user)
             flash("A reset code has been sent to your email.", "success")
-            return redirect(url_for('auth.verify_code'))
+            return redirect(url_for('auth.verify_code', email=form.email.data))
         flash("Email not found.", "danger")
     return render_template('auth/form/reset_password_request.html', form=form)       
 
 @bp.route('/verify_code', methods=['GET', 'POST'])
 def verify_code():
-    return 'Code being verify'
+    form = VerifyCodeRequest()
+    email = request.args.get('email') or request.form.get('email')
+    print(f"in verify code email: {email}")
+    if not email:
+        print("not mail")
+        flash("Email is required to verify the code.", "danger")
+        return redirect(url_for('auth.forget_password'))
+
+    if form.validate_on_submit():
+        print("on validate mail")
+        reset_code = redis_client.get(f"reset_code:{email}")
+        if reset_code is None:
+            print("reset code none")
+            flash("The reset code has expired or is invalid.", "danger")
+            return redirect(url_for('auth.forget_password'))
+
+        if form.code.data == reset_code:
+            print("valid code") 
+            flash("Code verified successfully. You can now reset your password.", "success")
+            return redirect(url_for('auth.reset_password', email=email))
+        else:
+            print("invalid code") 
+            
+            flash("Invalid reset code. Please try again.", "danger")
+
+    return render_template('auth/form/verify_code.html', form=form, email=email)
+
+
+@bp.route('/reset-password', methods=['GET', 'POST'])
+def reset_password():
+    form = ResetPasswordForm()
+    email = request.args.get('email') or request.form.get('email')
+
+
+    if not email:
+        flash("Email is required to reset the password.", "danger")
+        return redirect(url_for('auth.forget_password'))
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            flash("User not found.", "danger")
+            return redirect(url_for('auth.forget_password'))
+
+        # Update the user's password
+        user.password = generate_password_hash(form.new_password.data)  # Assuming `new_password` is hashed in the form validation
+        db.session.commit()
+
+        # Delete the reset code from Redis
+        redis_client.delete(f"reset_code:{email}")
+
+        flash("Your password has been reset successfully. Please log in.", "success")
+        return redirect(url_for('auth.login'))
+
+    return render_template('auth/form/reset_password.html', form=form, email=email)
 
 
 @bp.route('/logout')
