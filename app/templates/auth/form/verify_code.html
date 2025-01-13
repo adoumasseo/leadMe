@@ -33,23 +33,70 @@
                 <div class="col-md-8 col-lg-6 col-xl-5">
                     <div class="card mt-4">
 
+                        <div class="p-2 mt-4">
+                        </div>
                         <div class="card-body p-4">
-                            <div class="text-center mt-2">
-                                <h5 class="text-primary">Forgot your password ?</h5>
-                                <p class="text-muted">Give us your email</p>
+                            <div class="text-muted text-center mb-4 mx-lg-3">
+                                <h4>Verify Your Email</h4>
+                                <p>Please enter the 6 digit code sent to <span class="fw-bold">{{ email }}</span></p>
                             </div>
                             <div class="p-2 mt-4">
-                                <form method="POST"  action="{{ url_for('auth.verify_code', email=email) }}">
+                                <form method="POST" action="{{ url_for('auth.verify_code', email=email) }}" onsubmit="setCodeValue()">
                                     {{ form.hidden_tag() }}
-                                    <input type="hidden" name="email" value="{{ email }}">
-                                    <div class="form-group">
-                                        <label for="code">Reset Code</label>
-                                        {{ form.code(class="form-control", placeholder="Enter the code from your email") }}
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <div class="mb-3">
+                                                <label for="digit1-input" class="visually-hidden">Digit 1</label>
+                                                <input type="text" class="form-control form-control-lg bg-light border-light text-center" oninput="moveToNext(1, event)" maxLength="1" id="digit1-input">
+                                            </div>
+                                        </div><!-- end col -->
+                                        <div class="col-3">
+                                            <div class="mb-3">
+                                                <label for="digit2-input" class="visually-hidden">Digit 2</label>
+                                                <input type="text" class="form-control form-control-lg bg-light border-light text-center" oninput="moveToNext(2, event)" maxLength="1" id="digit2-input">
+                                            </div>
+                                        </div><!-- end col -->
+                                        <div class="col-3">
+                                            <div class="mb-3">
+                                                <label for="digit3-input" class="visually-hidden">Digit 3</label>
+                                                <input type="text" class="form-control form-control-lg bg-light border-light text-center" oninput="moveToNext(3, event)" maxLength="1" id="digit3-input">
+                                            </div>
+                                        </div><!-- end col -->
+                                        <div class="col-3">
+                                            <div class="mb-3">
+                                                <label for="digit4-input" class="visually-hidden">Digit 4</label>
+                                                <input type="text" class="form-control form-control-lg bg-light border-light text-center" oninput="moveToNext(4, event)" maxLength="1" id="digit4-input">
+                                            </div>
+                                        </div><!-- end col -->
+                                        <div class="col-3">
+                                            <div class="mb-3">
+                                                <label for="digit5-input" class="visually-hidden">Digit 5</label>
+                                                <input type="text" class="form-control form-control-lg bg-light border-light text-center" oninput="moveToNext(5, event)" maxLength="1" id="digit5-input">
+                                            </div>
+                                        </div><!-- end col -->
+                                        <div class="col-3">
+                                            <div class="mb-3">
+                                                <label for="digit6-input" class="visually-hidden">Digit 6</label>
+                                                <input type="text" class="form-control form-control-lg bg-light border-light text-center" oninput="moveToNext(6, event)" maxLength="1" id="digit6-input">
+                                            </div>
+                                        </div><!-- end col -->
                                     </div>
+                                    <input type="hidden" name="email" value="{{ email }}">
+                                    
+                                        {{ form.code(class="visually-hidden", placeholder="XXXXXX") }}
+                                    
+                                    {% if form.code.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {% for error in form.code.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
                                     <div class="mt-4">
                                         {{ form.submit(class="btn btn-success w-100") }}
                                     </div>
                                 </form>
+                                <p class="mb-0"> The code will expire in 1min <a href="{{ url_for('auth.forget_password')}}" class="fw-bold text-primary text-decoration-underline"> resend </a> </p>
                             </div>
                         </div>
                         <!-- end card body -->
@@ -57,7 +104,6 @@
                     <!-- end card -->
 
                     <div class="mt-4 text-center">
-                        <p class="mb-0">Don't have an account ? <a href="#" class="fw-bold text-primary text-decoration-underline"> Signup </a> </p>
                     </div>
 
                 </div>
@@ -85,5 +131,32 @@
     <!-- end Footer -->
 </div>
 
+<script>
+    function moveToNext(next, event) {
+        const input = event.target;
+        const maxLength = input.getAttribute("maxLength");
+        if (input.value.length >= maxLength && next <= 6) {
+            // Automatically focus on the next input if it exists
+            const nextInput = document.getElementById(`digit${next}-input`);
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
+    }
 
+    function setCodeValue() {
+        const digits = [];
+        for (let i = 1; i <= 6; i++) {
+            const input = document.getElementById(`digit${i}-input`);
+            if (input) {
+                digits.push(input.value.trim());
+            }
+        }
+        const code = digits.join(''); // Concatenate all digit inputs
+        const codeInput = document.querySelector('input[name="code"]'); // Hidden input field for the form
+        if (codeInput) {
+            codeInput.value = code; // Set the concatenated code
+        }
+    }
+</script>
 {% endblock %}

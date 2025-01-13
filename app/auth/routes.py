@@ -1,7 +1,7 @@
 from app.auth import bp
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, HiddenField
 from app.database.models.user import User
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import flash, redirect, url_for, render_template, request
@@ -65,8 +65,20 @@ class ForgetPasswordRequest(FlaskForm):
 
 class VerifyCodeRequest(FlaskForm):
     """A Form to verify the reset password code"""
-    code = StringField('Code', validators=[DataRequired()])
+    code = HiddenField('Code', validators=[DataRequired()])
     submit = SubmitField('Verify')
+    
+    def __init__(self, email, *args, **kwargs):
+        """Use to set the email and use it in validate_code"""
+        super().__init__(*args, **kwargs)
+        self.email = email
+    
+    def validate_code(self, field):
+        """To check if the code is correct"""
+        reset_code = redis_client.get(f"reset_code:{self.email}")
+        
+        if field.data != reset_code:
+            raise ValidationError('Invalid or Expire Code')
 
 class ResetPasswordForm(FlaskForm):
     new_password = PasswordField(
@@ -140,8 +152,8 @@ def forget_password():
 
 @bp.route('/verify_code', methods=['GET', 'POST'])
 def verify_code():
-    form = VerifyCodeRequest()
     email = request.args.get('email') or request.form.get('email')
+    form = VerifyCodeRequest(email)
     print(f"in verify code email: {email}")
     if not email:
         print("not mail")
@@ -150,6 +162,7 @@ def verify_code():
 
     if form.validate_on_submit():
         print("on validate mail")
+        print(form.code.data)
         reset_code = redis_client.get(f"reset_code:{email}")
         if reset_code is None:
             print("reset code none")
