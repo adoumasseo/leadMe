@@ -30,11 +30,17 @@
             <!-- end row -->
 
             <div class="row justify-content-center">
-                <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="col-md-8 col-lg-6 col-xl-8">
                     <div class="card mt-4">
 
-                        <div class="p-2 mt-4">
+                        <div class=" p-4">
+                            <div class="avatar-lg mx-auto">
+                                <div class="avatar-title bg-light text-primary display-5 rounded-circle">
+                                    <i class="ri-mail-line"></i>
+                                </div>
+                            </div>
                         </div>
+                        
                         <div class="card-body p-4">
                             <div class="text-muted text-center mb-4 mx-lg-3">
                                 <h4>Verify Your Email</h4>
@@ -44,40 +50,40 @@
                                 <form method="POST" action="{{ url_for('auth.verify_code', email=email) }}" onsubmit="setCodeValue()">
                                     {{ form.hidden_tag() }}
                                     <div class="row">
-                                        <div class="col-3">
+                                        <div class="col-2">
                                             <div class="mb-3">
                                                 <label for="digit1-input" class="visually-hidden">Digit 1</label>
-                                                <input type="text" class="form-control form-control-lg bg-light border-light text-center" oninput="moveToNext(1, event)" maxLength="1" id="digit1-input">
+                                                <input type="text" class="form-control form-control-lg bg-primary bg-opacity-25 border-light text-center" onkeyup="moveToNext(1, event)" maxLength="1" id="digit1-input">
                                             </div>
                                         </div><!-- end col -->
-                                        <div class="col-3">
+                                        <div class="col-2">
                                             <div class="mb-3">
                                                 <label for="digit2-input" class="visually-hidden">Digit 2</label>
-                                                <input type="text" class="form-control form-control-lg bg-light border-light text-center" oninput="moveToNext(2, event)" maxLength="1" id="digit2-input">
+                                                <input type="text" class="form-control form-control-lg bg-primary bg-opacity-25 border-light text-center" onkeyup="moveToNext(2, event)" maxLength="1" id="digit2-input">
                                             </div>
                                         </div><!-- end col -->
-                                        <div class="col-3">
+                                        <div class="col-2">
                                             <div class="mb-3">
                                                 <label for="digit3-input" class="visually-hidden">Digit 3</label>
-                                                <input type="text" class="form-control form-control-lg bg-light border-light text-center" oninput="moveToNext(3, event)" maxLength="1" id="digit3-input">
+                                                <input type="text" class="form-control form-control-lg bg-primary bg-opacity-25 border-light text-center" onkeyup="moveToNext(3, event)" maxLength="1" id="digit3-input">
                                             </div>
                                         </div><!-- end col -->
-                                        <div class="col-3">
+                                        <div class="col-2">
                                             <div class="mb-3">
                                                 <label for="digit4-input" class="visually-hidden">Digit 4</label>
-                                                <input type="text" class="form-control form-control-lg bg-light border-light text-center" oninput="moveToNext(4, event)" maxLength="1" id="digit4-input">
+                                                <input type="text" class="form-control form-control-lg bg-primary bg-opacity-25 border-light text-center" onkeyup="moveToNext(4, event)" maxLength="1" id="digit4-input">
                                             </div>
                                         </div><!-- end col -->
-                                        <div class="col-3">
+                                        <div class="col-2">
                                             <div class="mb-3">
                                                 <label for="digit5-input" class="visually-hidden">Digit 5</label>
-                                                <input type="text" class="form-control form-control-lg bg-light border-light text-center" oninput="moveToNext(5, event)" maxLength="1" id="digit5-input">
+                                                <input type="text" class="form-control form-control-lg bg-primary bg-opacity-25 border-light text-center" onkeyup="moveToNext(5, event)" maxLength="1" id="digit5-input">
                                             </div>
                                         </div><!-- end col -->
-                                        <div class="col-3">
+                                        <div class="col-2">
                                             <div class="mb-3">
                                                 <label for="digit6-input" class="visually-hidden">Digit 6</label>
-                                                <input type="text" class="form-control form-control-lg bg-light border-light text-center" oninput="moveToNext(6, event)" maxLength="1" id="digit6-input">
+                                                <input type="text" class="form-control form-control-lg bg-primary bg-opacity-25 border-light text-center" onkeyup="moveToNext(6, event)" maxLength="1" id="digit6-input">
                                             </div>
                                         </div><!-- end col -->
                                     </div>
@@ -96,14 +102,15 @@
                                         {{ form.submit(class="btn btn-success w-100") }}
                                     </div>
                                 </form>
-                                <p class="mb-0"> The code will expire in 1min <a href="{{ url_for('auth.forget_password')}}" class="fw-bold text-primary text-decoration-underline"> resend </a> </p>
+                                
                             </div>
                         </div>
                         <!-- end card body -->
                     </div>
                     <!-- end card -->
-
+                    
                     <div class="mt-4 text-center">
+                        <p class="mb-0">Didn't receive a code ? <a href="{{ url_for('auth.forget_password')}}" class="fw-bold text-primary text-decoration-underline">Resend</a> </p>
                     </div>
 
                 </div>
@@ -132,17 +139,17 @@
 </div>
 
 <script>
-    function moveToNext(next, event) {
-        const input = event.target;
-        const maxLength = input.getAttribute("maxLength");
-        if (input.value.length >= maxLength && next <= 6) {
-            // Automatically focus on the next input if it exists
-            const nextInput = document.getElementById(`digit${next}-input`);
-            if (nextInput) {
-                nextInput.focus();
-            }
-        }
-    }
+    // function moveToNext(next, event) {
+    //     const input = event.target;
+    //     const maxLength = input.getAttribute("maxLength");
+    //     if (input.value.length >= maxLength && next <= 6) {
+    //         // Automatically focus on the next input if it exists
+    //         const nextInput = document.getElementById(`digit${next}-input`);
+    //         if (nextInput) {
+    //             nextInput.focus();
+    //         }
+    //     }
+    // }
 
     function setCodeValue() {
         const digits = [];
@@ -159,4 +166,6 @@
         }
     }
 </script>
+<script src="{{ url_for('static', filename = 'js/pages/two-step-verification.init.js') }}"></script>
+
 {% endblock %}

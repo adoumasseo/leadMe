@@ -111,7 +111,6 @@ def login():
             return render_template('auth/form/login.html', form=form)
             
     else:
-        print("Form validation failed.")
         for field, errors in form.errors.items():
             for error in errors:
                 print(f"Error in {field}: {error}")
@@ -132,7 +131,6 @@ def change_password():
         flash("Password changed successfully!", "success")
         return redirect(url_for('auth.login'))
     else:
-        print("Form validation failed.")
         for field, errors in form.errors.items():
             for error in errors:
                 print(f"Error in {field}: {error}")
@@ -154,28 +152,20 @@ def forget_password():
 def verify_code():
     email = request.args.get('email') or request.form.get('email')
     form = VerifyCodeRequest(email)
-    print(f"in verify code email: {email}")
     if not email:
-        print("not mail")
         flash("Email is required to verify the code.", "danger")
         return redirect(url_for('auth.forget_password'))
 
     if form.validate_on_submit():
-        print("on validate mail")
-        print(form.code.data)
         reset_code = redis_client.get(f"reset_code:{email}")
         if reset_code is None:
-            print("reset code none")
             flash("The reset code has expired or is invalid.", "danger")
             return redirect(url_for('auth.forget_password'))
 
         if form.code.data == reset_code:
-            print("valid code") 
             flash("Code verified successfully. You can now reset your password.", "success")
             return redirect(url_for('auth.reset_password', email=email))
         else:
-            print("invalid code") 
-            
             flash("Invalid reset code. Please try again.", "danger")
 
     return render_template('auth/form/verify_code.html', form=form, email=email)
