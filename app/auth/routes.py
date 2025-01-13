@@ -102,7 +102,7 @@ def login():
             if user.first_login:
                 return redirect(url_for('auth.change_password'))
             flash("Login successful!", "success")
-            return "You're login"
+            return redirect(url_for('main.index_dashbaord'))
         else:
             flash("Invalid email or password.", "danger")
             for field, errors in form.errors.items():
