@@ -1,5 +1,5 @@
 from flask_login import login_required
-from app.main import bp
+from app.controllers.main import bp
 from flask import render_template
 from app.middleware.auth import admin_required
 

@@ -1,4 +1,4 @@
-from app.auth import bp
+from app.controllers.auth import bp
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from wtforms import StringField, PasswordField, SubmitField, HiddenField
