@@ -10,6 +10,7 @@ from app.extensions import db
 import re
 from app.utils.mail import send_reset_email
 from redis_config import redis_client
+from app.middleware.auth import admin_required
 
 class CSRFProtectForm(FlaskForm):
     """For CSRF protection"""
@@ -95,30 +96,26 @@ class ResetPasswordForm(FlaskForm):
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    next_page = request.args.get('next')
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
-            if user.first_login:
-                return redirect(url_for('auth.change_password'))
             flash("Login successful!", "success")
-            return redirect(url_for('main.index_dashbaord'))
-        else:
-            flash("Invalid email or password.", "danger")
-            for field, errors in form.errors.items():
-                for error in errors:
-                    print(f"Error in {field}: {error}")
-            return render_template('auth/form/login.html', form=form)
-            
-    else:
+            if user.first_login and user.role == "admin":
+                return redirect(url_for('auth.change_password'))
+            return redirect(next_page or url_for('main.index_dashboard' if user.role == "admin" else 'main.index'))
+        flash("Invalid email or password.", "danger")
+    if form.errors:
         for field, errors in form.errors.items():
             for error in errors:
                 print(f"Error in {field}: {error}")
+    
+    return render_template('auth/form/login.html', form=form)
 
-        return render_template('auth/form/login.html', form=form)
-
-@bp.route('/change_password', methods=['GET', 'POST'])
+@bp.route('/change-password', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def change_password():
     form = ChangePasswordForm()
     if form.validate_on_submit():
@@ -137,6 +134,7 @@ def change_password():
         return render_template('auth/form/change_password.html', form=form)
 
 @bp.route('/forget-password', methods=['GET', 'POST'])
+@admin_required
 def forget_password():
     form = ForgetPasswordRequest()
     if form.validate_on_submit():
@@ -148,7 +146,8 @@ def forget_password():
         flash("Email not found.", "danger")
     return render_template('auth/form/reset_password_request.html', form=form)       
 
-@bp.route('/verify_code', methods=['GET', 'POST'])
+@bp.route('/verify-code', methods=['GET', 'POST'])
+@admin_required
 def verify_code():
     email = request.args.get('email') or request.form.get('email')
     form = VerifyCodeRequest(email)
@@ -172,6 +171,7 @@ def verify_code():
 
 
 @bp.route('/reset-password', methods=['GET', 'POST'])
+@admin_required
 def reset_password():
     form = ResetPasswordForm()
     email = request.args.get('email') or request.form.get('email')
