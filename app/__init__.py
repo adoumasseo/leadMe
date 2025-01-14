@@ -43,5 +43,13 @@ def create_app(config_class=Config):
         seed_filiere.seed_filieres()
         click.echo("Database seeded successfully!")
     
+    @app.cli.command("seed_matiere_filiere")
+    @with_appcontext
+    def seed_matiere_filiere():
+        from app.database.seeds import seed_matiere_filiere
+        
+        seed_matiere_filiere.seed_series_and_matieres()
+        click.echo("Database seeded successfully!")
+        
     return app
 
