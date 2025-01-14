@@ -17,10 +17,10 @@
             <div class="collapse navbar-collapse " id="navbarSupportedContent">
                 <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
                     <li class="nav-item">
-                        <a class="nav-link fs-16" href="#hero">Acceuil</a>
+                        <a class="nav-link fs-16" href="#hero">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fs-16" href="#process">Procédure</a>
+                        <a class="nav-link fs-16" href="#process">Procedure</a>
                     </li>
                     
                     <li class="nav-item">
@@ -29,7 +29,7 @@
                 </ul>
 
                 <div class="">
-                    <a href="" class="btn" style="background-color: #339FCC; color: white;"><i class="ri-user-3-line align-bottom me-1"></i> Connexion &amp; Insciption</a>
+                    <a href="{{ url_for('auth.login') }}" class="btn" style="background-color: #339FCC; color: white;"><i class="ri-user-3-line align-bottom me-1"></i> Administrator Area</a>
                 </div>
             </div>
 
@@ -43,8 +43,8 @@
             <div class="row  align-items-start">
                 <div class="col-lg-6">
                     <div>
-                        <h1 class="display-6 fw-bold text-capitalize mb-3 lh-base">Lead Me, Meilleur outil d'orientation des nouveaux bacheliers </h1>
-                        <p class="lead text-muted lh-base mb-4">Lead Me est un outils en ligne d'orientation des nouveaux bacheliers. Il se base sur les series et notes obtenus pour determiner les filières pour lesquels un utilisateur a plus de chance d'être accepté lors du classement</p>
+                        <h1 class="display-6 fw-bold text-capitalize mb-3 lh-base">Lead Me, the best tool for guiding new graduates</h1>
+                        <p class="lead text-muted lh-base mb-4">Lead Me is an online tool for guiding new high school graduates. It is based on the series and grades obtained to determine the courses for which a user has a better chance of being accepted during the ranking</p>
                        
                     </div>
                 </div>
@@ -64,23 +64,25 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="text-center mb-5">
-                        <h1 class="mb-3 ff-secondary fw-bold lh-base">Comment <span class="text-primary">Lead Me</span> fonctionne ?</h1>
-                        <p class="text-muted">La procédure pour se faire orienter est très simple. Inscrivez vous à la plateforme, Enregistrer vos informations et obtenez les filières pour lesquelles vous avez le plus de chance d'être pris</p>
+                        <h1 class="mb-3 ff-secondary fw-bold lh-base">How does <span class="text-primary">Lead Me</span> work ?</h1>
+                        <p class="text-muted">The procedure for getting orientation is very simple. Register on the platform, save your information and get the sectors for which you have the best chance of being accepted. Our algorithme do all the work behind.
+</p>
                     </div>
                 </div>
                 <!-- end col -->
             </div>
             <!--end row-->
             <div class="row justify-content-around">
+                
                 <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-lg">
+                    <div class="card shadow-none">
                         <div class="card-body p-4">
                             <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
                                 <div class="job-icon-effect"></div>
                                 <span>1</span>
                             </h1>
-                            <h6 class="fs-17 mb-2">Inscrivez-vous</h6>
-                            <p class="text-muted mb-0 fs-15">Inscrivez-vous ou passer directement à l'étape suivante.</p>
+                            <h6 class="fs-17 mb-2">Save your marks</h6>
+                            <p class="text-muted mb-0 fs-15">Add your grades obtained in the baccalaureate and other related informations</p>
                         </div>
                     </div>
                 </div>
@@ -91,21 +93,9 @@
                                 <div class="job-icon-effect"></div>
                                 <span>2</span>
                             </h1>
-                            <h6 class="fs-17 mb-2">Enregistrez vos notes</h6>
-                            <p class="text-muted mb-0 fs-15">Ajouter ensuite vos notes obtenus au baccalauréat</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-none">
-                        <div class="card-body p-4">
-                            <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
-                                <div class="job-icon-effect"></div>
-                                <span>3</span>
-                            </h1>
 
-                            <h6 class="fs-17 mb-2">Optimisez vos admissions</h6>
-                            <p class="text-muted mb-0 fs-15">Obtenez le resultats des calculs</p>
+                            <h6 class="fs-17 mb-2">Optimize your admissions</h6>
+                            <p class="text-muted mb-0 fs-15">Get the results of the calculations</p>
                         </div>
                     </div>
                 </div>
@@ -126,15 +116,15 @@
             <div class="row align-items-center gy-4">
                 <div class="col-sm">
                     <div>
-                        <h4 class="text-white fw-bold mb-2">Prêt à commencer ?</h4>
-                        <p class="text-white-50 mb-0">Créer un compte et enrégister vos informations.</p>
-                        <p class="text-white-50 mb-0">Ou enrégistrer vos notes.</p>
+                        <h4 class="text-white fw-bold mb-2">Ready to Start ?</h4>
+                        <!-- <p class="text-white-50 mb-0">Créer un compte et enrégister vos informations.</p> -->
+                        <p class="text-white-50 mb-0">Add your marks.</p>
                     </div>
                 </div>
                 <!-- end col -->
                 <div class="col-sm-auto">
                     <div>
-                        <a href="" class="btn bg-gradient btn-danger">Enregistrer vos notes</a>
+                        <a href="" class="btn bg-gradient btn-danger">Add your marks</a>
                     </div>
                 </div>
                 <!-- end col -->
@@ -154,8 +144,9 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="text-center mb-5">
-                        <h1 class="mb-3 ff-secondary fw-bold text-capitalize lh-base">Informations Relatives aux <span class="text-primary">Bourses</span></h1>
-                        <p class="text-muted mb-4">Lead Me n'est pas seulement une plateforme d'orientation. Elle permet aussi de rester à jour des potentielles bourses disponibles </p>
+                        <h1 class="mb-3 ff-secondary fw-bold text-capitalize lh-base">Information Relating to <span class="text-primary">Scholarships</span></h1>
+                        <p class="text-muted mb-4">LeadMe is not only a referral platform. It also allows you to stay up to date with potential scholarships available
+ </p>
                     </div>
                 </div>
             </div>
@@ -195,7 +186,7 @@
                 <div class="w-100 text-end">
                     <a href="" class="link-primary ">
                        
-                        Consulter toutes les bourses
+                        All Scholarships
                         <i class="ri-arrow-right-line align-bottom ms-1"></i>
                     </a>
                     
