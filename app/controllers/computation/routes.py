@@ -31,7 +31,7 @@ class UserInformations(FlaskForm):
         self.serie.choices = [(s.id_serie, s.nom) for s in Serie.query.all()]
     
 
-@bp.route('/user-informations')
+@bp.route('/user-informations', methods=['GET', 'POST'])
 def user_information():
     form = UserInformations()
     if form.validate_on_submit():
@@ -46,9 +46,13 @@ def user_information():
         db.session.commit()
         user_log = User.query.filter_by(email=form.email.data).first()
         login_user(user_log)
-        return redirect('url_for(computation.user_marks)')
+        return redirect(url_for('computation.user_marks'))
     if form.errors:
         for field, errors in form.errors.items():
             for error in errors:
                 print(f"Error in {field}: {error}")
     return render_template('computation/user-informations.html', form=form)
+    
+@bp.route('/user-marks', methods=['GET', 'POST'])
+def user_marks():
+    return "User Marks"

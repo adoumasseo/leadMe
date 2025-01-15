@@ -18,9 +18,11 @@ def create_app(config_class=Config):
     # Register blueprints here
     from app.controllers.main import bp as main_bp
     from app.controllers.auth import bp as auth_bp
+    from app.controllers.computation import bp as computation_bp
+    
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
-    
+    app.register_blueprint(computation_bp, url_prefix='/computation')
     
     @login_manager.user_loader
     def load_user(user_id):
