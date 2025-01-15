@@ -91,6 +91,13 @@ class ResetPasswordForm(FlaskForm):
     )
     confirm_password = PasswordField('Confirm New Password', validators=[DataRequired()])
     submit = SubmitField('Reset Password')
+    
+    def validate_new_password(self, field):
+        password = field.data
+        # Define the regular expression pattern for the password
+        pattern = r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$'
+        if not re.match(pattern, password):
+            raise ValidationError('Password must be at least 8 characters long and contain at least one number, one lowercase letter, and one uppercase letter.')
    
 
 @bp.route('/login', methods=['GET', 'POST'])
