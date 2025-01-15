@@ -28,7 +28,7 @@ def create_app(config_class=Config):
 
 
     # CLI for the app
-    @app.cli.command("seed")
+    @app.cli.command("seed_all")
     @with_appcontext
     def seed():
         """Seed the database with sample data."""
@@ -36,28 +36,17 @@ def create_app(config_class=Config):
         from app.database.seeds import seed_university
         from app.database.seeds import seed_ecole
         from app.database.seeds import seed_filiere
+        from app.database.seeds import seed_matiere_series
+        from app.database.seeds import seed_matieres_filieres
+        from app.database.seeds import seed_filiere_serie
         
         seed_users.seed_users()
         seed_university.seed_universite()
         seed_ecole.seed_ecoles()
         seed_filiere.seed_filieres()
-        click.echo("Database seeded successfully!")
-    
-    @app.cli.command("seed_matiere_series")
-    @with_appcontext
-    def seed_matiere_series():
-        from app.database.seeds import seed_matiere_series
-        
         seed_matiere_series.seed_series_and_matieres()
-        click.echo("Database seeded successfully!")
-        
-        
-    @app.cli.command("seed_matiere_filiere")
-    @with_appcontext
-    def seed_matiere_filiere():
-        from app.database.seeds import seed_matieres_filieres
-        
         seed_matieres_filieres.seed_filiere_and_matieres()
+        seed_filiere_serie.seed_filiere_and_serie()
         click.echo("Database seeded successfully!")
     
     return app

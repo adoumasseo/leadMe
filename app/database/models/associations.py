@@ -61,11 +61,11 @@ class Note(db.Model):
 class FiliereSerie(db.Model):
     __tablename__ = "filiere_serie"
     id_filiere = mapped_column(String(128), ForeignKey(Filiere.id_filiere), nullable=False)
-    id_matiere = mapped_column(String(128), ForeignKey(Serie.id_serie), nullable=False)
+    id_serie = mapped_column(String(128), ForeignKey(Serie.id_serie), nullable=False)
     
     __table_args__ = (
             PrimaryKeyConstraint('id_filiere', 'id_serie'),
     )
     
     filiere = relationship("Filiere", back_populates="filiereserie")
-    serie = relationship("Matiere", back_populates="filiereserie")
+    serie = relationship("Serie", back_populates="filiereserie")
