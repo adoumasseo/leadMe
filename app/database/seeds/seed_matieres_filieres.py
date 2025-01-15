@@ -1,5 +1,5 @@
 from app.extensions import db
-from app.database.models import Filiere, Matiere, MatiereFiliere 
+from app.database.models import Filiere, Matiere, MatiereFiliere
 
 def seed_filiere_and_matieres():
     matieres = db.session.query(Matiere).all()

@@ -5,7 +5,7 @@ from app.database.models.ecole import Ecole
 from app.database.models.matiere import Matiere
 from app.database.models.filiere import Filiere
 from app.database.models.post import Post
-from app.database.models.associations import MatiereFiliere, Moyenne, Note, Coefficient
+from app.database.models.associations import MatiereFiliere, Moyenne, Note, Coefficient, FiliereSerie
 import random
 
 

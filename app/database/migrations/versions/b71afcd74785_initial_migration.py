@@ -26,6 +26,7 @@ def downgrade():
     op.execute('DROP TABLE IF EXISTS coefficients')
     op.execute('DROP TABLE IF EXISTS notes')
     op.execute('DROP TABLE IF EXISTS users')
+    op.execute('DROP TABLE IF EXISTS filiere_serie')
     op.execute('DROP TABLE IF EXISTS filieres')
     op.execute('DROP TABLE IF EXISTS matiere_filiere')
     op.execute('DROP TABLE IF EXISTS ecoles')
@@ -95,6 +96,13 @@ def upgrade():
     sa.Column('deleted_at', postgresql.TIMESTAMP(), autoincrement=False, nullable=True),
     sa.PrimaryKeyConstraint('id_serie', name='series_pkey'),
     postgresql_ignore_search_path=False
+    )
+    op.create_table('filiere_serie',
+    sa.Column('id_filiere', sa.VARCHAR(length=128), autoincrement=False, nullable=False),
+    sa.Column('id_serie', sa.VARCHAR(length=128), autoincrement=False, nullable=False),
+    sa.ForeignKeyConstraint(['id_filiere'], ['filieres.id_filiere'], name='filiere_serie_id_filiere_fkey'),
+    sa.ForeignKeyConstraint(['id_serie'], ['series.id_serie'], name='filiere_serie_id_serie_fkey'),
+    sa.PrimaryKeyConstraint('id_filiere', 'id_serie', name='filiere_serie_pkey')
     )
     op.create_table('users',
     sa.Column('id_user', sa.VARCHAR(length=128), autoincrement=False, nullable=False),

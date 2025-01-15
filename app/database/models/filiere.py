@@ -28,6 +28,9 @@ class Filiere(db.Model):
     
     matierefiliere = relationship("MatiereFiliere", back_populates="filiere")
     matieres = association_proxy("matierefiliere", "matiere")
+    
+    filiereserie = relationship("FiliereSerie", back_populates="filiere")
+    series = association_proxy("filiereserie", "serie")
 
 
     def __init__(self, nom, debouches, bourses, semi_bourses, ecole):

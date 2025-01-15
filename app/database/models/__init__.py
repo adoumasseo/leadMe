@@ -9,8 +9,9 @@ from .associations import Moyenne
 from .associations import MatiereFiliere
 from .associations import Coefficient
 from .associations import Note
+from .associations import FiliereSerie
 
 __all__ = [
     "Universite", "Ecole", "Filiere", "Matiere", "Post", "Serie", 
-    "User", "Moyenne", "MatiereFiliere", "Coefficient", "Note"
+    "User", "Moyenne", "MatiereFiliere", "Coefficient", "Note", "FiliereSerie"
 ]

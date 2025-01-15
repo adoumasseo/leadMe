@@ -20,6 +20,9 @@ class Serie(db.Model):
     coefficient = relationship("Coefficient", back_populates="serie")
     matieres = association_proxy("coefficient", "matiere")
     
+    filiereserie = relationship("FiliereSerie", back_populates="serie")
+    filieres = association_proxy("filiereserie", "filiere")
+    
     def __init__(self, nom):
         """Initiate the model object with column values
         """

@@ -57,3 +57,15 @@ class Note(db.Model):
     
     user = relationship("User", back_populates="notes")
     matiere = relationship("Matiere", back_populates="notes")
+    
+class FiliereSerie(db.Model):
+    __tablename__ = "filiere_serie"
+    id_filiere = mapped_column(String(128), ForeignKey(Filiere.id_filiere), nullable=False)
+    id_matiere = mapped_column(String(128), ForeignKey(Serie.id_serie), nullable=False)
+    
+    __table_args__ = (
+            PrimaryKeyConstraint('id_filiere', 'id_serie'),
+    )
+    
+    filiere = relationship("Filiere", back_populates="filiereserie")
+    serie = relationship("Matiere", back_populates="filiereserie")
