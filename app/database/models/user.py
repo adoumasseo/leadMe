@@ -37,7 +37,7 @@ class User(UserMixin, db.Model):
     notes = relationship("Note", back_populates="user")
     matieres = association_proxy("note", "matiere")
 
-    def __init__(self, prenom, nom, matricule, email, serie=None, password="Admin@admin", role="user"):
+    def __init__(self, prenom, nom, matricule, email, serie_id, password="user", role="user"):
         """Initiate the model object with column values
         """
         self.id_user = str(uuid4())
@@ -47,8 +47,8 @@ class User(UserMixin, db.Model):
         self.email = email
         self.password = generate_password_hash(password)
         self.role = role
-        if serie:
-            self.id_serie = serie.id_serie
+        if serie_id:
+            self.id_serie = serie_id
         else:
             self.id_serie = None
         self.created_at = datetime.utcnow()
