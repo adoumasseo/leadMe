@@ -1,0 +1,19 @@
+{% extends 'layouts/front_nav.html' %}
+{% block title %} User Marks {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3>Enter Marks for Your Matières</h3>
+    <form method="POST" action="{{ url_for('computation.user_marks') }}">
+        {{ form.hidden_tag() }}
+        {% for mark_form in form.marks %}
+            <div class="form-group">
+                <label for="">{{ mark_form.matiere_nom.data }}</label>
+                {{ mark_form.mark(class="form-control") }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+{% endblock %}
