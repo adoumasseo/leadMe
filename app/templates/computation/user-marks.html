@@ -8,11 +8,12 @@
         {{ form.hidden_tag() }}
         {% for mark_form in form.marks %}
             <div class="form-group">
+                {{ mark_form.hidden_tag() }}
                 <label for="">{{ mark_form.matiere_nom.data }}</label>
                 {{ mark_form.mark(class="form-control") }}
             </div>
         {% endfor %}
-        <button type="submit" class="btn btn-primary">Submit</button>
+        {{ form.submit(class="btn btn-success") }}
     </form>
 
 </div>

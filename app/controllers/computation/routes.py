@@ -2,7 +2,7 @@ from app.controllers.computation import bp
 from app.extensions import db
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, Email, ValidationError, NumberRange
-from wtforms import StringField, SubmitField, SelectField, FieldList, FormField
+from wtforms import StringField, SubmitField, SelectField, FieldList, FormField, FloatField, HiddenField
 from app.database.models.user import User
 from app.database.models.serie import Serie
 from app.database.models.associations import Note
@@ -33,10 +33,10 @@ class UserInformations(FlaskForm):
     
 
 class MarkForm(FlaskForm):
-    matiere_id = StringField("Matiere ID", validators=[DataRequired()], render_kw={"readonly": True})
-    matiere_nom = StringField("Matiere Name", validators=[DataRequired()], render_kw={"readonly": True})
-    mark = StringField("Mark", validators=[
-        DataRequired("Please provide a mark"),
+    matiere_id = StringField("Matiere ID", validators=[])
+    matiere_nom = StringField("Matiere Name", validators=[])
+    mark = FloatField("Mark", validators=[
+        DataRequired("Please provide a valid number"),
         NumberRange(min=0, max=20, message="Mark must be between 0 and 20")
     ])
 
@@ -73,7 +73,9 @@ def user_information():
 def user_marks():
     user = current_user
     serie = Serie.query.get(user.id_serie)
+    print("In controller")
     if not serie:
+        print("not serie")
         flash("No associated serie found for this user.", "error")
         return redirect(url_for('computation.user_information'))
     
@@ -89,15 +91,16 @@ def user_marks():
     
     # Populate form's FieldList with matieres if GET request
     if request.method == 'GET':
-        form.marks.entries = []
+        form.marks.entries = [] 
         for mark_data in marks_data:
             form.marks.append_entry(mark_data)
 
     # Handle form submission
     if form.validate_on_submit():
+        print("In validate serie")
         for mark_entry in form.marks.entries:
             matiere_id = mark_entry.data["matiere_id"]
-            mark_value = float(mark_entry.data["mark"])
+            mark_value = mark_entry.data["mark"]
             
             # Save each mark in the database
             user_mark = Note(
@@ -110,7 +113,10 @@ def user_marks():
         db.session.commit()
         flash("Marks saved successfully!", "success")
         return redirect(url_for('computation.user_result'))
-
+    else:
+        for field, errors in form.errors.items():
+            for error in errors:
+                print(f"Error in {field}: {error}")
     return render_template('computation/user-marks.html', form=form, matieres=matieres)
 
     
