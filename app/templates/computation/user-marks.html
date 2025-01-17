@@ -2,20 +2,77 @@
 {% block title %} User Marks {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h3>Enter Marks for Your Matières</h3>
-    <form method="POST" action="{{ url_for('computation.user_marks') }}">
-        {{ form.hidden_tag() }}
-        {% for mark in form.marks%}
-            {{ mark.hidden_tag() }}
-            <div class="form-group">
-                <input type="hidden" name="{{ mark.matiere_id.name }}" value="{{ mark.matiere_id.data }}">
-                <label>{{ mark.matiere_nom.data }}</label>
-                <input type="number" name="{{ mark.mark.name }}" value="{{ mark.mark.data }}">
-            </div>
-        {% endfor %}
-        {{ form.submit(class="btn btn-success") }}
-    </form>
+<div class="auth-page-wrapper pt-5">
+    <!-- auth page bg -->
+    
 
+    <!-- auth page content -->
+    <div class="auth-page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center mt-sm-5 mb-4 text-white-50">
+                        <div>
+                            
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card ">
+
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="text-primary">Give us your marks</h5>
+                                <p class="text-muted">They are necessary for the computation. You can still stop the process</p>
+                            </div>
+                            <div class="p-2 mt-4">
+                                <form method="POST" action="{{ url_for('computation.user_marks') }}">
+                                    {{ form.hidden_tag() }}
+                                    {% for mark in form.marks%}
+                                        {{ mark.hidden_tag() }}
+                                        <div class="mb-3">
+                                            <label class="form-label" >{{ mark.matiere_nom.data }}</label>
+                                            <div class="position-relative auth-pass-inputgroup">
+                                                <input type="hidden" name="{{ mark.matiere_id.name }}" value="{{ mark.matiere_id.data }}">
+                                                <input type="number" name="{{ mark.mark.name }}" value="{{ mark.mark.data }}" class="form-control" min="0" max="20">
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    {{ form.submit(class="btn btn-success") }}
+                                </form>
+                            </div>
+                        </div>
+                        <!-- end card body -->
+                    </div>
+                    <!-- end card -->
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end auth page content -->
+
+    <!-- footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center">
+                        <p class="mb-0 text-muted">&copy;
+                            <script>document.write(new Date().getFullYear())</script> Velzon. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- end Footer -->
 </div>
+
 {% endblock %}
