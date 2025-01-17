@@ -6,11 +6,12 @@
     <h3>Enter Marks for Your Matières</h3>
     <form method="POST" action="{{ url_for('computation.user_marks') }}">
         {{ form.hidden_tag() }}
-        {% for mark_form in form.marks %}
+        {% for mark in form.marks%}
+            {{ mark.hidden_tag() }}
             <div class="form-group">
-                {{ mark_form.hidden_tag() }}
-                <label for="">{{ mark_form.matiere_nom.data }}</label>
-                {{ mark_form.mark(class="form-control") }}
+                <input type="hidden" name="{{ mark.matiere_id.name }}" value="{{ mark.matiere_id.data }}">
+                <label>{{ mark.matiere_nom.data }}</label>
+                <input type="number" name="{{ mark.mark.name }}" value="{{ mark.mark.data }}">
             </div>
         {% endfor %}
         {{ form.submit(class="btn btn-success") }}

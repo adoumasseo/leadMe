@@ -8,6 +8,7 @@ from app.database.models.serie import Serie
 from app.database.models.associations import Note
 from flask_login import login_required, current_user, login_user, logout_user
 from flask import flash, redirect, url_for, render_template, request
+from app.utils.debug import dd
 
 class CSRFProtectForm(FlaskForm):
     """For CSRF protection"""
@@ -67,10 +68,16 @@ def user_information():
             for error in errors:
                 print(f"Error in {field}: {error}")
     return render_template('computation/user-informations.html', form=form)
-    
+
+
+
 @bp.route('/user-marks', methods=['GET', 'POST'])
 @login_required
 def user_marks():
+    """
+        For real i don't know how this function is working.
+        Not feel good to investigate :(, i will surely come later on it
+    """
     user = current_user
     serie = Serie.query.get(user.id_serie)
     print("In controller")
@@ -86,31 +93,39 @@ def user_marks():
         {"matiere_id": matiere.id_matiere, "matiere_nom": matiere.nom}
         for matiere in matieres
     ]
-
+    print(marks_data)
     form = UserMarksForm()
     
     # Populate form's FieldList with matieres if GET request
     if request.method == 'GET':
-        form.marks.entries = [] 
+        form.marks.entries = []
         for mark_data in marks_data:
-            form.marks.append_entry(mark_data)
-
+            entry = form.marks.append_entry()
+            entry.matiere_id.data = mark_data['matiere_id']
+            entry.matiere_nom.data = mark_data['matiere_nom']
+           
     # Handle form submission
     if form.validate_on_submit():
-        print("In validate serie")
+        print("Form validation errors:", form.errors)
         for mark_entry in form.marks.entries:
-            matiere_id = mark_entry.data["matiere_id"]
-            mark_value = mark_entry.data["mark"]
-            
-            # Save each mark in the database
-            user_mark = Note(
-                id_user=user.id_user,
-                id_matiere=matiere_id,
-                mark=mark_value
-            )
+            matiere_id = mark_entry.data.get("matiere_id")
+            mark_value = mark_entry.data.get("mark")
+            if not matiere_id or not mark_value:
+                print("Missing matiere_id or mark_value:", mark_entry.data)
+                continue
+            user_mark = Note()
+            user_mark.id_user = user.id_user
+            user_mark.id_matiere = matiere_id
+            user_mark.mark = mark_value
             db.session.add(user_mark)
         
-        db.session.commit()
+        try:
+            db.session.commit()
+            flash("Marks saved successfully!", "success")
+        except Exception as e:
+            db.session.rollback()
+            print(f"Database error: {e}")
+            flash("An error occurred while saving marks.", "error")
         flash("Marks saved successfully!", "success")
         return redirect(url_for('computation.user_result'))
     else:
