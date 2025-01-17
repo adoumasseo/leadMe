@@ -2,13 +2,13 @@ from app.controllers.computation import bp
 from app.extensions import db
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, Email, ValidationError, NumberRange
-from wtforms import StringField, SubmitField, SelectField, FieldList, FormField, FloatField, HiddenField
+from wtforms import StringField, SubmitField, SelectField, FieldList, FormField, FloatField
 from app.database.models.user import User
 from app.database.models.serie import Serie
 from app.database.models.associations import Note
 from flask_login import login_required, current_user, login_user, logout_user
 from flask import flash, redirect, url_for, render_template, request
-from app.utils.debug import dd
+from app.database.models.associations import MatiereFiliere, Moyenne, Coefficient, FiliereSerie
 
 class CSRFProtectForm(FlaskForm):
     """For CSRF protection"""
@@ -139,3 +139,101 @@ def user_marks():
 @login_required
 def user_result():
     return 'User Result'
+
+
+def compute_user_average(user):
+    try:
+        # Step 1: Get the user's Serie
+        serie = Serie.query.get(user.id_serie)
+        if not serie:
+            raise ValueError("No associated serie found for the user.")
+
+        # Step 2: Get related Filieres via FiliereSerie
+        filiere_ids = [
+            fs.id_filiere
+            for fs in FiliereSerie.query.filter_by(id_serie=serie.id_serie).all()
+        ]
+        if not filiere_ids:
+            raise ValueError("No filieres found for the user's serie.")
+
+        # Step 3: Get Matieres related to those Filieres via MatiereFiliere
+        matiere_ids = [
+            mf.id_matiere
+            for mf in MatiereFiliere.query.filter(MatiereFiliere.id_filiere.in_(filiere_ids)).all()
+        ]
+        print(matiere_ids)
+        if not matiere_ids:
+            raise ValueError("No matieres found for the user's filieres.")
+
+        # Step 4: Fetch Coefficients for the user's Serie and Matieres
+        coefficients = Coefficient.query.filter(
+            Coefficient.id_serie == serie.id_serie,
+            Coefficient.id_matiere.in_(matiere_ids)
+        ).all()
+        
+        if not coefficients:
+            raise ValueError("No coefficients found for the user's matieres.")
+
+        # Map coefficients by matiere_id for quick lookup
+        coeff_map = {coef.id_matiere: coef.coe for coef in coefficients}
+        
+        # Step 5: Fetch Notes for the user and Matieres
+        notes = Note.query.filter(
+            Note.id_user == user.id_user,
+            Note.id_matiere.in_(matiere_ids)
+        ).all()
+        
+        if not notes:
+            raise ValueError("No notes found for the user.")
+
+        # Compute the weighted sum and total coefficients
+        weighted_sum = 0
+        total_coefficients = 0
+
+        for note in notes:
+            coe = coeff_map.get(note.id_matiere)
+            if coe:
+                weighted_sum += note.mark * coe
+                total_coefficients += coe
+
+        if total_coefficients == 0:
+            raise ValueError("Total coefficients sum to zero, cannot compute average.")
+
+        # Step 6: Calculate the average
+        average = weighted_sum / total_coefficients
+
+        # Step 7: Store the result in Moyenne for each Filiere
+        for filiere_id in filiere_ids:
+            moyenne = Moyenne.query.filter_by(
+                id_user=user.id_user, id_filiere=filiere_id
+            ).first()
+            if not moyenne:
+                moyenne = Moyenne()
+                moyenne.id_user = user.id_user
+                moyenne.id_filiere = filiere_id
+                db.session.add(moyenne)
+
+            moyenne.average = average
+            print(f"Computed average for user {user.id_user}: {average}")
+            
+
+        db.session.commit()
+
+        print(f"Computed average for user {user.id_user}: {average}")
+        return average
+
+    except Exception as e:
+        print(f"Error computing average: {e}")
+        db.session.rollback()
+        raise
+
+
+@bp.route('/compute-average', methods=['GET', 'POST'])
+@login_required
+def compute_average():
+    try:
+        average = compute_user_average(current_user)
+        print(f"Your average has been computed: {average:.2f}")
+    except Exception as e:
+        flash(f"Error computing average: {e}", "error")
+    return redirect(url_for('computation.user_result'))
