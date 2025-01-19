@@ -2,39 +2,83 @@
 {% block title %} Basics informations {% endblock %}
     
 {% block content %}
-<h1>Computation Results</h1>
+<style>
+hr{ 
+  
+    border:         none;
+    border-left:    1px solid hsla(200, 10%, 50%,100);
+    width:          1px;       
+}
+</style>
+<div class="auth-page-wrapper pt-5">
+    <!-- auth page bg -->
+    
 
-{% if filieres %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Filiere</th>
-                <th>Average</th>
-                <th>Bourse</th>
-                <th>Details</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for filiere_data in filieres %}
-                <tr>
-                    <td>{{ filiere_data.filiere.name }}</td>
-                    <td>{{ filiere_data.moyenne or 'N/A' }}</td>
-                    <td>{{ filiere_data.filiere.bourse }}</td>
-                    <td>
-                        <ul>
-                            {% for matiere_data in filiere_data.matieres %}
-                                <li>
-                                    {{ matiere_data.matiere.name }}: 
-                                    {{ matiere_data.note or 'No note' }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>No filieres found for your serie.</p>
-{% endif %}
+    <!-- auth page content -->
+    <div class="auth-page-content">
+        <div class="container mt-5">
+            <h1>Computation Results</h1>
+
+            {% if filieres %}
+                <div class="row mt-5">
+                {% for filiere_data in filieres %}
+                    <div class="col-lg-6 mb-5">
+                        <div class="card pricing-box text-center">
+                            <div class="row g-0">
+                                <div class="col-lg-6">
+                                    <div class="d-flex flex-column justify-content-around card-body h-100 ">
+                                        <div>
+                                            <h5 class="mb-1">{{ filiere_data.filiere.nom }}</h5>
+                                            <p class="text-muted">({{ filiere_data.filiere.code or 'ENAM'}})</p>
+                                        </div>
+                
+                                        <div class="py-2">
+                                            <h2> {{ filiere_data.moyenne | round(2) if filiere_data.moyenne is not none else 'N/A' }} <span class="fs-13 text-muted"> % Obtained</span></h2>
+                                        </div>
+                
+                                        <div class="d-flex justify-content-around card-header bg-light p-0 pt-2">
+                                            <div class="w-50">
+                                                <h5 class="fs-15 mb-0">{{ filiere_data.filiere.bourses }}</h5>
+                                                <h5 class="fs-13 text-muted">Grants</h5>
+                                            </div>
+                                            <hr>
+                                            <div class="w-50">
+                                                <h5 class="fs-15 mb-0">{{ filiere_data.filiere.semi_bourses }} </h5>
+                                                <h5 class="fs-13 text-muted ">Partial grants<h5/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-lg-6">
+                                    <div class="card-body border-start mt-4 mt-lg-0">
+                                        <div class="card-header bg-light">
+                                            <h5 class="fs-15 mb-0">Grades obtained</h5>
+                                        </div>
+                                        <div class="card-body pb-0">
+                                            <div class="vstack gap-3 mb-0">
+                                                {% for matiere_data in filiere_data.matieres %}
+                                                <div class="d-flex justify-content-around">
+                                                    <div class="text-start w-100">{{ matiere_data.matiere.nom }}:</div>
+                                                    <div class="text-success fw-semibold text-end w-100">{{ matiere_data.note or 'No note' }}</div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                    </div>
+                    <!--end row-->   
+                {% endfor %}
+                </div>
+            {% else %}
+                <p>No filieres found for your serie.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}
