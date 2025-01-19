@@ -154,7 +154,7 @@ def compute_user_average(user):
             mf.id_matiere
             for mf in MatiereFiliere.query.filter(MatiereFiliere.id_filiere.in_(filiere_ids)).all()
         ]
-        print(matiere_ids)
+        # print(matiere_ids)
         if not matiere_ids:
             raise ValueError("No matieres found for the user's filieres.")
 
@@ -207,12 +207,12 @@ def compute_user_average(user):
                 db.session.add(moyenne)
 
             moyenne.average = average
-            print(f"Computed average for user {user.id_user}: {average}")
+            # print(f"Computed average for user {user.id_user}: {average}")
             
 
         db.session.commit()
 
-        print(f"Computed average for user {user.id_user}: {average}")
+        # print(f"Computed average for user {user.id_user}: {average}")
         return average
 
     except Exception as e:
@@ -269,6 +269,9 @@ def compute_average():
                     for matiere in matieres
                 ]
             })
+
+        # Sort filiere_data by moyenne in descending order
+        filiere_data.sort(key=lambda x: x['moyenne'] if x['moyenne'] is not None else 0, reverse=True)
 
         # Render the result
         return render_template('computation/user-result.html', filieres=filiere_data)
