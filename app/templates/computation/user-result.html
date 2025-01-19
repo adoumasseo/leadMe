@@ -81,6 +81,9 @@ hr{
             {% else %}
                 <p>No filieres found for your serie.</p>
             {% endif %}
+        <div>
+            <a class="btn btn-success" href="{{ url_for('computation.generate_pdf') }}">Send the result by Email</a>
+        </div>
         </div>
     </div>
 </div>

@@ -6,9 +6,13 @@ from wtforms import StringField, SubmitField, SelectField, FieldList, FormField,
 from app.database.models.user import User
 from app.database.models.serie import Serie
 from app.database.models.associations import Note
-from flask_login import login_required, current_user, login_user, logout_user
+from flask_login import login_required, current_user, login_user
 from flask import flash, redirect, url_for, render_template, request
 from app.database.models.associations import MatiereFiliere, Moyenne, Coefficient, FiliereSerie
+from flask_mail import Message
+from weasyprint import HTML
+from app.extensions import mail
+from flask import current_app
 
 class CSRFProtectForm(FlaskForm):
     """For CSRF protection"""
@@ -279,3 +283,64 @@ def compute_average():
     except Exception as e:
         flash(f"Error computing average: {e}", "error")
         return redirect(url_for('computation.user_result'))
+
+
+@bp.route('/generate-pdf', methods=['GET', 'POST'])
+@login_required
+def generate_pdf():
+    try:
+
+        serie = Serie.query.get(current_user.id_serie)
+        if not serie:
+            raise ValueError("No associated serie found for the user.")
+
+        filiere_series = FiliereSerie.query.filter_by(id_serie=serie.id_serie).all()
+        if not filiere_series:
+            raise ValueError("No filieres found for the user's serie.")
+
+        filiere_data = []
+        for filiere_serie in filiere_series:
+            filiere = filiere_serie.filiere
+            matiere_filiere = MatiereFiliere.query.filter_by(id_filiere=filiere.id_filiere).all()
+            matieres = [mf.matiere for mf in matiere_filiere]
+            notes = Note.query.filter(
+                Note.id_user == current_user.id_user,
+                Note.id_matiere.in_([m.id_matiere for m in matieres])
+            ).all()
+            moyenne = Moyenne.query.filter_by(
+                id_user=current_user.id_user, id_filiere=filiere.id_filiere
+            ).first()
+            filiere_data.append({
+                'filiere': filiere,
+                'moyenne': moyenne.average if moyenne else None,
+                'matieres': [
+                    {
+                        'matiere': matiere,
+                        'note': next((note.mark for note in notes if note.id_matiere == matiere.id_matiere), None)
+                    }
+                    for matiere in matieres
+                ]
+            })
+
+        filiere_data.sort(key=lambda x: x['moyenne'] if x['moyenne'] is not None else 0, reverse=True)
+
+        # Render HTML for PDF
+        html = render_template('computation/user-result.html', filieres=filiere_data)
+        pdf = HTML(string=html).write_pdf()
+
+        # Email the PDF to the user
+        subject = "Your Computation Results"
+        recipient = current_user.email
+        msg = Message(
+            subject,
+            sender=current_app.config['MAIL_USERNAME'],
+            recipients=[current_user.email]
+        )
+        msg.body = "Please find attached your computation results."
+        msg.attach("computation_results.pdf", "application/pdf", pdf)
+        mail.send(msg)
+
+        return redirect(url_for('auth.logout'))
+    except Exception as e:
+        print(f"Error generating PDF: {e}")
+        return redirect(url_for('computation.compute_average'))
