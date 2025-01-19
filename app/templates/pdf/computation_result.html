@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computation Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h3 {
+            color: #007bff;
+        }
+
+        .header p {
+            color: #6c757d;
+            font-size: 16px;
+        }
+
+        .filiere {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .filiere-info {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .filiere-moyenne {
+            flex: 1;
+            text-align: center;
+        }
+
+        .grades {
+            margin-top: 10px;
+        }
+
+        .grades p {
+            margin: 5px 0;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+
+        .hr-line {
+            border: none;
+            border-left: 1px solid #007bff;
+            height: 50px;
+            margin: 0 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h3>Computation Results</h3>
+            <p>Our algorithm calculates the averages obtained for each of the courses in your series based on your grades and their coefficients. The courses where you obtained a better average are displayed first.</p>
+        </div>
+
+        {% if filieres %}
+            {% for filiere_data in filieres %}
+                <div class="filiere">
+                    <!-- Filiere Info -->
+                    <div class="filiere-info">
+                        <h5>{{ filiere_data.filiere.nom }}</h5>
+                        <p>({{ filiere_data.filiere.code or 'COD' }})</p>
+                        <p>Grants: {{ filiere_data.filiere.bourses }}</p>
+                        <p>Partial Grants: {{ filiere_data.filiere.semi_bourses }}</p>
+                    </div>
+
+                    <!-- Filiere Moyenne -->
+                    <div class="filiere-moyenne">
+                        <h2>{{ filiere_data.moyenne | round(2) if filiere_data.moyenne is not none else 'N/A' }}%</h2>
+                        <p>Obtained Average</p>
+                    </div>
+
+                    <div class="grades">
+                        <h5>Grades obtained:</h5>
+                        {% for matiere_data in filiere_data.matieres %}
+                            <p>{{ matiere_data.matiere.nom }}: 
+                                {{ matiere_data.note or 'No note' }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No filieres found for your serie.</p>
+        {% endif %}
+
+        
+    </div>
+
+</body>
+</html>

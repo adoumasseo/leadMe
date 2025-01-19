@@ -325,7 +325,7 @@ def generate_pdf():
         filiere_data.sort(key=lambda x: x['moyenne'] if x['moyenne'] is not None else 0, reverse=True)
 
         # Render HTML for PDF
-        html = render_template('computation/user-result.html', filieres=filiere_data)
+        html = render_template('pdf/computation_result.html', filieres=filiere_data)
         pdf = HTML(string=html).write_pdf()
 
         # Email the PDF to the user
