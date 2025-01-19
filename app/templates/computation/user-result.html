@@ -1,0 +1,40 @@
+{% extends 'layouts/front_nav.html' %}
+{% block title %} Basics informations {% endblock %}
+    
+{% block content %}
+<h1>Computation Results</h1>
+
+{% if filieres %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Filiere</th>
+                <th>Average</th>
+                <th>Bourse</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for filiere_data in filieres %}
+                <tr>
+                    <td>{{ filiere_data.filiere.name }}</td>
+                    <td>{{ filiere_data.moyenne or 'N/A' }}</td>
+                    <td>{{ filiere_data.filiere.bourse }}</td>
+                    <td>
+                        <ul>
+                            {% for matiere_data in filiere_data.matieres %}
+                                <li>
+                                    {{ matiere_data.matiere.name }}: 
+                                    {{ matiere_data.note or 'No note' }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No filieres found for your serie.</p>
+{% endif %}
+{% endblock %}

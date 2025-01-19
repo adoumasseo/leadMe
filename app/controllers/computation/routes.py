@@ -134,13 +134,6 @@ def user_marks():
                 print(f"Error in {field}: {error}")
     return render_template('computation/user-marks.html', form=form, matieres=matieres)
 
-    
-@bp.route('/user-result', methods=['GET', 'POST'])
-@login_required
-def user_result():
-    return 'User Result'
-
-
 def compute_user_average(user):
     try:
         # Step 1: Get the user's Serie
@@ -228,12 +221,58 @@ def compute_user_average(user):
         raise
 
 
-@bp.route('/compute-average', methods=['GET', 'POST'])
+@bp.route('/user-result', methods=['GET', 'POST'])
 @login_required
 def compute_average():
     try:
-        average = compute_user_average(current_user)
-        print(f"Your average has been computed: {average:.2f}")
+        # Compute the user's average
+        compute_user_average(current_user)
+
+        # Get the user's Serie
+        serie = Serie.query.get(current_user.id_serie)
+        if not serie:
+            raise ValueError("No associated serie found for the user.")
+
+        # Get related Filieres via FiliereSerie
+        filiere_series = FiliereSerie.query.filter_by(id_serie=serie.id_serie).all()
+        if not filiere_series:
+            raise ValueError("No filieres found for the user's serie.")
+
+        # Build detailed data for the view
+        filiere_data = []
+        for filiere_serie in filiere_series:
+            filiere = filiere_serie.filiere
+            # Get Matieres related to this Filiere
+            matiere_filiere = MatiereFiliere.query.filter_by(id_filiere=filiere.id_filiere).all()
+            matieres = [mf.matiere for mf in matiere_filiere]
+
+            # Get Notes for the user and those Matieres
+            notes = Note.query.filter(
+                Note.id_user == current_user.id_user,
+                Note.id_matiere.in_([m.id_matiere for m in matieres])
+            ).all()
+
+            # Get Moyenne for this Filiere
+            moyenne = Moyenne.query.filter_by(
+                id_user=current_user.id_user, id_filiere=filiere.id_filiere
+            ).first()
+
+            # Build data for this filiere
+            filiere_data.append({
+                'filiere': filiere,
+                'moyenne': moyenne.average if moyenne else None,
+                'matieres': [
+                    {
+                        'matiere': matiere,
+                        'note': next((note.mark for note in notes if note.id_matiere == matiere.id_matiere), None)
+                    }
+                    for matiere in matieres
+                ]
+            })
+
+        # Render the result
+        return render_template('computation/user-result.html', filieres=filiere_data)
+
     except Exception as e:
         flash(f"Error computing average: {e}", "error")
-    return redirect(url_for('computation.user_result'))
+        return redirect(url_for('computation.user_result'))
