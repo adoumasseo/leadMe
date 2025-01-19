@@ -131,7 +131,7 @@ def user_marks():
             print(f"Database error: {e}")
             flash("An error occurred while saving marks.", "error")
         flash("Marks saved successfully!", "success")
-        return redirect(url_for('computation.user_result'))
+        return redirect(url_for('computation.compute_average'))
     else:
         for field, errors in form.errors.items():
             for error in errors:
@@ -282,7 +282,7 @@ def compute_average():
 
     except Exception as e:
         flash(f"Error computing average: {e}", "error")
-        return redirect(url_for('computation.user_result'))
+        return redirect(url_for('computation.compute_average'))
 
 
 @bp.route('/generate-pdf', methods=['GET', 'POST'])
