@@ -141,7 +141,6 @@ def change_password():
         return render_template('auth/form/change_password.html', form=form)
 
 @bp.route('/forget-password', methods=['GET', 'POST'])
-@admin_required
 def forget_password():
     form = ForgetPasswordRequest()
     if form.validate_on_submit():
@@ -154,7 +153,6 @@ def forget_password():
     return render_template('auth/form/reset_password_request.html', form=form)       
 
 @bp.route('/verify-code', methods=['GET', 'POST'])
-@admin_required
 def verify_code():
     email = request.args.get('email') or request.form.get('email')
     form = VerifyCodeRequest(email)
@@ -178,7 +176,6 @@ def verify_code():
 
 
 @bp.route('/reset-password', methods=['GET', 'POST'])
-@admin_required
 def reset_password():
     form = ResetPasswordForm()
     email = request.args.get('email') or request.form.get('email')

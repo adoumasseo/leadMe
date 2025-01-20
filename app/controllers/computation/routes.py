@@ -330,7 +330,6 @@ def generate_pdf():
 
         # Email the PDF to the user
         subject = "Your Computation Results"
-        recipient = current_user.email
         msg = Message(
             subject,
             sender=current_app.config['MAIL_USERNAME'],

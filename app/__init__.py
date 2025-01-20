@@ -34,22 +34,22 @@ def create_app(config_class=Config):
     @with_appcontext
     def seed():
         """Seed the database with sample data."""
-        from app.database.seeds import seed_users
         from app.database.seeds import seed_university
         from app.database.seeds import seed_ecole
         from app.database.seeds import seed_filiere
         from app.database.seeds import seed_matiere_series
         from app.database.seeds import seed_matieres_filieres
         from app.database.seeds import seed_filiere_serie
+        from app.database.seeds import seed_users
         
-        seed_users.seed_users()
         seed_university.seed_universite()
         seed_ecole.seed_ecoles()
         seed_filiere.seed_filieres()
         seed_matiere_series.seed_series_and_matieres()
         seed_matieres_filieres.seed_filiere_and_matieres()
         seed_filiere_serie.seed_filiere_and_serie()
+        seed_users.seed_users()
         click.echo("Database seeded successfully!")
-    
+       
     return app
 

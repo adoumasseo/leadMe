@@ -5,6 +5,7 @@ from app.database.models.ecole import Ecole
 from app.database.models.matiere import Matiere
 from app.database.models.filiere import Filiere
 from app.database.models.post import Post
+from app.database.models.serie import Serie
 from app.database.models.associations import MatiereFiliere, Moyenne, Note, Coefficient
 from faker import Faker
 
@@ -12,6 +13,11 @@ fake = Faker()
 
 def seed_users():
     """Function to seed the database with sample users."""
+    serie = Serie.query.filter_by(nom='Serie C').first()
+    if not serie:
+        print("NOT Serie")
+        return
+    
     users = [
         User(
             prenom="ADMIN",
@@ -19,7 +25,7 @@ def seed_users():
             matricule=None,
             email=fake.email(),
             password=fake.password(),
-            serie=None,
+            serie_id=serie.id_serie,
             role="admin"
         ),
         User(
@@ -28,7 +34,7 @@ def seed_users():
             matricule=None,
             email="adoumasseo@gmail.com",
             password="admin@admin",
-            serie=None,
+            serie_id=serie.id_serie,
             role="admin"
         )
     ]
