@@ -130,7 +130,12 @@
                             <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <span class="d-flex align-items-center">
-            
+                                    <div 
+                                        class="rounded-circle header-profile-user d-flex align-items-center justify-content-center"
+                                        style="width: 40px; height: 40px; background: rgb(191, 188, 197); font-size: 20px; "
+                                    >
+                                        {{ userInitials }}
+                                    </div>
                                     <span class="text-start ms-xl-2">
                                         <span class="d-none d-xl-inline-block ms-1 fw-semibold user-name-text">{{ userFullName }}</span>
                                         <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Admin</span>
@@ -187,6 +192,27 @@
                     </div>
                     <ul class="navbar-nav" id="navbar-nav">
                         <li class="menu-title fs-24" style="padding-left: 5px;"><span data-key="t-menu">DASHBOARD</span></li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarUniversite" data-bs-toggle="collapse"
+                                role="button" aria-expanded="false" aria-controls="sidebarUniversite">
+                                <i class="ri-graduation-cap-line"></i> <span data-key="t-landing">Université</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarUniversite">
+
+                                <ul class="nav nav-sm flex-column">
+
+                                    <li class="nav-item">
+                                        <a href="{{ url_for('universites.list_universites') }}" class="nav-link"
+                                            data-key="t-one-page">Liste des Universités</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url_for('universites.create') }}" class="nav-link"
+                                            data-key="t-nft-landing"> Créer une Université</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
 
 
                         <li class="nav-item">
@@ -230,26 +256,6 @@
                             </div>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarUniversite" data-bs-toggle="collapse"
-                                role="button" aria-expanded="false" aria-controls="sidebarUniversite">
-                                <i class="ri-graduation-cap-line"></i> <span data-key="t-landing">Université</span>
-                            </a>
-                            <div class="collapse menu-dropdown" id="sidebarUniversite">
-
-                                <ul class="nav nav-sm flex-column">
-
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link"
-                                            data-key="t-one-page">Liste des Universités</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link"
-                                            data-key="t-nft-landing"> Créer une Université</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarEcole" data-bs-toggle="collapse" role="button"
@@ -370,23 +376,7 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
-                    {% block all_user %}{% endblock %}
-                    {% block creat_euser %}{% endblock %}
-
-                    {% block all_role %}{% endblock %}
-                    {% block create_role %}{% endblock %}
-
-                    {% block alls_erie %}{% endblock %}
-                    {% block create_serie %}{% endblock %}
-
-                    {% block all_filiere %}{% endblock %}
-                    {% block create_filiere %}{% endblock %}
-
-                    {% block alle_cole %}{% endblock %}
-                    {% block create_ecole %}{% endblock %}
-
-                    {% block all_uversity %}{% endblock %}
-                    {% block create_university %}{% endblock %}
+                    {% block content %}{% endblock %}
                 </div>
 
             </div>

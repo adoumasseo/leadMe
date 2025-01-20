@@ -8,4 +8,5 @@ from app.middleware.auth import admin_required
 @admin_required
 def index():
     userFullName = current_user.prenom + " " + current_user.nom
-    return render_template('dashboard/index.html', userFullName=userFullName)
+    userInitials = current_user.prenom[0] + current_user.nom[0]
+    return render_template('dashboard/index.html', userFullName=userFullName, userInitials=userInitials)

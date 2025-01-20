@@ -1,7 +1,7 @@
 """
 Routes and cruds fonction of Universite entity
 """
-from flask_login.utils import login_required
+from flask_login.utils import login_required, current_user
 from app.middleware.auth import admin_required
 from app.controllers.university import bp
 from flask_wtf import FlaskForm
@@ -60,7 +60,15 @@ class DeleteUniversiteForm(FlaskForm):
 def list_universites():
     universites = Universite.query.all()
     form = CSRFProtectForm()
-    return render_template("dashboard/university/index.html", universites=universites, form=form) 
+    userFullName = current_user.prenom + " " + current_user.nom
+    userInitials = current_user.prenom[0] + current_user.nom[0]
+    return render_template(
+        "dashboard/university/index.html",
+        universites=universites,
+        form=form,
+        userFullName=userFullName,
+        userInitials=userInitials
+    ) 
 
 @bp.route("/create", methods=["GET", "POST"])
 @login_required
