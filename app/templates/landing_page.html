@@ -49,9 +49,13 @@
                     </div>
                 </div>
                 <!--end col-->
-                <div class="col-lg-5">
-                        <img src="{{ url_for('static', filename ='images/landing_page_top.png') }} " alt="" class="" style="width: 600px; height: 600px; margin-top: -150px;">
+                <div class="col-lg-5 d-none d-sm-block">
+                    <img src="{{ url_for('static', filename='images/landing_page_top.png') }}" alt="" class="" style="width: 600px; height: 600px; margin-top: -150px;">
                 </div>
+                <div class="col-lg-5 d-block d-sm-none">
+                    <img src="{{ url_for('static', filename='images/landing_page_top.png') }}" alt="" class="" style="width: 300px; height: 300px;">
+                </div>
+
             </div>
             <!-- end row -->
         </div>
