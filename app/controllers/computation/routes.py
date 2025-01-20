@@ -276,9 +276,9 @@ def compute_average():
 
         # Sort filiere_data by moyenne in descending order
         filiere_data.sort(key=lambda x: x['moyenne'] if x['moyenne'] is not None else 0, reverse=True)
-
+        userFullName = current_user.nom + " " + current_user.prenom
         # Render the result
-        return render_template('computation/user-result.html', filieres=filiere_data)
+        return render_template('computation/user-result.html', filieres=filiere_data, userFullName=userFullName)
 
     except Exception as e:
         flash(f"Error computing average: {e}", "error")
@@ -323,9 +323,10 @@ def generate_pdf():
             })
 
         filiere_data.sort(key=lambda x: x['moyenne'] if x['moyenne'] is not None else 0, reverse=True)
-
+        userFullName = current_user.nom + " " + current_user.prenom
+        print(f"User fullName is {userFullName}")
         # Render HTML for PDF
-        html = render_template('pdf/computation_result.html', filieres=filiere_data)
+        html = render_template('pdf/computation_result.html', filieres=filiere_data, userFullName=userFullName)
         pdf = HTML(string=html).write_pdf()
 
         # Email the PDF to the user
