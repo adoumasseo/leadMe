@@ -111,7 +111,7 @@ def login():
             flash("Login successful!", "success")
             if user.first_login and user.role == "admin":
                 return redirect(url_for('auth.change_password'))
-            return redirect(next_page or url_for('main.index_dashboard' if user.role == "admin" else 'main.index'))
+            return redirect(next_page or url_for('dashboard.index' if user.role == "admin" else 'main.index'))
         flash("Invalid email or password.", "danger")
     if form.errors:
         for field, errors in form.errors.items():
