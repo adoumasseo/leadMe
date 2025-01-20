@@ -22,12 +22,14 @@ def create_app(config_class=Config):
     from app.controllers.computation import bp as computation_bp
     from app.controllers.university import bp as university_bp
     from app.controllers.dashboard import bp as dashboard_bp
+    from app.controllers.ecole import bp as ecole_bp
     
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(computation_bp, url_prefix='/computation')
     app.register_blueprint(university_bp, url_prefix='/dashboard/university')
     app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
+    app.register_blueprint(ecole_bp, url_prefix='/dashboard/ecole')
     
     @login_manager.user_loader
     def load_user(user_id):

@@ -20,13 +20,13 @@ class Ecole(db.Model):
     university = relationship("Universite", back_populates="ecoles")
     filieres = relationship("Filiere", back_populates="ecole", cascade="all, delete-orphan")
 
-    def __init__(self, nom, code, university):
+    def __init__(self, nom, code, id_universite):
         """Initiate the model object with column values
         """
         self.id_ecole = str(uuid4())
         self.nom = nom
         self.code = code
-        self.id_universite = university.id_universite
+        self.id_universite = id_universite
         self.created_at = datetime.utcnow()
 
     def __str__(self):
