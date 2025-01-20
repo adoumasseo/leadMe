@@ -15,13 +15,13 @@ class Matiere(db.Model):
     updated_at = mapped_column(DateTime, default=datetime.utcnow())
     deleted_at = mapped_column(DateTime, default=None)
     
-    matierefiliere = relationship("MatiereFiliere", back_populates="matiere")
+    matierefiliere = relationship("MatiereFiliere", back_populates="matiere", cascade="all, delete-orphan")
     filieres = association_proxy("matierefiliere", "filiere")
 
-    coefficient = relationship("Coefficient", back_populates="matiere")
+    coefficient = relationship("Coefficient", back_populates="matiere", cascade="all, delete-orphan")
     series = association_proxy("coefficient", "serie")
     
-    notes = relationship("Note", back_populates="matiere")
+    notes = relationship("Note", back_populates="matiere", cascade="all, delete-orphan")
     users = association_proxy("note", "user")
 
     def __init__(self, nom, coefficient):

@@ -17,10 +17,10 @@ class Serie(db.Model):
     
     users = relationship("User", back_populates="serie")
     
-    coefficient = relationship("Coefficient", back_populates="serie")
+    coefficient = relationship("Coefficient", back_populates="serie", cascade="all, delete-orphan")
     matieres = association_proxy("coefficient", "matiere")
     
-    filiereserie = relationship("FiliereSerie", back_populates="serie")
+    filiereserie = relationship("FiliereSerie", back_populates="serie", cascade="all, delete-orphan")
     filieres = association_proxy("filiereserie", "filiere")
     
     def __init__(self, nom):

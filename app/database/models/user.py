@@ -25,16 +25,16 @@ class User(UserMixin, db.Model):
     deleted_at = mapped_column(DateTime, nullable=True)
     
     # filiere users
-    moyennes = relationship("Moyenne", back_populates="user")
+    moyennes = relationship("Moyenne", back_populates="user", cascade="all, delete-orphan")
     filieres = association_proxy("moyennes", "filiere")
     
     # posts and series
-    posts = relationship("Post", back_populates="user")
+    posts = relationship("Post", back_populates="user", cascade="all, delete-orphan")
     id_serie = mapped_column(String(128), ForeignKey(Serie.id_serie), nullable=True)
     serie = relationship("Serie", back_populates="users")
     
     # user matiere 
-    notes = relationship("Note", back_populates="user")
+    notes = relationship("Note", back_populates="user", cascade="all, delete-orphan")
     matieres = association_proxy("note", "matiere")
 
     def __init__(self, prenom, nom, matricule, email, serie_id, password="user@user1234", role="user"):

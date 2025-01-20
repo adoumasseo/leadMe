@@ -107,7 +107,7 @@
             if (result.isConfirmed) {
                 var form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '/universites/delete/' + universite_id;
+                form.action = '/dashboard/university/delete/' + universite_id;
                 form.style.display = 'none';
 
                 // Créer un champ caché pour le token CSRF

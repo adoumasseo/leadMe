@@ -23,13 +23,13 @@ class Filiere(db.Model):
 
     ecole = relationship("Ecole", back_populates="filieres")
     
-    moyennes = relationship("Moyenne", back_populates="filiere")
+    moyennes = relationship("Moyenne", back_populates="filiere", cascade="all, delete-orphan")
     users = association_proxy("moyennes", "user")
     
-    matierefiliere = relationship("MatiereFiliere", back_populates="filiere")
+    matierefiliere = relationship("MatiereFiliere", back_populates="filiere", cascade="all, delete-orphan")
     matieres = association_proxy("matierefiliere", "matiere")
     
-    filiereserie = relationship("FiliereSerie", back_populates="filiere")
+    filiereserie = relationship("FiliereSerie", back_populates="filiere", cascade="all, delete-orphan")
     series = association_proxy("filiereserie", "serie")
 
 

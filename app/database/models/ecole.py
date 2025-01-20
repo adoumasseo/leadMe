@@ -18,7 +18,7 @@ class Ecole(db.Model):
     deleted_at = mapped_column(DateTime, default=None)
     
     university = relationship("Universite", back_populates="ecoles")
-    filieres = relationship("Filiere", back_populates="ecole")
+    filieres = relationship("Filiere", back_populates="ecole", cascade="all, delete-orphan")
 
     def __init__(self, nom, code, university):
         """Initiate the model object with column values
