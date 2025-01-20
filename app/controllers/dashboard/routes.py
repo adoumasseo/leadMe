@@ -1,4 +1,4 @@
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app.controllers.dashboard import bp
 from flask import render_template
 from app.middleware.auth import admin_required
@@ -7,4 +7,5 @@ from app.middleware.auth import admin_required
 @login_required
 @admin_required
 def index():
-    return render_template('dashboard/index.html')
+    userFullName = current_user.prenom + " " + current_user.nom
+    return render_template('dashboard/index.html', userFullName=userFullName)
