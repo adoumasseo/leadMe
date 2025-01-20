@@ -23,6 +23,7 @@ def create_app(config_class=Config):
     from app.controllers.university import bp as university_bp
     from app.controllers.dashboard import bp as dashboard_bp
     from app.controllers.ecole import bp as ecole_bp
+    from app.controllers.serie import bp as serie_bp
     from app.controllers.filiere import bp as filiere_bp
     
     app.register_blueprint(main_bp)
@@ -31,6 +32,7 @@ def create_app(config_class=Config):
     app.register_blueprint(university_bp, url_prefix='/dashboard/university')
     app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
     app.register_blueprint(ecole_bp, url_prefix='/dashboard/ecole')
+    app.register_blueprint(serie_bp, url_prefix='/dashboard/serie')
     app.register_blueprint(filiere_bp, url_prefix='/dashboard/filiere')
     
     @login_manager.user_loader
