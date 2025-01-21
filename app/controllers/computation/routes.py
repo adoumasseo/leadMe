@@ -289,7 +289,7 @@ def compute_average():
 @login_required
 def generate_pdf():
     try:
-
+        compute_user_average(current_user)
         serie = Serie.query.get(current_user.id_serie)
         if not serie:
             raise ValueError("No associated serie found for the user.")

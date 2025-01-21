@@ -55,7 +55,7 @@ def list_matieres():
 
 
 
-@bp.route("/delete/<string:serie_id>", methods=["POST"])
+@bp.route("/delete/<string:matiere_id>", methods=["POST"])
 @login_required
 @admin_required
 def delete(serie_id):
