@@ -21,9 +21,10 @@ class DeleteMatiereForm(FlaskForm):
 
 class CoefficientForm(FlaskForm):
     serie_id = StringField("Serie ID", validators=[])
+    serie_nom = StringField("Serie Name", validators=[])
     coe = FloatField("Coefficient", validators=[
         InputRequired("Please provide a valid number"),
-        NumberRange(min=-1, max=10, message="Mark must be between 0 and 10")
+        NumberRange(min=0, max=10, message="Mark must be between 0 and 10")
     ])
 
 # Define the main form to contain multiple MarkForm instances
@@ -88,6 +89,7 @@ def create():
         for serie in series:
             entry = form.coefficients.append_entry()
             entry.serie_id.data = serie.id_serie
+            entry.serie_nom.data = serie.nom
             entry.coe.data = 0
     
     
