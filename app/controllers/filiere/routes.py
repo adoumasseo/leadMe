@@ -11,7 +11,7 @@ from flask_wtf import FlaskForm
 class CSRFProtectForm(FlaskForm):
     pass
 
-class DeleteMatiereForm(FlaskForm):
+class DeleteFiliereForm(FlaskForm):
     pass
 
 @bp.route('/', methods=['GET'])
@@ -29,4 +29,17 @@ def list_filieres():
         userFullName=userFullName,
         userInitials=userInitials
     )
-    return ''
+
+
+@bp.route("/delete/<string:filiere_id>", methods=["POST"])
+@login_required
+@admin_required
+def delete_filiere(filiere_id):
+    form = DeleteFiliereForm()  
+    if form.validate_on_submit():
+        filiere = Filiere.query.get_or_404(filiere_id)
+        db.session.delete(filiere)
+        db.session.commit()
+        flash('Filiere Supprimé avec success!', 'success')
+        return redirect(url_for('filieres.list_filieres'))
+    return "Erreur CSRF", 400

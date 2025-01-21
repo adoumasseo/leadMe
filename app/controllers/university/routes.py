@@ -100,7 +100,7 @@ def edit(universite_id):
 @bp.route("/delete/<string:universite_id>", methods=["POST"])
 @login_required
 @admin_required
-def delete_role(universite_id):
+def delete_universite(universite_id):
     form = DeleteUniversiteForm()  
     if form.validate_on_submit():
         universite = Universite.query.get_or_404(universite_id)

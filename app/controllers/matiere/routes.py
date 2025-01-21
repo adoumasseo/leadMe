@@ -204,6 +204,6 @@ def delete(matiere_id):
         matiere = Matiere.query.get_or_404(matiere_id)
         db.session.delete(matiere)
         db.session.commit()
-        flash('Ecole supprimé avec succès!', 'success')
+        flash('Matiere supprimé avec succès!', 'success')
         return redirect(url_for('matieres.list_matieres'))
     return "Erreur CSRF", 400

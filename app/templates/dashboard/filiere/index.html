@@ -76,7 +76,7 @@
                                                 Modifier</a></li>
                                         <li>
 
-                                            <button onclick="" type="button"
+                                            <button onclick="deleteFiliereConfirm('{{ filiere.id_filiere}}')" type="button"
                                                 class="dropdown-item remove-item-btn">
                                                 <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
                                                 Supprimer
@@ -96,9 +96,9 @@
 </div>
 <script>
     var csrf_token = "{{ form.csrf_token._value() }}";
-    function deleteUniversiteConfirm(universite_id) {
+    function deleteFiliereConfirm(filiere_id) {
         Swal.fire({
-            title: "Êtes-vous sûr de vouloir supprimer cette Université ?",
+            title: "Êtes-vous sûr de vouloir supprimer cette Filière ?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -109,7 +109,7 @@
             if (result.isConfirmed) {
                 var form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '/dashboard/university/delete/' + universite_id;
+                form.action = '/dashboard/filiere/delete/' + filiere_id;
                 form.style.display = 'none';
 
                 // Créer un champ caché pour le token CSRF
