@@ -20,7 +20,7 @@ class DeleteMatiereForm(FlaskForm):
     pass
 
 class CoefficientForm(FlaskForm):
-    serie_id = StringField("Serie ID", validators=[])
+    serie_id = StringField("Serie ID", validators=[DataRequired()])
     serie_nom = StringField("Serie Name", validators=[])
     coe = FloatField("Coefficient", validators=[
         InputRequired("Please provide a valid number"),
@@ -29,7 +29,7 @@ class CoefficientForm(FlaskForm):
 
 # Define the main form to contain multiple MarkForm instances
 class MatiereCoefficientForm(FlaskForm):
-    matiereNom = StringField("NOM matiere", validators=[])
+    matiereNom = StringField("NOM matiere", validators=[DataRequired()])
     coefficients = FieldList(FormField(CoefficientForm), min_entries=1)
     submit = SubmitField('Soumettre')
     
