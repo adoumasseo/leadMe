@@ -24,7 +24,7 @@ class Matiere(db.Model):
     notes = relationship("Note", back_populates="matiere", cascade="all, delete-orphan")
     users = association_proxy("note", "user")
 
-    def __init__(self, nom, coefficient):
+    def __init__(self, nom):
         """Initiate the model object with column values
         """
         self.id_matiere = str(uuid4())

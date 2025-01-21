@@ -95,5 +95,6 @@ def delete(serie_id):
         serie = Serie.query.get_or_404(serie_id)
         db.session.delete(serie)
         db.session.commit()
+        flash('Ecole supprimé avec succès!', 'success')
         return redirect(url_for('series.list_series'))
     return "Erreur CSRF", 400

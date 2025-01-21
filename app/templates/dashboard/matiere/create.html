@@ -1,0 +1,34 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<h2>Créer une Matière</h2>
+
+<form method="post" novalidate>
+    {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.matiereNom.label }}
+            {{ form.matiereNom(class="form-control") }}
+            {% for error in form.matiereNom.errors %}
+            <small class="text-danger">{{ error }}</small>
+        </div>
+    {% endfor %}
+    
+    <div class="form-group">
+        <label>Coefficients pour chaque série</label>
+        {% for entry in form.coefficients %}
+            <div class="form-row">
+                {{ entry.hidden_tag() }}
+                {{ entry.serie_id.label }}
+                {{ entry.serie_id(class="form-control", readonly=true) }}
+                {{ entry.coe.label }}
+                {{ entry.coe(class="form-control") }}
+                {% for error in entry.coe.errors %}
+                <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    
+    <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
+</form>
+{% endblock %}
