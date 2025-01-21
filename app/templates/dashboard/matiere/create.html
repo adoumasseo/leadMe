@@ -43,7 +43,9 @@
                                 <h5 class="text-primary">Créer une Matière</h5>
                                 <p class="text-muted">Entrez le nom d'une Matière et ses coeeficients</p>
                             </div>
-                            
+                            <div class="alert border-0 alert-warning text-center mb-2 mx-2" role="alert">
+                                Dans le cas où votre matière n'existerai paa dans une des séries entrez zero(0) pour son coéfficient
+                            </div>
                             <div class="p-2 mt-4">
                                 <form method="post" novalidate>
                                     {{ form.hidden_tag() }}
