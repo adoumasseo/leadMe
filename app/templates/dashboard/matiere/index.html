@@ -16,7 +16,7 @@
 {% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
 {% for category, message in messages %}
-<div class="alert alert-success alert-dismissible bg-primary text-white alert-label-icon fade show mb-2" role="alert">
+<div class="alert alert-success alert-dismissible bg-primary text-white alert-label-icon fade show mb-4" role="alert">
     <i class="ri-notification-off-line label-icon"></i>
     {{ message }}
     <button type="button" class="btn-close btn-close-white text-white" data-bs-dismiss="alert"
@@ -76,7 +76,7 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li>
-                                            <a href=""
+                                            <a href="{{ url_for('matieres.edit', matiere_id=matiere.id) }}"
                                                 class="dropdown-item edit-item-btn">
                                                 <i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                 Modifier

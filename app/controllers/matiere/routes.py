@@ -33,9 +33,13 @@ class MatiereCoefficientForm(FlaskForm):
     coefficients = FieldList(FormField(CoefficientForm), min_entries=1)
     submit = SubmitField('Soumettre')
     
+    def __init__(self, edit=True, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.edit = edit
+    
     def validate_matiereNom(self, field):
         matiere = Matiere.query.filter_by(nom=field.data.strip()).first()
-        if matiere:
+        if matiere and self.edit:
             raise ValidationError("Une matière avec ce nom existe déjà")
 
 
@@ -120,6 +124,75 @@ def create():
             for error in errors:
                 print(f"Error in {field}: {error}")
     return render_template("dashboard/matiere/create.html", form=form)
+
+@bp.route("/edit/<string:matiere_id>", methods=["GET", "POST"])
+@login_required
+@admin_required
+def edit(matiere_id):
+    # Fetch the Matiere by ID
+    matiere = Matiere.query.get_or_404(matiere_id)
+    
+    # Initialize the form
+    form = MatiereCoefficientForm(False)
+    
+    # Pre-fill the form with existing data on GET
+    if request.method == "GET":
+        form.matiereNom.data = matiere.nom  # Set the current name of the Matiere
+        
+        # Pre-fill coefficients for all series
+        form.coefficients.entries = []
+        series = Serie.query.all()
+        
+        # Fetch existing coefficients for the Matiere
+        existing_coefficients = {c.id_serie: c.coe for c in matiere.coefficient}
+        
+        for serie in series:
+            entry = form.coefficients.append_entry()
+            entry.serie_id.data = serie.id_serie
+            entry.serie_nom.data = serie.nom
+            entry.coe.data = existing_coefficients.get(serie.id_serie, 0)  # Default to 0 if no coefficient
+    
+    # Handle form submission
+    if form.validate_on_submit():
+        # Update the Matiere name
+        matiere.nom = form.matiereNom.data.strip()
+        
+        # Update coefficients
+        for entry in form.coefficients.entries:
+            serie_id = entry.data.get("serie_id")
+            coefficient = float(entry.data.get("coe"))
+            
+            # Find the existing coefficient or create a new one
+            existing_coeff = next(
+                (c for c in matiere.coefficient if c.id_serie == serie_id),
+                None
+            )
+            
+            if coefficient > 0:
+                if existing_coeff:
+                    existing_coeff.coe = coefficient  # Update the coefficient
+                else:
+                    # Add a new coefficient
+                    new_coeff = Coefficient()
+                    new_coeff.id_matiere = matiere.id_matiere
+                    new_coeff.id_serie = serie_id
+                    new_coeff.coe = coefficient
+                    db.session.add(new_coeff)
+            elif existing_coeff:
+                # Remove the coefficient if it's now 0
+                db.session.delete(existing_coeff)
+        
+        db.session.commit()
+        flash("Matière mise à jour avec succès.", "success")
+        return redirect(url_for("matieres.list_matieres"))
+    
+    # Display errors if validation fails
+    if form.errors:
+        for field, errors in form.errors.items():
+            for error in errors:
+                print(f"Error in {field}: {error}")
+    
+    return render_template("dashboard/matiere/edit.html", form=form, matiere=matiere)
 
 
 @bp.route("/delete/<string:matiere_id>", methods=["POST"])

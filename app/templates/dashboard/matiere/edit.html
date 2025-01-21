@@ -40,43 +40,45 @@
 
                         <div class="card-body p-4">
                             <div class="text-center mt-2">
-                                <h5 class="text-primary">Créer une Matière</h5>
-                                <p class="text-muted">Entrez le nom d'une Matière et ses coeeficients</p>
+                                <h5 class="text-primary">Modifier une Matière</h5>
+                                <p class="text-muted">Modifier le nom d'une Matière et/ou ses coeeficients</p>
                             </div>
                             <div class="alert border-0 alert-warning text-center mb-2 mx-2" role="alert">
                                 Dans le cas où votre matière n'existerai pas dans une des séries entrez zero(0) pour son coéfficient
                             </div>
                             <div class="p-2 mt-4">
-                                <form method="post" novalidate>
+                                <form method="POST" novalidate>
                                     {{ form.hidden_tag() }}
-                                    <div class="mb-3">
-                                        <label>Nom de la Matière</label>
-                                        {{ form.matiereNom(class="form-control mb-1", placeholder="Ex: History") }}
+                                    
+                                    <div>
+                                        <label for="matiereNom">Nom de la Matière</label>
+                                        {{ form.matiereNom(class="form-control mb-1") }}
                                         {% for error in form.matiereNom.errors %}
                                             <div class="alert alert-danger">{{ error }}</div>
                                         {% endfor %}
                                     </div>
                                     
-                                    <div class="mb-3">
-                                        <label>Coefficients pour chaque série</label>
+                                    <div>
+                                        <h3>Coefficients</h3>
                                         {% for entry in form.coefficients %}
-                                            <div class="form-row">
+                                            <div>
                                                 {{ entry.hidden_tag() }}
-                                                <input type="hidden" name="{{ entry.serie_id.name }}" value="{{ entry.serie_id.data }}">
                                                 <label>{{ entry.serie_nom.data }}</label>
                                                 {{ entry.coe(class="form-control") }}
+                                                {{ entry.serie_id(class="d-none") }}
                                                 {% for error in entry.coe.errors %}
                                                     <div class="alert alert-danger">{{ error }}</div>
                                                 {% endfor %}
                                             </div>
                                         {% endfor %}
                                     </div>
+                                    
                                     <div class="d-flex justify-content-between mb-2 mt-4">
                                         <a href="{{ url_for('matieres.list_matieres') }}" class="btn" style="background-color: rgba(255, 0, 0, 0.681); color: white;">Annuler</a>
                                         {{ form.submit(class="btn btn-primary w-50") }}
                                     </div>
-            
                                 </form>
+
                                 
 
                             </div>
