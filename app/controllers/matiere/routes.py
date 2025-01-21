@@ -7,7 +7,8 @@ from flask_wtf import FlaskForm
 from app.database.models.associations import Coefficient
 from app.middleware.auth import admin_required
 from flask_login.utils import login_required, current_user
-from app.database.models import Serie
+from app.database.models.serie import Serie
+from app.database.models.matiere import Matiere
 from app.extensions import db
 
 class CSRFProtectForm(FlaskForm):
@@ -58,11 +59,11 @@ def list_matieres():
 @bp.route("/delete/<string:matiere_id>", methods=["POST"])
 @login_required
 @admin_required
-def delete(serie_id):
+def delete(matiere_id):
     form = DeleteMatiereForm()  
     if form.validate_on_submit():
-        serie = Serie.query.get_or_404(serie_id)
-        db.session.delete(serie)
+        matiere = Matiere.query.get_or_404(matiere_id)
+        db.session.delete(matiere)
         db.session.commit()
-        return redirect(url_for('matieres.list_series'))
+        return redirect(url_for('matieres.list_matieres'))
     return "Erreur CSRF", 400
