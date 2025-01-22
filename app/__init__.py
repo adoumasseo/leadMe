@@ -26,6 +26,7 @@ def create_app(config_class=Config):
     from app.controllers.serie import bp as serie_bp
     from app.controllers.matiere import bp as matiere_bp
     from app.controllers.filiere import bp as filiere_bp
+    from app.controllers.post import bp as post_bp
     
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
@@ -36,6 +37,7 @@ def create_app(config_class=Config):
     app.register_blueprint(serie_bp, url_prefix='/dashboard/serie')
     app.register_blueprint(matiere_bp, url_prefix='/dashboard/matiere')
     app.register_blueprint(filiere_bp, url_prefix='/dashboard/filiere')
+    app.register_blueprint(post_bp, url_prefix='/dashboard/post')
     
     @login_manager.user_loader
     def load_user(user_id):
