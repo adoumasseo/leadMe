@@ -5,27 +5,37 @@ def seed_series_and_matieres():
     # Step 1: Define series with their unique matieres and coefficients
     series_data = {
         "Serie A": {
-            "Mathematics": 4.5,
-            "Physics": 3.8,
-            "Chemistry": 3.2,
+            "Français": 4,
+            "Histoire-Géographie": 4,
+            "Philosophie": 4,
+            "Anglais": 4,
+            "Mathématiques": 1
         },
         "Serie B": {
-            "Mathematics": 4.0,
-            "Physics": 3.5,
-            "Biology": 3.5,
-            "History": 2.5,
+            "Français": 4,
+            "Histoire-Géographie": 2,
+            "Philosophie": 2,
+            "Anglais": 4,
+            "Mathématiques": 1,
+            "Economie": 4
         },
         "Serie C": {
-            "Mathematics": 5.0,
-            "Physics": 4.5,
-            "Chemistry": 4.0,
-            "Geography": 1.5,
+            "Mathématiques": 6,
+            "PCT": 5,
+            "SVT": 2,
+            "Philosophie": 2,
+            "Anglais": 2,
+            "Histoire-Géographie.": 2,
+            "Français": 2,
         },
         "Serie D": {
-            "Mathematics": 3.0,
-            "Biology": 4.0,
-            "History": 3.0,
-            "Geography": 2.5,
+            "Mathématiques": 4,
+            "PCT": 4,
+            "SVT": 5,
+            "Philosophie": 2,
+            "Anglais": 2,
+            "Histoire-Géographie.": 2,
+            "Français": 2,
         },
     }
 
