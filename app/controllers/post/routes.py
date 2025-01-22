@@ -103,4 +103,3 @@ def delete(post_id):
         return redirect(url_for('posts.list_posts'))
     return "Erreur CSRF", 400
 
-
