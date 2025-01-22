@@ -286,11 +286,11 @@
                                 <ul class="nav nav-sm flex-column">
 
                                     <li class="nav-item">
-                                        <a href="landing.html" class="nav-link" data-key="t-one-page">Liste des
+                                        <a href="{{ url_for('filieres.list_filieres') }}" class="nav-link" data-key="t-one-page">Liste des
                                             Filières</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="nft-landing.html" class="nav-link" data-key="t-nft-landing"> Créer une
+                                        <a href="{{ url_for('filieres.create') }}" class="nav-link" data-key="t-nft-landing"> Créer une
                                             Filière</a>
                                     </li>
                                 </ul>
@@ -307,10 +307,10 @@
                                 <ul class="nav nav-sm flex-column">
 
                                     <li class="nav-item">
-                                        <a href="" class="nav-link" data-key="t-one-page">Liste des Posts</a>
+                                        <a href="{{ url_for('posts.list_posts') }}" class="nav-link" data-key="t-one-page">Liste des Posts</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="   " class="nav-link" data-key="t-nft-landing"> Créer un
+                                        <a href="{{ url_for('posts.create') }}" class="nav-link" data-key="t-nft-landing"> Créer un
                                             Post</a>
                                     </li>
                                 </ul>
