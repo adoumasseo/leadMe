@@ -153,54 +153,54 @@ def compute_user_average(user):
         if not filiere_ids:
             raise ValueError("No filieres found for the user's serie.")
 
-        # Step 3: Get Matieres related to those Filieres via MatiereFiliere
-        matiere_ids = [
-            mf.id_matiere
-            for mf in MatiereFiliere.query.filter(MatiereFiliere.id_filiere.in_(filiere_ids)).all()
-        ]
-        # print(matiere_ids)
-        if not matiere_ids:
-            raise ValueError("No matieres found for the user's filieres.")
-
-        # Step 4: Fetch Coefficients for the user's Serie and Matieres
-        coefficients = Coefficient.query.filter(
-            Coefficient.id_serie == serie.id_serie,
-            Coefficient.id_matiere.in_(matiere_ids)
-        ).all()
-        
-        if not coefficients:
-            raise ValueError("No coefficients found for the user's matieres.")
-
-        # Map coefficients by matiere_id for quick lookup
-        coeff_map = {coef.id_matiere: coef.coe for coef in coefficients}
-        
-        # Step 5: Fetch Notes for the user and Matieres
-        notes = Note.query.filter(
-            Note.id_user == user.id_user,
-            Note.id_matiere.in_(matiere_ids)
-        ).all()
-        
-        if not notes:
-            raise ValueError("No notes found for the user.")
-
-        # Compute the weighted sum and total coefficients
-        weighted_sum = 0
-        total_coefficients = 0
-
-        for note in notes:
-            coe = coeff_map.get(note.id_matiere)
-            if coe:
-                weighted_sum += note.mark * coe
-                total_coefficients += coe
-
-        if total_coefficients == 0:
-            raise ValueError("Total coefficients sum to zero, cannot compute average.")
-
-        # Step 6: Calculate the average
-        average = weighted_sum / total_coefficients
-
-        # Step 7: Store the result in Moyenne for each Filiere
+        # Step 3: Calculate average for each Filiere
         for filiere_id in filiere_ids:
+            # Get Matieres related to the Filiere
+            matiere_ids = [
+                mf.id_matiere
+                for mf in MatiereFiliere.query.filter_by(id_filiere=filiere_id).all()
+            ]
+            if not matiere_ids:
+                continue  # Skip this filiere if no matieres are found
+
+            # Fetch Coefficients for the user's Serie and Matieres
+            coefficients = Coefficient.query.filter(
+                Coefficient.id_serie == serie.id_serie,
+                Coefficient.id_matiere.in_(matiere_ids)
+            ).all()
+
+            if not coefficients:
+                continue  # Skip this filiere if no coefficients are found
+
+            # Map coefficients by matiere_id for quick lookup
+            coeff_map = {coef.id_matiere: coef.coe for coef in coefficients}
+
+            # Fetch Notes for the user in the Matieres
+            notes = Note.query.filter(
+                Note.id_user == user.id_user,
+                Note.id_matiere.in_(matiere_ids)
+            ).all()
+
+            if not notes:
+                continue  # Skip this filiere if no notes are found
+
+            # Compute the weighted sum and total coefficients for this Filiere
+            weighted_sum = 0
+            total_coefficients = 0
+
+            for note in notes:
+                coe = coeff_map.get(note.id_matiere)
+                if coe:
+                    weighted_sum += note.mark * coe
+                    total_coefficients += coe
+
+            if total_coefficients == 0:
+                continue  # Skip this filiere if total coefficients are zero
+
+            # Calculate the average for the Filiere
+            average = weighted_sum / total_coefficients
+
+            # Step 4: Store the result in Moyenne for the Filiere
             moyenne = Moyenne.query.filter_by(
                 id_user=user.id_user, id_filiere=filiere_id
             ).first()
@@ -211,13 +211,9 @@ def compute_user_average(user):
                 db.session.add(moyenne)
 
             moyenne.average = average
-            # print(f"Computed average for user {user.id_user}: {average}")
-            
 
+        # Commit all changes to the database
         db.session.commit()
-
-        # print(f"Computed average for user {user.id_user}: {average}")
-        return average
 
     except Exception as e:
         print(f"Error computing average: {e}")
