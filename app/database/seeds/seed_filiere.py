@@ -107,7 +107,7 @@ def seed_filieres():
     filieres = []
 
     for ecole in ecoles:
-        ecole_filieres = filieres_data.get(ecole.nom, [])
+        ecole_filieres = filieres_data.get(ecole.code, [])
         for data in ecole_filieres:
             filiere = Filiere(
                 nom=data["nom"],
