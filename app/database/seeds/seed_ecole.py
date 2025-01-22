@@ -15,16 +15,40 @@ def seed_ecoles():
     if not universities:
         print("No Universite records found. Seed Universites before Ecoles.")
         return
+    
+    ecoles_UAC = [
+        {"nom": "Institut National Médico-Sanitaire", "code": "INMeS"},
+        {"nom": "Ecole Nationale D'Economie Appliquée et de Management", "code": "ENEAM"},
+        {"nom": "Institut de Formation et de Recherche en Informatique", "code": "IFRI"},
+        {"nom": "Ecole Polytechnique d'Abomey-Calavi", "code": "EPAC"},
+        {"nom": "Faculté de Droit et de Science Politique", "code": "FADESP"},
+    ]
 
+    ecoles_UP = [
+        {"nom": "Faculté d'Agronomie", "code": "FA"},
+        {"nom": "Institut Universitaire de Technologie", "code": "IUT"},
+        {"nom": "Faculté des Sciences Economiques et de Gestion", "code": "FASEG"},
+    ]
+    
     ecoles = []
     for university in universities:
-        ecole = Ecole(
-            nom=f"Ecole of {university.nom} {random.randint(0, 1000)}",
-            code=f"Code-{university.id_universite}-{random.randint(100, 999)}",
-            university=university
-        )
-        ecoles.append(ecole)
-    
+        if university.code == 'UAC':
+            for school in ecoles_UAC:
+                ecole = Ecole(
+                    nom=school["nom"],
+                    code=school["code"],
+                    id_universite=university.id_universite
+                )   
+                ecoles.append(ecole)
+        elif university.code == 'UP':
+            for school in ecoles_UP:
+                ecole = Ecole(
+                    nom=school["nom"],
+                    code=school["code"],
+                    id_universite=university.id_universite
+                )
+                ecoles.append(ecole)
+                
     try:
         db.session.bulk_save_objects(ecoles)
         db.session.commit()
