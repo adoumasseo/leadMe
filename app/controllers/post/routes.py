@@ -53,7 +53,6 @@ def list_posts():
 def create():
     """Create Post"""
     form = CreatePostForm()
-    current_user = User.query.filter_by(matricule='ROOT').first()
     if form.validate_on_submit():
         filename = None
         
@@ -101,7 +100,7 @@ def delete(post_id):
         db.session.delete(post)
         db.session.commit()
         flash('Post supprimé avec succès!', 'success')
-        return redirect(url_for('post.list_posts'))
+        return redirect(url_for('posts.list_posts'))
     return "Erreur CSRF", 400
 
 
