@@ -73,7 +73,7 @@ def create():
             debouches=form.debouches.data,
             bourses=form.bourses.data,
             semi_bourses=form.semi_bourses.data,
-            ecole=Ecole.query.get(form.ecole_id.data)
+            ecole_id=form.ecole_id.data
         )
         db.session.add(filiere)
         db.session.flush()  # Get the ID of the new Filiere
