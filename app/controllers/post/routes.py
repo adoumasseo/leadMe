@@ -2,12 +2,11 @@ from app.controllers.post import bp
 from flask_login.utils import login_required, current_user
 from app.middleware.auth import admin_required
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, TextAreaField, FileField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms import StringField, SubmitField, TextAreaField, FileField
+from wtforms.validators import DataRequired
 from flask_wtf.file import FileAllowed
 from app.extensions import db
 from app.database.models.post import Post
-from app.database.models.user import User
 from flask import flash, render_template, redirect, url_for, current_app
 from werkzeug.utils import secure_filename
 import os
@@ -36,6 +35,8 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'jpg', 'png'}
 
 @bp.route('/', methods=["GET"])
+@login_required
+@admin_required
 def list_posts():
     posts = Post.query.all()
     form = CSRFProtectForm()
@@ -50,6 +51,8 @@ def list_posts():
     )
 
 @bp.route('/create', methods=['GET', 'POST'])
+@login_required
+@admin_required
 def create():
     """Create Post"""
     form = CreatePostForm()
@@ -74,6 +77,8 @@ def create():
     return render_template('dashboard/post/create.html', form=form)
 
 @bp.route('/edit/<string:post_id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
 def edit(post_id):
     post = Post.query.get_or_404(post_id)
     form = EditPostForm(obj=post)
@@ -91,6 +96,8 @@ def edit(post_id):
     return render_template('dashboard/post/edit.html', form=form, post=post)
 
 @bp.route('/delete/<string:post_id>', methods=['POST'])
+@login_required
+@admin_required
 def delete(post_id):
     form = DeletePostForm()
     if form.validate_on_submit():
