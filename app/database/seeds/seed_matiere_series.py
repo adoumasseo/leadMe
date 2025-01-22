@@ -2,43 +2,34 @@ from app.extensions import db
 from app.database.models import Serie, Matiere, Coefficient
 
 def seed_series_and_matieres():
-    # Step 1: Define series and their corresponding matieres with coefficients
+    # Step 1: Define series with their unique matieres and coefficients
     series_data = {
         "Serie A": {
             "Mathematics": 4.5,
             "Physics": 3.8,
             "Chemistry": 3.2,
-            "Biology": 2.5,
-            "History": 2.0,
-            "Geography": 1.5,
         },
         "Serie B": {
             "Mathematics": 4.0,
             "Physics": 3.5,
-            "Chemistry": 3.0,
             "Biology": 3.5,
             "History": 2.5,
-            "Geography": 2.0,
         },
         "Serie C": {
             "Mathematics": 5.0,
             "Physics": 4.5,
             "Chemistry": 4.0,
-            "Biology": 2.0,
-            "History": 1.0,
             "Geography": 1.5,
         },
         "Serie D": {
             "Mathematics": 3.0,
-            "Physics": 3.0,
-            "Chemistry": 2.5,
             "Biology": 4.0,
             "History": 3.0,
             "Geography": 2.5,
         },
     }
 
-    # Step 2: Create Series and Matieres
+    # Step 2: Create Series and Matieres dynamically
     created_series = {}
     created_matieres = {}
 
@@ -47,15 +38,18 @@ def seed_series_and_matieres():
         db.session.add(serie)
         created_series[serie_name] = serie  # Track the created Serie
 
-    for matiere_name in set(m for s in series_data.values() for m in s.keys()):
-        matiere = Matiere(nom=matiere_name)
-        db.session.add(matiere)
-        created_matieres[matiere_name] = matiere  # Track the created Matiere
+    # Step 3: Add unique Matieres for each Serie
+    for serie_name, matieres_with_coeffs in series_data.items():
+        for matiere_name in matieres_with_coeffs.keys():
+            if matiere_name not in created_matieres:
+                matiere = Matiere(nom=matiere_name)
+                db.session.add(matiere)
+                created_matieres[matiere_name] = matiere
 
-    # Step 3: Commit Series and Matieres to get their IDs
+    # Commit Series and Matieres to get their IDs
     db.session.commit()
 
-    # Step 4: Assign specified coefficients to relationships
+    # Step 4: Assign specified coefficients for each Serie-Matiere relationship
     coefficients = []
     for serie_name, matieres_with_coeffs in series_data.items():
         serie = created_series[serie_name]
