@@ -33,7 +33,7 @@ class Filiere(db.Model):
     series = association_proxy("filiereserie", "serie")
 
 
-    def __init__(self, nom, debouches, bourses, semi_bourses, ecole):
+    def __init__(self, nom, debouches, bourses, semi_bourses, ecole_id):
         """Initiate the model object with column values
         """
         self.id_filiere = str(uuid4())
@@ -41,7 +41,7 @@ class Filiere(db.Model):
         self.debouches = debouches
         self.bourses = bourses
         self.semi_bourses = semi_bourses
-        self.id_ecole = ecole.id_ecole
+        self.id_ecole = ecole_id
         self.created_at = datetime.utcnow()
 
     def __str__(self):

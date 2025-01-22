@@ -17,11 +17,9 @@ def seed_ecoles():
         return
     
     ecoles_UAC = [
-        {"nom": "Institut National Médico-Sanitaire", "code": "INMeS"},
+        {"nom": "Institut National de l'Eau", "code": "INE"},
         {"nom": "Ecole Nationale D'Economie Appliquée et de Management", "code": "ENEAM"},
-        {"nom": "Institut de Formation et de Recherche en Informatique", "code": "IFRI"},
         {"nom": "Ecole Polytechnique d'Abomey-Calavi", "code": "EPAC"},
-        {"nom": "Faculté de Droit et de Science Politique", "code": "FADESP"},
     ]
 
     ecoles_UP = [
