@@ -1,4 +1,3 @@
-
 from app.controllers.main import bp
 from flask import render_template
 from app.database.models.post import Post

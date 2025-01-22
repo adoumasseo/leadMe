@@ -25,6 +25,7 @@ class Post(db.Model):
         self.contenu = contenu
         self.imagePath = imagePath
         self.user_id = user_id
+        self.created_at = datetime.utcnow()
 
     def __repr__(self):
         return f"<Post {self.titre}>"
