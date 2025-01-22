@@ -38,7 +38,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h5 class="card-title mb-0">Liste des Filiere</h5>
-                <a href="" class="btn btn-primary">
+                <a href="{{ url_for('filieres.create') }}" class="btn btn-primary">
                     Ajouter une filière
                 </a>
             </div>
@@ -70,13 +70,13 @@
                                         <i class="ri-more-fill align-middle"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a href=""
+                                        <li><a href="{{ url_for('filieres.edit', filiere_id=filiere.id_filiere) }}"
                                                 class="dropdown-item edit-item-btn"><i
                                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                 Modifier</a></li>
                                         <li>
 
-                                            <button onclick="deleteFiliereConfirm('{{ filiere.id_filiere}}')" type="button"
+                                            <button onclick="deleteFiliereConfirm('{{ filiere.id_filiere }}')" type="button"
                                                 class="dropdown-item remove-item-btn">
                                                 <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
                                                 Supprimer

@@ -20,7 +20,6 @@ class FiliereForm(FlaskForm):
     debouches = TextAreaField("Débouchés")
     bourses = IntegerField("Nombre de bourses", validators=[Optional(), NumberRange(min=0)])
     semi_bourses = IntegerField("Nombre de semi-bourses", validators=[Optional(), NumberRange(min=0)])
-    code = StringField("Code", validators=[Optional(), Length(max=128)])
     ecole_id = SelectField("École", coerce=str, validators=[DataRequired()])
     series = SelectMultipleField("Séries", coerce=str, validators=[DataRequired()])
     matieres = SelectMultipleField("Matières", coerce=str, validators=[DataRequired()])
@@ -98,6 +97,73 @@ def create():
         return redirect(url_for("filieres.list_filieres"))
     
     return render_template("dashboard/filiere/create.html", form=form)
+
+
+@bp.route("/edit/<string:filiere_id>", methods=["GET", "POST"])
+@login_required
+@admin_required
+def edit(filiere_id):
+    filiere = Filiere.query.get_or_404(filiere_id)
+    form = FiliereForm(False)
+    
+    # Pre-fill the dropdowns with available options
+    form.ecole_id.choices = [(ecole.id_ecole, ecole.nom) for ecole in Ecole.query.all()]
+    form.series.choices = [(serie.id_serie, serie.nom) for serie in Serie.query.all()]
+    form.matieres.choices = [(matiere.id_matiere, matiere.nom) for matiere in Matiere.query.all()]
+    
+    if request.method == "GET":
+        # Pre-fill the form with the existing Filiere data
+        form.nom.data = filiere.nom
+        form.debouches.data = filiere.debouches
+        form.bourses.data = filiere.bourses
+        form.semi_bourses.data = filiere.semi_bourses
+        form.ecole_id.data = filiere.id_ecole
+        form.series.data = [serie.id_serie for serie in filiere.series]
+        form.matieres.data = [matiere.id_matiere for matiere in filiere.matieres]
+    
+    if form.validate_on_submit():
+        # Update the Filiere attributes
+        filiere.nom = form.nom.data.strip()
+        filiere.debouches = form.debouches.data
+        filiere.bourses = form.bourses.data
+        filiere.semi_bourses = form.semi_bourses.data
+        filiere.id_ecole = form.ecole_id.data
+        
+        # Update Series relationships
+        current_series_ids = {fs.id_serie for fs in filiere.filiereserie}
+        new_series_ids = set(form.series.data)
+        
+        # Add new Series
+        for serie_id in new_series_ids - current_series_ids:
+            filiereserie_new = FiliereSerie()
+            filiereserie_new.id_filiere = filiere.id_filiere
+            filiereserie_new.id_serie = serie_id
+            db.session.add(filiereserie_new)
+        
+        # Remove unselected Series
+        for serie_id in current_series_ids - new_series_ids:
+            FiliereSerie.query.filter_by(id_filiere=filiere.id_filiere, id_serie=serie_id).delete()
+        
+        # Update Matiere relationships
+        current_matiere_ids = {mf.id_matiere for mf in filiere.matierefiliere}
+        new_matiere_ids = set(form.matieres.data)
+        
+        # Add new Matieres
+        for matiere_id in new_matiere_ids - current_matiere_ids:
+            matierefiliere_new = MatiereFiliere()
+            matierefiliere_new.id_filiere = filiere.id_filiere
+            matierefiliere_new.id_matiere = matiere_id
+            db.session.add(matierefiliere_new)
+        
+        # Remove unselected Matieres
+        for matiere_id in current_matiere_ids - new_matiere_ids:
+            MatiereFiliere.query.filter_by(id_filiere=filiere.id_filiere, id_matiere=matiere_id).delete()
+        
+        db.session.commit()
+        flash("Filière mise à jour avec succès.", "success")
+        return redirect(url_for("filieres.list_filieres"))
+    
+    return render_template("dashboard/filiere/edit.html", form=form, filiere=filiere)
 
 
 @bp.route("/delete/<string:filiere_id>", methods=["POST"])

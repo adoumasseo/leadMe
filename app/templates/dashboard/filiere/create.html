@@ -40,7 +40,16 @@
                         <div class="card-body p-4">
                             <div class="text-center mt-2">
                                 <h5 class="text-primary">Créer une Filière</h5>
-                                <p class="text-muted">Une filière doit être lié à au moins une matière et une série</p>
+                            </div>
+                            <div class="alert border-0 alert-warning text-center mb-2 mx-2" role="alert">
+                                <ul>
+                                    <li>
+                                        Une filière doit être lié à au moins une matière et une série.
+                                    </li>
+                                    <li>
+                                        Séparer les débouchés par des points virgules
+                                    </li>
+                                </ul>
                             </div>
                             
                             <div class="p-2 mt-4">
@@ -51,7 +60,7 @@
                                         <label for="nom">Nom de la Filière</label>
                                         {{ form.nom(class="form-control mb-2", id="nom") }}
                                         {% for error in form.nom.errors %}
-                                            <small class="text-danger">{{ error }}</small>
+                                            <div class="alert alert-danger">{{ error }}</div>
                                         {% endfor %}
                                     </div>
                                     
@@ -59,7 +68,7 @@
                                         <label for="debouches">Débouchés</label>
                                         {{ form.debouches(class="form-control mb-2", id="debouches") }}
                                         {% for error in form.debouches.errors %}
-                                            <small class="text-danger">{{ error }}</small>
+                                            <div class="alert alert-danger">{{ error }}</div>
                                         {% endfor %}
                                     </div>
                                     
@@ -67,7 +76,7 @@
                                         <label for="bourses">Nombre de Bourses</label>
                                         {{ form.bourses(class="form-control mb-2", id="bourses") }}
                                         {% for error in form.bourses.errors %}
-                                            <small class="text-danger">{{ error }}</small>
+                                            <div class="alert alert-danger">{{ error }}</div>
                                         {% endfor %}
                                     </div>
                                     
@@ -75,23 +84,17 @@
                                         <label for="semi_bourses">Nombre de Semi-Bourses</label>
                                         {{ form.semi_bourses(class="form-control mb-2", id="semi_bourses") }}
                                         {% for error in form.semi_bourses.errors %}
-                                            <small class="text-danger">{{ error }}</small>
+                                            <div class="alert alert-danger">{{ error }}</div>
                                         {% endfor %}
                                     </div>
                                     
-                                    <div class="form-group mb-3">
-                                        <label for="code">Code</label>
-                                        {{ form.code(class="form-control mb-2", id="code") }}
-                                        {% for error in form.code.errors %}
-                                            <small class="text-danger">{{ error }}</small>
-                                        {% endfor %}
-                                    </div>
+                                    
                                     
                                     <div class="form-group mb-3">
                                         <label for="ecole_id">École</label>
                                         {{ form.ecole_id(class="form-control mb-2", id="ecole_id") }}
                                         {% for error in form.ecole_id.errors %}
-                                            <small class="text-danger">{{ error }}</small>
+                                            <div class="alert alert-danger">{{ error }}</div>
                                         {% endfor %}
                                     </div>
                                     
@@ -99,7 +102,7 @@
                                         <label for="series">Séries</label>
                                         {{ form.series(class="form-control mb-2", id="series", multiple=True) }}
                                         {% for error in form.series.errors %}
-                                            <small class="text-danger">{{ error }}</small>
+                                            <div class="alert alert-danger">{{ error }}</div>
                                         {% endfor %}
                                     </div>
                                     
@@ -107,7 +110,7 @@
                                         <label for="matieres">Matières</label>
                                         {{ form.matieres(class="form-control", id="matieres", multiple=True) }}
                                         {% for error in form.matieres.errors %}
-                                            <small class="text-danger">{{ error }}</small>
+                                            <div class="alert alert-danger">{{ error }}</div>
                                         {% endfor %}
                                     </div>
                                     
