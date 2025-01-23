@@ -45,59 +45,67 @@
             </div>
 
             <div class="card-body mb-4">
+                <div class="accordion" id="default-accordion-example">
+                    {% for result in results %}
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="heading{{ result.id }}">
+                            <button class="accordion-button fs-20" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ result.id }}" aria-expanded="true" aria-controls="collapse{{ result.id }}">
+                                {{ result.name }}   
+                            </button>
+                        </h3>
+                        <table class="table table-bordered dt-responsive nowrap table-striped mb-5 accordion-collapse collapse show" id="collapse{{ result.id }}" aria-labelledby="heading{{ result.id }}" data-bs-parent="#default-accordion-example">
+                            <div class="accordion-body">
+                                <thead>
+                                    <tr>
+                                        <th data-ordering="false">Nom</th>
+                                        <th data-ordering="false">Coefficient</th>
+                                        <th data-ordering="false">Date de Création</th>
+                                        <th data-ordering="false">Date de Modification</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for matiere in result.matieres %}
+                                    <tr>
+                                        <td>{{ matiere.name }}</td>
+                                        <td>{{ matiere.coefficient }}</td>
+                                        <td>{{ matiere.created_at|format_date('full') }}</td>
+                                        <td>{{ matiere.updated_at|format_date('full') }}</td>
+                                        <td>
+                                            <div class="dropdown d-inline-block">
+                                                <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="ri-more-fill align-middle"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li>
+                                                        <a href="{{ url_for('matieres.edit', matiere_id=matiere.id) }}"
+                                                            class="dropdown-item edit-item-btn">
+                                                            <i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                            Modifier
+                                                        </a>
+                                                    </li>
+                                                    <li>
+            
+                                                        <button onclick="deleteMatiereConfirm('{{ matiere.id}}')" type="button"
+                                                            class="dropdown-item remove-item-btn">
+                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                                                            Supprimer
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </div>
+                            
+                        </table>
+                    </div>
+                    {% endfor %}
+                </div>
 
-                {% for result in results %}
-                <h3 class="">
-                    {{ result.name }}
-                    
-                </h3>
-                <table class="table table-bordered dt-responsive nowrap table-striped mb-5">
-                    <thead>
-                        <tr>
-                            <th data-ordering="false">Nom</th>
-                            <th data-ordering="false">Coefficient</th>
-                            <th data-ordering="false">Date de Création</th>
-                            <th data-ordering="false">Date de Modification</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for matiere in result.matieres %}
-                        <tr>
-                            <td>{{ matiere.name }}</td>
-                            <td>{{ matiere.coefficient }}</td>
-                            <td>{{ matiere.created_at|format_date('full') }}</td>
-                            <td>{{ matiere.updated_at|format_date('full') }}</td>
-                            <td>
-                                <div class="dropdown d-inline-block">
-                                    <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="ri-more-fill align-middle"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li>
-                                            <a href="{{ url_for('matieres.edit', matiere_id=matiere.id) }}"
-                                                class="dropdown-item edit-item-btn">
-                                                <i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                Modifier
-                                            </a>
-                                        </li>
-                                        <li>
-
-                                            <button onclick="deleteMatiereConfirm('{{ matiere.id}}')" type="button"
-                                                class="dropdown-item remove-item-btn">
-                                                <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                Supprimer
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% endfor %}
             </div>
         </div>
     </div>

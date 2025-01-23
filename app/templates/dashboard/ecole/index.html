@@ -52,7 +52,7 @@
                     {% for universite in universites %}
                     <div class="accordion-item">
                         <h3 class="accordion-header" id="heading{{ universite.code }}">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ universite.code }}" aria-expanded="true" aria-controls="collapse{{ universite.code }}">
+                            <button class="accordion-button fs-20" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ universite.code }}" aria-expanded="true" aria-controls="collapse{{ universite.code }}">
                                 {{ universite.nom }}   
                             </button>
                             
@@ -105,7 +105,6 @@
                                 </tbody>
                             </div>
                         </table>
-                        
                     </div>
                     {% endfor %}
                 </div>
