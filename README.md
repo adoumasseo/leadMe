@@ -85,7 +85,7 @@ Make sure to be at the root of the project with your acticated env. Then run:
     ``` end enjoy the app.
 
 ### File Directory Structure
-
+```bash
 .
 ├── app
 │   ├── controllers
@@ -224,6 +224,8 @@ Make sure to be at the root of the project with your acticated env. Then run:
 └── requirements.txt
 
 43 directories, 93 files
+
+```
 
 
 
