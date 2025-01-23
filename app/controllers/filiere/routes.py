@@ -16,14 +16,14 @@ class CSRFProtectForm(FlaskForm):
     pass
 
 class FiliereForm(FlaskForm):
-    nom = StringField("Nom", validators=[DataRequired(), Length(max=255)])
+    nom = StringField("Name", validators=[DataRequired(), Length(max=255)])
     debouches = TextAreaField("Débouchés")
     bourses = IntegerField("Nombre de bourses", validators=[Optional(), NumberRange(min=0)])
     semi_bourses = IntegerField("Nombre de semi-bourses", validators=[Optional(), NumberRange(min=0)])
     ecole_id = SelectField("École", coerce=str, validators=[DataRequired()])
     series = SelectMultipleField("Séries", coerce=str, validators=[DataRequired()])
     matieres = SelectMultipleField("Matières", coerce=str, validators=[DataRequired()])
-    submit = SubmitField("Soumettre")
+    submit = SubmitField("Submit")
     
     def __init__(self, edit=True, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -32,7 +32,7 @@ class FiliereForm(FlaskForm):
     def validate_nom(self, field):
         filiere = Filiere.query.filter_by(nom=field.data.strip()).first()
         if filiere and self.edit:
-            raise ValidationError("Une Filiere avec ce nom existe déjà")
+            raise ValidationError("A Field of Study with that name already exists")
 
 
 class DeleteFiliereForm(FlaskForm):
@@ -93,7 +93,7 @@ def create():
             db.session.add(filiere_matiere)
         
         db.session.commit()
-        flash("Filière créée avec succès.", "success")
+        flash("Successfully create Field of Study.", "success")
         return redirect(url_for("filieres.list_filieres"))
     
     return render_template("dashboard/filiere/create.html", form=form)
@@ -160,7 +160,7 @@ def edit(filiere_id):
             MatiereFiliere.query.filter_by(id_filiere=filiere.id_filiere, id_matiere=matiere_id).delete()
         
         db.session.commit()
-        flash("Filière mise à jour avec succès.", "success")
+        flash("Successfully update Field of Study.", "success")
         return redirect(url_for("filieres.list_filieres"))
     
     return render_template("dashboard/filiere/edit.html", form=form, filiere=filiere)
@@ -175,6 +175,6 @@ def delete_filiere(filiere_id):
         filiere = Filiere.query.get_or_404(filiere_id)
         db.session.delete(filiere)
         db.session.commit()
-        flash('Filiere Supprimé avec success!', 'success')
+        flash('Successfully delete Field of Study!', 'success')
         return redirect(url_for('filieres.list_filieres'))
     return "Erreur CSRF", 400

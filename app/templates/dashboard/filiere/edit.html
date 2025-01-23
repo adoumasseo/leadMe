@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 
 {% block title %}
-    Edit Filiere
+    Edit Field of Study
 {% endblock %}
 
 {% block content %}
@@ -39,16 +39,16 @@
 
                         <div class="card-body p-4">
                             <div class="text-center mt-2">
-                                <h5 class="text-primary">Modifier une Filière</h5>
+                                <h5 class="text-primary">Update a Field of Study</h5>
                                 
                             </div>
                             <div class="alert border-0 alert-warning text-center mb-2 mx-2" role="alert">
                                 <ul>
                                     <li>
-                                        Une filière doit être lié à au moins une matière et une série.
+                                        A Field of Study must be linked to at least one subject and one series.
                                     </li>
                                     <li>
-                                        Séparer les débouchés par des points virgules
+                                        Separate Employment Opportunities with semicolons
                                     </li>
                                 </ul>
                             </div>
@@ -57,7 +57,7 @@
                                     {{ form.hidden_tag() }}
                                            
                                            <div class="form-group">
-                                               <label for="nom">Nom de la Filière</label>
+                                               <label for="nom">Name of Field of Study</label>
                                                {{ form.nom(class="form-control", id="nom") }}
                                                {% for error in form.nom.errors %}
                                                     <div class="alert alert-danger">{{ error }}</div>
@@ -65,7 +65,7 @@
                                            </div>
                                            
                                            <div class="form-group">
-                                               <label for="debouches">Débouchés</label>
+                                               <label for="debouches">Employment Opportunities</label>
                                                {{ form.debouches(class="form-control", id="debouches") }}
                                                {% for error in form.debouches.errors %}
                                                     <div class="alert alert-danger">{{ error }}</div>
@@ -73,7 +73,7 @@
                                            </div>
                                            
                                            <div class="form-group">
-                                               <label for="bourses">Nombre de Bourses</label>
+                                               <label for="bourses">Scholarships</label>
                                                {{ form.bourses(class="form-control", id="bourses") }}
                                                {% for error in form.bourses.errors %}
                                                     <div class="alert alert-danger">{{ error }}</div>
@@ -81,7 +81,7 @@
                                            </div>
                                            
                                            <div class="form-group">
-                                               <label for="semi_bourses">Nombre de Semi-Bourses</label>
+                                               <label for="semi_bourses">Partial Scholarships</label>
                                                {{ form.semi_bourses(class="form-control", id="semi_bourses") }}
                                                {% for error in form.semi_bourses.errors %}
                                                     <div class="alert alert-danger">{{ error }}</div>
@@ -90,7 +90,7 @@
                                            
                                            
                                            <div class="form-group">
-                                               <label for="ecole_id">École</label>
+                                               <label for="ecole_id">School</label>
                                                {{ form.ecole_id(class="form-control", id="ecole_id") }}
                                                {% for error in form.ecole_id.errors %}
                                                     <div class="alert alert-danger">{{ error }}</div>
@@ -98,7 +98,7 @@
                                            </div>
                                            
                                            <div class="form-group">
-                                               <label for="series">Séries</label>
+                                               <label for="series">Series</label>
                                                {{ form.series(class="form-control", id="series", multiple=True) }}
                                                {% for error in form.series.errors %}
                                                     <div class="alert alert-danger">{{ error }}</div>
@@ -106,7 +106,7 @@
                                            </div>
                                            
                                            <div class="form-group">
-                                               <label for="matieres">Matières</label>
+                                               <label for="matieres">Subjects</label>
                                                {{ form.matieres(class="form-control", id="matieres", multiple=True) }}
                                                {% for error in form.matieres.errors %}
                                                     <div class="alert alert-danger">{{ error }}</div>
