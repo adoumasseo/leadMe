@@ -1,0 +1,29 @@
+{% extends 'layouts/front_nav.html' %}
+{% block title %} Basics informations {% endblock %}
+    
+{% block content %}
+<style>
+hr{ 
+  
+    border:         none;
+    border-left:    1px solid hsla(200, 10%, 50%,100);
+    width:          1px;       
+}
+</style>
+<div class="auth-page-wrapper pt-5">
+    <!-- auth page bg -->
+    
+
+    <!-- auth page content -->
+    <div class="auth-page-content">
+        <div class="container mt-5">
+            
+            <div class="text-center pt-5">
+                <h3>Details of {{ filiere.nom }}</h3>
+            </div>
+            
+        
+        </div>
+    </div>
+</div>
+{% endblock %}

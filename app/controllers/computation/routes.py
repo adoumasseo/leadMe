@@ -6,6 +6,9 @@ from wtforms import StringField, SubmitField, SelectField, FieldList, FormField,
 from app.database.models.user import User
 from app.database.models.serie import Serie
 from app.database.models.associations import Note
+from app.database.models.filiere import Filiere
+from app.database.models.ecole import Ecole
+from app.database.models.university import Universite
 from flask_login import login_required, current_user, login_user
 from flask import flash, redirect, url_for, render_template, request
 from app.database.models.associations import MatiereFiliere, Moyenne, Coefficient, FiliereSerie
@@ -340,3 +343,16 @@ def generate_pdf():
     except Exception as e:
         print(f"Error generating PDF: {e}")
         return redirect(url_for('computation.compute_average'))
+
+@bp.route("/filiere-details/<string:filiere_id>", methods=["GET"])
+def details(filiere_id):
+    filiere = Filiere.query.get_or_404(filiere_id)
+    ecole = Ecole.query.get_or_404(filiere.id_ecole)
+    universite = Universite.query.get_or_404(ecole.id_universite)
+    
+    return render_template(
+        'computation/filiere-details.html',
+        filiere=filiere,
+        ecole=ecole,
+        universite=universite
+    )
