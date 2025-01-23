@@ -39,7 +39,7 @@
 
                         <div class="card-body p-4">
                             <div class="text-center mt-2">
-                                <h5 class="text-primary">Ajouter une école</h5>
+                                <h5 class="text-primary">Update a School</h5>
                                 
                             </div>
                             
@@ -49,14 +49,14 @@
                                     {{ form.hidden_tag() }}
                                     <div>
                                         {{ form.ecole_name.label (class="form-label")}}<br>
-                                        {{ form.ecole_name(class="form-control mb-2", placeholder="Ecole Nationale d'Administration et de Magistrature ") }}
+                                        {{ form.ecole_name(class="form-control mb-2", placeholder="National School of Administration and Magistracy") }}
                                         {% for error in form.ecole_name.errors %}
                                             <div class="alert alert-danger">{{ error }}</div>
                                         {% endfor %}
                                     </div>
                                     <div>
                                         {{ form.ecole_code.label(class="form-label") }}
-                                        {{ form.ecole_code(class="form-control mb-2", placeholder="ENAM") }}
+                                        {{ form.ecole_code(class="form-control mb-2", placeholder="NSAM") }}
                                         {% for error in form.ecole_code.errors %}
                                             <div class="alert alert-danger">{{ error }}</div>
                                         {% endfor %}
@@ -69,7 +69,7 @@
                                         {% endfor %}
                                     </div>
                                     <div  class="d-flex justify-content-between mb-2 mt-4">
-                                        <a href="{{ url_for('ecoles.list_ecoles') }}" class="btn" style="background-color: rgba(255, 0, 0, 0.681); color: white;">Annuler</a>
+                                        <a href="{{ url_for('ecoles.list_ecoles') }}" class="btn" style="background-color: rgba(255, 0, 0, 0.681); color: white;">Cancel</a>
                                         {{ form.submit(class="btn btn-primary w-50") }}
                                     </div>
                                 </form>

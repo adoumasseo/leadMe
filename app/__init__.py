@@ -72,6 +72,6 @@ def create_app(config_class=Config):
             format="EEEE, d MMMM y"
         elif format == 'medium':
             format="dd MMMM y"
-        return babel.dates.format_datetime(value, format, locale='fr')   
+        return babel.dates.format_datetime(value, format, locale='en')   
     return app
 

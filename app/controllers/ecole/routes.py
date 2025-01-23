@@ -21,27 +21,27 @@ class CreateEcoleForm(FlaskForm):
     Cette classe se charge de créer le formulaire et ses champs
     et de faire la validation des donnés
     """
-    ecole_name = StringField("Nom", validators=[DataRequired(message="Le champ ne doit pas être vide.")])
-    ecole_code = StringField("Code", validators=[DataRequired(message="Le champ ne doit pas être vide.")])
-    universite_id = SelectField("Université", choices=[], validators=[DataRequired(message="Veuillez sélectionner une université.")])
+    ecole_name = StringField("Name", validators=[DataRequired(message="The field must not be empty.")])
+    ecole_code = StringField("Code", validators=[DataRequired(message="The field must not be empty.")])
+    universite_id = SelectField("University", choices=[], validators=[DataRequired(message="Please select a university.")])
 
     def validate_ecole_name(self, field):
         if Ecole.query.filter_by(nom=field.data.strip()).first():
-            raise ValidationError("Un rôle avec ce nom existe déjà.")
+            raise ValidationError("A school with that name already exists.")
     def validate_ecole_code(self, field):
         if Ecole.query.filter_by(code=field.data.strip()).first():
-            raise ValidationError("Une Université avec ce code existe déjà.")
+            raise ValidationError("A school with that code already exists.")
 
-    submit = SubmitField('Soumettre')
+    submit = SubmitField('Submit')
     def __init__(self, *args, **kwargs):
         super(CreateEcoleForm, self).__init__(*args, **kwargs)
         self.universite_id.choices = [(u.id_universite, u.nom) for u in Universite.query.all()]
 
 class EditEcoleForm(FlaskForm):
-    ecole_name = StringField("Nom de l'école", validators=[DataRequired(message="Le champ ne doit pas être vide.")])
-    ecole_code = StringField("Code de l'école", validators=[DataRequired(message="Le champ ne doit pas être vide.")])
-    universite_id = SelectField("Université", choices=[], validators=[DataRequired(message="Veuillez sélectionner une université.")])
-    submit = SubmitField('Modifier')
+    ecole_name = StringField("School Name", validators=[DataRequired(message="The field must not be empty.")])
+    ecole_code = StringField("School Code", validators=[DataRequired(message="The field must not be empty.")])
+    universite_id = SelectField("University", choices=[], validators=[DataRequired(message="Please select a university.")])
+    submit = SubmitField('Update')
 
     def __init__(self, original_name, original_code, *args, **kwargs):
         super(EditEcoleForm, self).__init__(*args, **kwargs)
@@ -51,11 +51,11 @@ class EditEcoleForm(FlaskForm):
 
     def validate_ecole_name(self, field):
         if field.data.strip() != self.original_name and Ecole.query.filter_by(nom=field.data.strip()).first():
-            raise ValidationError("Une école de ce nom existe déjà.")
+            raise ValidationError("A school with that name already exists.")
         
     def validate_ecole_code(self, field):
         if field.data.strip() != self.original_code and Ecole.query.filter_by(code=field.data.strip()).first():
-            raise ValidationError("Une école de ce code existe déjà.")
+            raise ValidationError("A school with that code already exists.")
 
 class DeleteEcoleForm(FlaskForm):
     pass
@@ -90,7 +90,7 @@ def create():
 
         db.session.add(new_ecole)
         db.session.commit()
-        flash('Ecole créé avec succès!', 'success')
+        flash('School successfully created!', 'success')
         return redirect(url_for('ecoles.list_ecoles'))
 
     return render_template('dashboard/ecole/create.html', form=form)
@@ -107,7 +107,7 @@ def edit(ecole_id):
         ecole.code = form.ecole_code.data.strip()
         ecole.id_universite = form.universite_id.data
         db.session.commit()
-        flash('Ecole modifié avec succès!', 'success')
+        flash('School successfully updated', 'success')
         return redirect(url_for('ecoles.list_ecoles'))
 
     form.ecole_name.data = ecole.nom
@@ -122,6 +122,6 @@ def delete(ecole_id):
     ecole = Ecole.query.get_or_404(ecole_id)
     db.session.delete(ecole)
     db.session.commit()
-    flash('Ecole supprimé avec succès!', 'success')
+    flash('School successfully deleted!', 'success')
     
     return redirect(url_for('ecoles.list_ecoles'))  
