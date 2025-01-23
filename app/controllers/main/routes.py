@@ -10,5 +10,5 @@ def index():
 
 @bp.route('/all-posts')
 def all_posts():
-    all_post = Post.query.all()
+    all_post = Post.query.order_by(Post.created_at.desc()).all()
     return render_template("posts.html", posts=all_post)
