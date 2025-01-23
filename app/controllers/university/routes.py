@@ -20,21 +20,21 @@ class CreateUniversiteForm(FlaskForm):
     Cette classe se charge de créer le formulaire et ses champs
     et de faire la validation des donnés
     """
-    universite_name = StringField("Nom", validators=[DataRequired(message="Le champ ne doit pas être vide.")])
-    universite_code = StringField("Code", validators=[DataRequired(message="Le champ ne doit pas être vide.")])
+    universite_name = StringField("Name", validators=[DataRequired(message="Field must not be empty.")])
+    universite_code = StringField("Code", validators=[DataRequired(message="Field must not be empty.")])
 
     def validate_universite_name(self, field):
         if Universite.query.filter_by(nom=field.data.strip()).first():
-            raise ValidationError("Un rôle avec ce nom existe déjà.")
+            raise ValidationError("A University with this name already exists.")
     def validate_universite_code(self, field):
         if Universite.query.filter_by(code=field.data.strip()).first():
-            raise ValidationError("Une Université avec ce code existe déjà.")
+            raise ValidationError("A University with this code already exists.")
 
-    submit = SubmitField('Soumettre')
+    submit = SubmitField('Submit')
     
 class EditUniversiteForm(FlaskForm):
-    universite_name = StringField("Nom de l'université", validators=[DataRequired(message="Le champ ne doit pas être vide.")])
-    universite_code = StringField("Code de l'université", validators=[DataRequired(message="Le champ ne doit pas être vide.")])
+    universite_name = StringField("Name of University", validators=[DataRequired(message="The field must not be empty.")])
+    universite_code = StringField("Code of University", validators=[DataRequired(message="The field must not be empty.")])
     
     def __init__(self, original_name, original_code, *args, **kwargs):
         super(EditUniversiteForm, self).__init__(*args, **kwargs)
@@ -43,13 +43,13 @@ class EditUniversiteForm(FlaskForm):
 
     def validate_universite_name(self, field):
         if field.data.strip() != self.original_name and Universite.query.filter_by(nom=field.data.strip()).first():
-            raise ValidationError("Une université de ce nom existe déjà")
+                raise ValidationError("A university of this name already exists")
         
     def validate_universite_code(self, field):
         if field.data.strip() != self.original_code and Universite.query.filter_by(code=field.data.strip()).first():
-            raise ValidationError("Une université de ce nom existe déjà")
+            raise ValidationError("A university of this name already exists")
 
-    submit = SubmitField('Modifier')
+    submit = SubmitField('Update')
     
 class DeleteUniversiteForm(FlaskForm):
     pass
@@ -79,7 +79,7 @@ def create():
         new_universite = Universite(nom=form.universite_name.data.strip(), code=form.universite_code.data.strip())
         db.session.add(new_universite)
         db.session.commit()
-        flash('Université créé avec succès!', 'success')
+        flash('University successfully created!', 'success')
         return redirect(url_for('universites.list_universites'))
     return render_template('dashboard/university/create.html', form=form)
 
@@ -93,7 +93,7 @@ def edit(universite_id):
         universite.nom = form.universite_name.data.strip()
         universite.code = form.universite_code.data.strip()
         db.session.commit()
-        flash('Université modifié avec succès!', 'success')
+        flash('University successfully updated!', 'success')
         return redirect(url_for('universites.list_universites'))
     return render_template("dashboard/university/edit.html", form=form, universite=universite)
 
@@ -106,6 +106,6 @@ def delete_universite(universite_id):
         universite = Universite.query.get_or_404(universite_id)
         db.session.delete(universite)
         db.session.commit()
-        flash('Université supprimée avec succès!', 'success')
+        flash('University successfully deleted!', 'success')
         return redirect(url_for('universites.list_universites'))
     return "Erreur CSRF", 400
