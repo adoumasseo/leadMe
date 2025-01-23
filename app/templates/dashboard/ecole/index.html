@@ -27,14 +27,14 @@
 {% endwith %}
 
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
+    <ol class="breadcrumb mt-3">
         <li class="breadcrumb-item"><a href="#"><i class="ri-home-5-fill"></i></a></li>
         <li class="breadcrumb-item"><a href="{{ url_for('dashboard.index') }}">Dashboard</a></li>
         <li class="breadcrumb-item active" aria-current="page">Ecole</li>
     </ol>
 </nav>
 
-<div class="row">
+<div class="row mt-4">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
@@ -45,59 +45,70 @@
             </div>
 
             <div class="card-body mb-4">
-
-                {% for universite in universites %}
-                <h3 class="">
-                    {{ universite.nom }}
-                    
-                </h3>
-                <table class="table table-bordered dt-responsive nowrap table-striped mb-5">
-                    <thead>
-                        <tr>
-                            <th data-ordering="false">Nom</th>
-                            <th data-ordering="false">Code</th>
-                            <th data-ordering="false">Date de Création</th>
-                            <th data-ordering="false">Date de Modification</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for ecole in universite.ecoles %}
-                        <tr>
-                            <td>{{ ecole.nom }}</td>
-                            <td>{{ ecole.code }}</td>
-                            <td>{{ ecole.created_at|format_date('full') }}</td>
-                            <td>{{ ecole.updated_at|format_date('full') }}</td>
-                            <td>
-                                <div class="dropdown d-inline-block">
-                                    <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="ri-more-fill align-middle"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li>
-                                            <a href="{{ url_for('ecoles.edit', ecole_id=ecole.id_ecole)}}"
-                                                class="dropdown-item edit-item-btn">
-                                                <i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                Modifier
-                                            </a>
-                                        </li>
-                                        <li>
-
-                                            <button onclick="deleteEcoleConfirm('{{ ecole.id_ecole}}')" type="button"
-                                                class="dropdown-item remove-item-btn">
-                                                <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                Supprimer
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% endfor %}
+                
+                
+                <!-- Base Example -->
+                <div class="accordion" id="default-accordion-example">
+                    {% for universite in universites %}
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="heading{{ universite.code }}">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ universite.code }}" aria-expanded="true" aria-controls="collapse{{ universite.code }}">
+                                {{ universite.nom }}   
+                            </button>
+                            
+                        </h3>
+                        <table class="table table-bordered dt-responsive nowrap table-striped mb-5 accordion-collapse collapse show" id="collapse{{ universite.code }}" aria-labelledby="heading{{ universite.code }}" data-bs-parent="#default-accordion-example">
+                            <div class="accordion-body">
+                                <thead>
+                                    <tr>
+                                        <th data-ordering="false">Nom</th>
+                                        <th data-ordering="false">Code</th>
+                                        <th data-ordering="false">Date de Création</th>
+                                        <th data-ordering="false">Date de Modification</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ecole in universite.ecoles %}
+                                    <tr>
+                                        <td>{{ ecole.nom }}</td>
+                                        <td>{{ ecole.code }}</td>
+                                        <td>{{ ecole.created_at|format_date('full') }}</td>
+                                        <td>{{ ecole.updated_at|format_date('full') }}</td>
+                                        <td>
+                                            <div class="dropdown d-inline-block">
+                                                <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="ri-more-fill align-middle"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li>
+                                                        <a href="{{ url_for('ecoles.edit', ecole_id=ecole.id_ecole)}}"
+                                                            class="dropdown-item edit-item-btn">
+                                                            <i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                            Modifier
+                                                        </a>
+                                                    </li>
+                                                    <li>
+            
+                                                        <button onclick="deleteEcoleConfirm('{{ ecole.id_ecole}}')" type="button"
+                                                            class="dropdown-item remove-item-btn">
+                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                                                            Supprimer
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </div>
+                        </table>
+                        
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
