@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block title %}
-    Create Post
+    Update Post
 {% endblock %}
 
 {% block content %}
@@ -39,7 +39,7 @@
 
                         <div class="card-body p-4">
                             <div class="text-center mt-2">
-                                <h5 class="text-primary">Modifier un Post</h5>
+                                <h5 class="text-primary">Update a Post</h5>
                                 
                             </div>
                             
@@ -49,7 +49,7 @@
                                     {{ form.hidden_tag() }}
                                     <div class="mb-3">
                                         {{ form.titre.label(class="form-label") }}
-                                        {{ form.titre(class="form-control mb-1", placeholder="Ex: Bourses en Ingénieurie") }}
+                                        {{ form.titre(class="form-control mb-1", placeholder="Ex: Engineering Scholarships") }}
                                         {% if form.titre.errors %}
                                             {% for error in form.titre.errors %}
                                                 <div class="alert alert-danger">{{ error }}</div>
@@ -67,7 +67,7 @@
 
 
                                         {{ form.contenu.label(class="form-label") }}
-                                        {{ form.contenu(class="form-control mb-1", placeholder="Ex: Entrez les informations de la Bourse") }}
+                                        {{ form.contenu(class="form-control mb-1", placeholder="Ex: Enter the Scholarship information") }}
                                         {% if form.contenu.errors %}
                                             {% for error in form.contenu.errors %}
                                                 <div class="alert alert-danger">{{ error }}</div>
@@ -76,7 +76,7 @@
 
 
                                         {{ form.image.label(class="form-label") }}
-                                        {{ form.image(class="form-control mb-1", placeholder="Ex: Choissisez une image") }}
+                                        {{ form.image(class="form-control mb-1", placeholder="Ex: Choose an image") }}
                                         {% if form.image.errors %}
                                             {% for error in form.image.errors %}
                                                 <div class="alert alert-danger">{{ error }}</div>

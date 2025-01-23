@@ -15,18 +15,18 @@ class CSRFProtectForm(FlaskForm):
     pass
 
 class CreatePostForm(FlaskForm):
-    titre = StringField('Titre de la Bourse', validators=[DataRequired(message="Le titre ne doit pas être vide.")])
-    adresse = StringField('Adresse')
-    contenu = TextAreaField('Contenu de la Bourse', validators=[DataRequired(message="Le contenu ne doit pas être vide.")])
-    image = FileField('Image', validators=[FileAllowed(['jpg', 'png'], 'Seules les images sont autorisées!')])
-    submit = SubmitField('Soumettre')
+    titre = StringField('Scholarship Title', validators=[DataRequired(message="The title must not be empty.")])
+    adresse = StringField('Address')
+    contenu = TextAreaField('Contents of the Scholarship', validators=[DataRequired(message="Content must not be empty.")])
+    image = FileField('Picture', validators=[FileAllowed(['jpg', 'png'], 'Only images are allowed!')])
+    submit = SubmitField('Submit')
 
 class EditPostForm(FlaskForm):
-    titre = StringField('Titre', validators=[DataRequired(message="Le titre ne doit pas être vide.")])
+    titre = StringField('Scholarship Title', validators=[DataRequired(message="The title must not be empty.")])
     adresse = StringField('Adresse')
-    contenu = TextAreaField('Contenu', validators=[DataRequired(message="Le contenu ne doit pas être vide.")])
-    image = FileField('Image', validators=[FileAllowed(['jpg', 'png'], 'Seules les images sont autorisées!')])
-    submit = SubmitField('Modifier')
+    contenu = TextAreaField('Contents of the Scholarship', validators=[DataRequired(message="Content must not be empty.")])
+    image = FileField('Picture', validators=[FileAllowed(['jpg', 'png'], 'Only images are allowed!')])
+    submit = SubmitField('Update')
 
 class DeletePostForm(FlaskForm):
     pass
@@ -72,7 +72,7 @@ def create():
         )
         db.session.add(new_post)
         db.session.commit()
-        flash('Post créé avec succès!', 'success')
+        flash('Post created successfully!', 'success')
         return redirect(url_for('posts.list_posts'))
     return render_template('dashboard/post/create.html', form=form)
 
@@ -91,7 +91,7 @@ def edit(post_id):
         post.adresse = form.adresse.data.strip()
         post.contenu = form.contenu.data.strip()
         db.session.commit()
-        flash('Post modifié avec succès!', 'success')
+        flash('Post updated successfully!', 'success')
         return redirect(url_for('posts.list_posts'))
     return render_template('dashboard/post/edit.html', form=form, post=post)
 
@@ -106,7 +106,7 @@ def delete(post_id):
             os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], post.imagePath))
         db.session.delete(post)
         db.session.commit()
-        flash('Post supprimé avec succès!', 'success')
+        flash('Post deleted successfully!', 'success')
         return redirect(url_for('posts.list_posts'))
     return "Erreur CSRF", 400
 
