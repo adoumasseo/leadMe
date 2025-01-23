@@ -345,6 +345,7 @@ def generate_pdf():
         return redirect(url_for('computation.compute_average'))
 
 @bp.route("/filiere-details/<string:filiere_id>", methods=["GET"])
+@login_required
 def details(filiere_id):
     filiere = Filiere.query.get_or_404(filiere_id)
     ecole = Ecole.query.get_or_404(filiere.id_ecole)
