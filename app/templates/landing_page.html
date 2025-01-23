@@ -45,7 +45,15 @@
                     <div>
                         <h1 class="display-6 fw-bold text-capitalize mb-3 lh-base">Lead Me, the best tool for guiding new graduates</h1>
                         <p class="lead text-muted lh-base mb-4">Lead Me is an online tool for guiding new high school graduates. It is based on the series and grades obtained to determine the courses for which a user has a better chance of being accepted during the ranking</p>
-                       
+                        <div class="d-flex justify-content-between" style="margin-top: 50px;">
+                            <div class="">
+                                <a href="{{ url_for('computation.user_information') }}" class="btn btn-outline-primary waves-effect waves-light" style="width: 150px;"> Get Started</a>
+                            </div>
+                            
+                            <div class="">
+                                <a href="{{ url_for('static', filename='pdf/orientation_guide.pdf') }}" class="btn btn-primary waves-effect waves-light" download> Download the orientation guide</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--end col-->
