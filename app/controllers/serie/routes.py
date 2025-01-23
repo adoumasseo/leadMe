@@ -21,15 +21,15 @@ class CreateSerieForm(FlaskForm):
     Cette classe se charge de créer le formulaire et ses champs
     et de faire la validation des donnés
     """
-    serie_name = StringField('Nom de la serie', validators=[DataRequired(message="Le champ ne doit pas être vide.")])
+    serie_name = StringField('Name of the series', validators=[DataRequired(message="The field must not be empty.")])
     def validate_serie_name(self, field):
         if Serie.query.filter_by(nom=field.data.strip()).first():
-            raise ValidationError("Une série de ce nom existe déjà.")
+            raise ValidationError("A series of this name already exists.")
 
-    submit = SubmitField('Soumettre')
+    submit = SubmitField('Submit')
     
 class EditSerieForm(FlaskForm):
-    serie_name = StringField('Nom de la Serie', validators=[DataRequired(message="Le champ ne doit pas être vide.")])
+    serie_name = StringField('Name of the series', validators=[DataRequired(message="The field must not be empty.")])
 
     def __init__(self, original_name, *args, **kwargs):
         super(EditSerieForm, self).__init__(*args, **kwargs)
@@ -37,9 +37,9 @@ class EditSerieForm(FlaskForm):
 
     def validate_serie_name(self, field):
         if field.data.strip() != self.original_name and Serie.query.filter_by(nom=field.data.strip()).first():
-            raise ValidationError("Une série de ce nom existe déjà.")
+            raise ValidationError("A series of this name already exists.")
 
-    submit = SubmitField('Modifier')
+    submit = SubmitField('Update')
     
 class DeleteSerieForm(FlaskForm):
     pass
@@ -69,7 +69,7 @@ def create():
         new_serie = Serie(nom=form.serie_name.data)
         db.session.add(new_serie)
         db.session.commit()
-        flash('Série créé avec succès!', 'success')
+        flash('Series successfully created!', 'success')
         return redirect(url_for('series.list_series'))
     return render_template('dashboard/serie/create.html', form=form)
 
@@ -82,7 +82,7 @@ def edit(serie_id):
     if form.validate_on_submit():
         serie.nom = form.serie_name.data
         db.session.commit()
-        flash('Série modifié avec succès!', 'success')
+        flash('Series successfully modified!', 'success')
         return redirect(url_for('series.list_series'))
     return render_template("dashboard/serie/edit.html", form=form, serie=serie)
 
@@ -95,6 +95,6 @@ def delete(serie_id):
         serie = Serie.query.get_or_404(serie_id)
         db.session.delete(serie)
         db.session.commit()
-        flash('Serie supprimé avec succès!', 'success')
+        flash('Series successfully deleted!', 'success')
         return redirect(url_for('series.list_series'))
     return "Erreur CSRF", 400

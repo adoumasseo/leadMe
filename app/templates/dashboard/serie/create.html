@@ -39,8 +39,8 @@
 
                         <div class="card-body p-4">
                             <div class="text-center mt-2">
-                                <h5 class="text-primary">Créer une Série</h5>
-                                <p class="text-muted">Entrez le nom d'une Série</p>
+                                <h5 class="text-primary">Add a Series</h5>
+                                <p class="text-muted">Enter the name of a Series</p>
                             </div>
                             
                             <div class="p-2 mt-4">
@@ -48,7 +48,7 @@
                                 <form action="{{ url_for('series.create') }}" method="POST">
                                     {{ form.hidden_tag() }}
                                     <div class="mb-3">
-                                        {{ form.serie_name(class="form-control mb-1", placeholder="Ex: A") }}
+                                        {{ form.serie_name(class="form-control mb-1", placeholder="Ex: Serie A") }}
                                         {% if form.serie_name.errors %}
                                             {% for error in form.serie_name.errors %}
                                                 <div class="alert alert-danger">{{ error }}</div>
