@@ -40,18 +40,18 @@
 
                         <div class="card-body p-4">
                             <div class="text-center mt-2">
-                                <h5 class="text-primary">Modifier une Matière</h5>
-                                <p class="text-muted">Modifier le nom d'une Matière et/ou ses coeeficients</p>
+                                <h5 class="text-primary">Create a Subject</h5>
+                                <p class="text-muted">Enter the name of a Subject and its coefficients</p>
                             </div>
                             <div class="alert border-0 alert-warning text-center mb-2 mx-2" role="alert">
-                                Dans le cas où votre matière n'existerai pas dans une des séries entrez zero(0) pour son coéfficient
+                                In case your Subject does not exist in one of the series enter zero (0) for its coefficient
                             </div>
                             <div class="p-2 mt-4">
                                 <form method="POST" novalidate>
                                     {{ form.hidden_tag() }}
                                     
                                     <div>
-                                        <label for="matiereNom">Nom de la Matière</label>
+                                        <label for="matiereNom">Name of Subject</label>
                                         {{ form.matiereNom(class="form-control mb-1") }}
                                         {% for error in form.matiereNom.errors %}
                                             <div class="alert alert-danger">{{ error }}</div>
@@ -59,7 +59,7 @@
                                     </div>
                                     
                                     <div>
-                                        <h3>Coefficients</h3>
+                                        <h3>Coefficients for each series</h3>
                                         {% for entry in form.coefficients %}
                                             <div>
                                                 {{ entry.hidden_tag() }}

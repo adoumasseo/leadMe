@@ -31,7 +31,7 @@ class CoefficientForm(FlaskForm):
 class MatiereCoefficientForm(FlaskForm):
     matiereNom = StringField("NOM matiere", validators=[DataRequired()])
     coefficients = FieldList(FormField(CoefficientForm), min_entries=1)
-    submit = SubmitField('Soumettre')
+    submit = SubmitField('Submit')
     
     def __init__(self, edit=True, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -40,7 +40,7 @@ class MatiereCoefficientForm(FlaskForm):
     def validate_matiereNom(self, field):
         matiere = Matiere.query.filter_by(nom=field.data.strip()).first()
         if matiere and self.edit:
-            raise ValidationError("Une matière avec ce nom existe déjà")
+            raise ValidationError("A subject with that name alredy exist")
 
 
 @bp.route('/', methods=["GET"])
@@ -117,7 +117,7 @@ def create():
                 db.session.add(coeff)
         
         db.session.commit()
-        flash("Matière créée avec succès.", "success")
+        flash("Subject successfully created.", "success")
         return redirect(url_for("matieres.list_matieres"))
     if form.errors:
         for field, errors in form.errors.items():
@@ -183,7 +183,7 @@ def edit(matiere_id):
                 db.session.delete(existing_coeff)
         
         db.session.commit()
-        flash("Matière mise à jour avec succès.", "success")
+        flash("Subject successfully updated.", "success")
         return redirect(url_for("matieres.list_matieres"))
     
     # Display errors if validation fails
@@ -204,6 +204,6 @@ def delete(matiere_id):
         matiere = Matiere.query.get_or_404(matiere_id)
         db.session.delete(matiere)
         db.session.commit()
-        flash('Matiere supprimé avec succès!', 'success')
+        flash('Subject successfully deleted/', 'success')
         return redirect(url_for('matieres.list_matieres'))
     return "Erreur CSRF", 400
