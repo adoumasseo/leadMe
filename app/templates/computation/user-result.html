@@ -32,7 +32,7 @@ hr{
                                     <div class="d-flex flex-column justify-content-around card-body h-100 ">
                                         <div>
                                             <h5 class="mb-1">{{ filiere_data.filiere.nom }}</h5>
-                                            <p class="text-muted">({{ filiere_data.filiere.code}})</p>
+                                            
                                         </div>
                 
                                         <div class="py-2">
@@ -50,6 +50,7 @@ hr{
                                                 <h5 class="fs-13 text-muted ">Partial grants<h5/>
                                             </div>
                                         </div>
+                                    
                                     </div>
                                 </div>
                                 <!--end col-->
@@ -68,6 +69,7 @@ hr{
                                                 {% endfor %}
                                             </div>
                                         </div>
+                                        <a class="btn btn-primary w-100 mt-4" href="{{ url_for('computation.details', filiere_id=filiere_data.filiere.id_filiere) }}">More details</a>
                                     </div>
                                 </div>
                                 <!--end col-->
