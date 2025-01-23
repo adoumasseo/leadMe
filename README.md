@@ -7,6 +7,8 @@
 ![Language](https://img.shields.io/badge/Language-HTML-brown)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+- **Author LinkedIn**: [Ortniel ADOUMASSE](https://www.linkedin.com/in/ortniel-adoumasse/).
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
@@ -82,7 +84,8 @@ Make sure to be at the root of the project with your acticated env. Then run:
 8. Start the development server:
     ```sh
     flask run
-    ``` end enjoy the app.
+    ``` 
+    end enjoy the app.
 
 ### File Directory Structure
 ```bash
@@ -231,8 +234,11 @@ Make sure to be at the root of the project with your acticated env. Then run:
 
 ## Usage
 
-- To download the orientation guide, navigate to the `/download` route or click on the provided link in the application.
-- Access other functionality [brief explanation of usage].
+- To Acces the dashbord after the seed you have to click `Administrator Area` At the top of the landing page
+- Here are the credentials
+  - email: ```adoumasseo@gmail.com``` (Mine incidentally)
+  - password: ```admin@admin```
+- For the rest you can just discover by yourself :).
 
 ## Contributing
 
