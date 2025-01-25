@@ -76,10 +76,64 @@ Ensure you have the following installed on your machine:
   - Make sure to have the `SECRET_KEY`, `DATABASE_URL`, `FLASK_APP` and `FLASK_ENV`.
   - The others Variables are for the email service. You can create your own using `google smtp` service. Or you can also email me if you want mine :) (But make sure to have them if you need to test the functionalities email related)
 
-7. Migrations and seeders
+7. Migrations
 Make sure to be at the root of the project with your acticated env. Then run:
   - ```sh flask db upgrade```: to apply the migrations on the database
-  - ```sh flask seed_all```: to add some data to the database.
+
+8. Seeders
+  Before seeding the database you might want to modify the seed code a litle bit if you want to acces the admin panel with your informations. <br>
+  - Navigate to `app/database/seeds` and open the file `seed_users.py`.
+  - You will find something like this in it 
+  ```py
+  from app.extensions import db
+  from app.database.models.user import User
+  from app.database.models.university import Universite
+  from app.database.models.ecole import Ecole
+  from app.database.models.matiere import Matiere
+  from app.database.models.filiere import Filiere
+  from app.database.models.post import Post
+  from app.database.models.serie import Serie
+  from app.database.models.associations import MatiereFiliere, Moyenne, Note, Coefficient
+  from faker import Faker
+  
+  fake = Faker()
+  
+  def seed_users():
+      """Function to seed the database with sample users."""
+      serie = Serie.query.filter_by(nom='Serie C').first()
+      if not serie:
+          print("NOT Serie")
+          return
+      
+      users = [
+          User(
+              prenom="ADMIN",
+              nom="ADMIN",
+              matricule=None,
+              email=fake.email(),
+              password=fake.password(),
+              serie_id=serie.id_serie,
+              role="admin"
+          ),
+          User(
+              prenom="Ortniel",
+              nom="ADOUMASSE",
+              matricule=None,
+              email="adoumasseo@gmail.com",
+              password="admin@admin",
+              serie_id=serie.id_serie,
+              role="admin"
+          )
+      ]
+      db.session.bulk_save_objects(users)
+      db.session.commit()
+      print("Seeded users table successfully!")
+  
+  ```
+  - Add a new instance of User() to the users array with your informations. A valid and working email adress is recommand.
+  - Save the file and go back to the root of the directory.
+  
+  - Then run ```sh flask seed_all```: to add some data to the database.
   
 8. Start the development server:
     ```sh
