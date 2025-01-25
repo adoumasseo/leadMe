@@ -43,6 +43,7 @@ Given the importance of this process, it is crucial to guide students effectivel
 ### Prerequisites
 Ensure you have the following installed on your machine:
 - Python 3.x
+- Redis installed on your machine
 - PostgreSQL install on your machine and a empty database called `leadme`
 
 ### Installation Steps
