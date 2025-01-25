@@ -130,7 +130,40 @@ Make sure to be at the root of the project with your acticated env. Then run:
       print("Seeded users table successfully!")
   
   ```
-  - Add a new instance of User() to the users array with your informations. A valid and working email adress is recommand.
+  - Add a new instance of User() to the users array with your informations. A valid and working email address is recommended.
+  - Add the end you should have something like this for the array users.
+  ```sh
+  users = [
+      User(
+          prenom="ADMIN",
+          nom="ADMIN",
+          matricule=None,
+          email=fake.email(),
+          password=fake.password(),
+          serie_id=serie.id_serie,
+          role="admin"
+      ),
+      User(
+          prenom="Ortniel",
+          nom="ADOUMASSE",
+          matricule=None,
+          email="adoumasseo@gmail.com",
+          password="admin@admin",
+          serie_id=serie.id_serie,
+          role="admin"
+      )
+      ,
+      User(
+          prenom="yourFistName",
+          nom="yourLastName",
+          matricule=None,
+          email="yourEmail",
+          password="admin@admin",
+          serie_id=serie.id_serie,
+          role="admin"
+      )
+  ]
+  ```
   - Save the file and go back to the root of the directory.
   
   - Then run ```sh flask seed_all```: to add some data to the database.
