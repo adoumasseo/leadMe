@@ -164,15 +164,15 @@ Make sure to be at the root of the project with your acticated env. Then run:
       )
   ]
   ```
-  - Save the file and go back to the root of the directory.
+  - Save the file and go back to the root of the project.
   
   - Then run ```sh flask seed_all```: to add some data to the database.
   
 8. Start the development server:
     ```sh
     flask run
-    ``` 
-    end enjoy the app.
+    ``` <br>
+    and enjoy the app.
 
 ### File Directory Structure
 ```bash
