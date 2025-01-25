@@ -76,11 +76,11 @@ Ensure you have the following installed on your machine:
   - Make sure to have the `SECRET_KEY`, `DATABASE_URL`, `FLASK_APP` and `FLASK_ENV`.
   - The others Variables are for the email service. You can create your own using `google smtp` service. Or you can also email me if you want mine :) (But make sure to have them if you need to test the functionalities email related)
 
-7. Migrations
+7. Migrations <br>
 Make sure to be at the root of the project with your acticated env. Then run:
   - ```sh flask db upgrade```: to apply the migrations on the database
 
-8. Seeders
+8. Seeders <br>
   Before seeding the database you might want to modify the seed code a litle bit if you want to acces the admin panel with your informations. <br>
   - Navigate to `app/database/seeds` and open the file `seed_users.py`.
   - You will find something like this in it 
